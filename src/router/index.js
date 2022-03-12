@@ -8,11 +8,19 @@ const routes = [
     component: () => import('@/views/Home/index.vue'),
     children: [
       {
+        path: '/welcome',
+        name: 'Welcome',
+        component: () => import('@/views/Welcome/index.vue'),
+        meta: {
+          title: '首页'
+        }
+      },
+      {
         path: '/todoList',
         name: 'TodoList',
         component: () => import('@/views/TodoList/index.vue'),
         meta: {
-          title: 'TodoList'
+          title: '待办事项'
         }
       }
     ]
