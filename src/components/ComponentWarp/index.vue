@@ -1,10 +1,11 @@
 
 <template name="contentWarp">
   <div class="contentWarp">
-    <el-page-header title="返回上一个页面"
-                    :content="detailTitle()"
-                    @back="goBack()">
+    <el-page-header title=" "
+                    icon=""
+                    :content="detailTitle()">
     </el-page-header>
+    <slot></slot>
   </div>
 </template>
 <script lang="ts" setup>
@@ -14,14 +15,11 @@
 import router from "@/router/index.js";
 // @ts-ignore
 import { useRouter } from "vue-router";
-import { ref, useSlots, useAttrs } from "vue";
+import { ref } from "vue";
 const routers = useRouter();
 defineProps({
   detailTitle: Function,
-  goBack: Function,
 });
-const slots = useSlots();
-const attrs = useAttrs();
 
 // @ts-ignore
 const route: any = router.options.routes[0].children;

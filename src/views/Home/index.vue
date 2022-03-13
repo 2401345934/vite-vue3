@@ -20,17 +20,9 @@
         </el-menu>
       </div>
       <div class="content">
-        <!-- <ComponentWarp :goBack="" :detailTitle="detailTitle">
+        <ComponentWarp :detailTitle="detailTitle">
           <router-view></router-view>
-        </ComponentWarp> -->
-        <el-page-header title=" "
-                        icon=""
-                        :content="detailTitle()">
-        </el-page-header>
-
-        <div class="content_div">
-          <router-view></router-view>
-        </div>
+        </ComponentWarp>
       </div>
     </div>
   </div>
