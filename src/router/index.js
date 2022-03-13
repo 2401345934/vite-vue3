@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory, } from 'vue-router'
+import { createRouter, createWebHashHistory, } from 'vue-router'
 // createWebHashHistory  hash 模式 带有# 号   无需后端
 import { ElMessage } from 'element-plus'
 import store from "@/store"
