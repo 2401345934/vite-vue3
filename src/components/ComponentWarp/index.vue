@@ -18,7 +18,7 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 const routers = useRouter();
 defineProps({
-  detailTitle: Function,
+  detailTitle,
 });
 
 // @ts-ignore
