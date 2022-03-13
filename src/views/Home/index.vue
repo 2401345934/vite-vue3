@@ -20,40 +20,45 @@
         </el-menu>
       </div>
       <div class="content">
-        <el-page-header title="返回上一个页面"
-                        :content="detailTitle()"
-                        @back="goBack">
+        <!-- <ComponentWarp :goBack="" :detailTitle="detailTitle">
+          <router-view></router-view>
+        </ComponentWarp> -->
+        <el-page-header title=" "
+                        icon=""
+                        :content="detailTitle()">
         </el-page-header>
+
         <div class="content_div">
           <router-view></router-view>
-
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+// @ts-nocheck
 import router from "@/router/index.js";
 // @ts-ignore
 import Header from "@/components/Header/index.vue";
+import ComponentWarp from "@/components/ComponentWarp/index.vue";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 const routers = useRouter();
 // @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
-
-const detailTitle = () => {
+const detailTitle: any = () => {
   return route.find((item: any) => item.path === pathname.value).meta.title;
+};
+
+const goBack = () => {
+  routers.back();
 };
 // @ts-ignore
 routers.afterEach((to, from) => {
   if (pathname.value === to.fullPath) return;
   pathname.value = to.fullPath;
 });
-const goBack = () => {
-  routers.back();
-};
 </script>
 <style >
 .warp {

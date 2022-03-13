@@ -4,6 +4,8 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Component: typeof import('./src/components/Component/index.vue')['default']
+    ComponentWarp: typeof import('./src/components/ComponentWarp/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElInput: typeof import('element-plus/es')['ElInput']
@@ -11,6 +13,7 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
     Header: typeof import('./src/components/Header/index.vue')['default']
+    'Header copy': typeof import('./src/components/Header copy/index.vue')['default']
   }
 }
 
