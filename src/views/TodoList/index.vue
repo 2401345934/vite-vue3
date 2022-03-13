@@ -1,9 +1,12 @@
 
 <template>
   <h1>todoList</h1>
-  <el-input ref="inp"
-            v-model="state.value" />
-  <el-button @click="add">click</el-button>
+  <div class="inp_warp">
+    <el-input ref="inp"
+              v-model="state.value"
+              @keydown="handleKeyDown" />
+    <el-button @click="add">click</el-button>
+  </div>
   <ul>
     <li v-bind:key="index"
         v-for="(item,index) in state.list">
@@ -17,12 +20,6 @@
       </div>
     </li>
   </ul>
-  <div v-bind:key="index"
-       v-for="(value,name,index) in state.object">
-    <div>value --- {{value}}</div>
-    <div>name --- {{name}}</div>
-    <div>index --- {{index}}</div>
-  </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, ref } from "vue";
@@ -50,13 +47,9 @@ onMounted(() => {
 // 7、destoryed 销毁后    改名  onUnmounted
 
 // 8、errorCaptured 报错    改名  onErrorCaptured
-const state :any= reactive({
+const state: any = reactive({
   value: "",
   list: [],
-  object: {
-    name: "张三",
-    age: 18,
-  },
 });
 
 const add = () => {
@@ -87,8 +80,17 @@ const resetLocalStorage = () => {
   localStorage.setItem("list", JSON.stringify(state.list));
 };
 
+const handleKeyDown = (e: any) => {
+  if (e.keyCode === 13) {
+    add();
+  }
+};
+
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 </script>
 <style>
+.inp_warp {
+  display: flex;
+}
 </style>

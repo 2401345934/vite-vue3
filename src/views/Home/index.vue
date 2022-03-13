@@ -13,7 +13,6 @@
                  :default-active="pathname"
                  :key="item.path"
                  class="el-menu-vertical-demo"
-                 @select="routerChange"
                  router>
           <el-menu-item :index="item.path">
             <span>{{item.meta.title}}</span>
@@ -21,23 +20,40 @@
         </el-menu>
       </div>
       <div class="content">
-        <router-view></router-view>
+        <el-page-header title="返回上一个页面"
+                        :content="detailTitle()"
+                        @back="goBack">
+        </el-page-header>
+        <div class="content_div">
+          <router-view></router-view>
+
+        </div>
       </div>
     </div>
   </div>
 </template>
-<script setup>
-import router from "@/router/index.js"
-import Header from "@/components/Header/index.vue"
-import { useRouter, } from 'vue-router'
-import { ref } from 'vue'
-const routers = useRouter()
-const route = router.options.routes[0].children
-const pathname = ref(routers.currentRoute.value.fullPath)
-const routerChange = (path) => {
-  pathname.value = path
-}
+<script lang="ts" setup>
+import router from "@/router/index.js";
+// @ts-ignore
+import Header from "@/components/Header/index.vue";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+const routers = useRouter();
+// @ts-ignore
+const route: any = router.options.routes[0].children;
+const pathname = ref(routers.currentRoute.value.fullPath);
 
+const detailTitle = () => {
+  return route.find((item: any) => item.path === pathname.value).meta.title;
+};
+// @ts-ignore
+routers.afterEach((to, from) => {
+  if (pathname.value === to.fullPath) return;
+  pathname.value = to.fullPath;
+});
+const goBack = () => {
+  routers.back();
+};
 </script>
 <style >
 .warp {
@@ -64,5 +80,13 @@ const routerChange = (path) => {
   padding-top: 71px;
   height: calc(100vh - 71px);
   width: 100%;
+}
+
+.content {
+  flex: 1;
+}
+
+.content_div {
+  margin-top: 30px;
 }
 </style>

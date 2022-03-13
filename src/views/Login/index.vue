@@ -19,56 +19,50 @@
     </el-form-item>
   </el-form>
 </template>
-<script setup>
-import { useRouter, } from 'vue-router'
-import { ref, reactive } from "vue"
-import { ElMessage } from 'element-plus'
-import { useStore } from "vuex"
-const { commit, getters } = useStore()
-const router = useRouter()
-const state = reactive({
-  form: {}
-})
+<script lang="ts" setup>
+// @ts-nocheck
+import { useRouter } from "vue-router";
+import { ref, reactive } from "vue";
+import { ElMessage } from "element-plus";
+import { useStore } from "vuex";
+const { commit, getters } = useStore();
+const router = useRouter();
+const state: any = reactive({
+  form: {},
+});
 
 const goBack = () => {
-  router.push("/")
-}
-const ruleFormRef = ref(null)
-const rules = reactive({
-  userName: [
-    { required: true, message: '请输入账号', },
-  ],
-  passWord: [
-    { required: true, message: '请输入密码', },
-  ],
-
-})
+  router.push("/");
+};
+const ruleFormRef = ref(null);
+const rules: any = reactive({
+  userName: [{ required: true, message: "请输入账号" }],
+  passWord: [{ required: true, message: "请输入密码" }],
+});
 
 const onSubmit = () => {
-  ruleFormRef.value.validate()
-    .then(res => {
-      const { userName, passWord } = state.form
-      if (userName === 'admin' && passWord === '123456') {
-        ElMessage({
-          message: '登录成功',
-          type: 'success',
-        })
-        commit('userInfo/setState', {
-          userName: 'admin',
-          passWord: '123456',
-          cb: () => {
-            goBack()
-          }
-        })
-
-      } else {
-        ElMessage({
-          message: '账号或密码错误',
-          type: 'error',
-        })
-      }
-    })
-}
+  ruleFormRef.value.validate().then((res) => {
+    const { userName, passWord } = state.form;
+    if (userName === "admin" && passWord === "123456") {
+      ElMessage({
+        message: "登录成功",
+        type: "success",
+      });
+      commit("userInfo/setState", {
+        userName: "admin",
+        passWord: "123456",
+        cb: () => {
+          goBack();
+        },
+      });
+    } else {
+      ElMessage({
+        message: "账号或密码错误",
+        type: "error",
+      });
+    }
+  });
+};
 </script>
 <style>
 </style>
