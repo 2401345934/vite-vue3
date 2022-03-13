@@ -21,7 +21,9 @@
       </div>
       <div class="content">
         <ComponentWarp :detailTitle="detailTitle">
-          <router-view></router-view>
+          <template #main>
+            <router-view></router-view>
+          </template>
         </ComponentWarp>
       </div>
     </div>
@@ -52,38 +54,39 @@ routers.afterEach((to, from) => {
   pathname.value = to.fullPath;
 });
 </script>
-<style >
+<style  lang="less">
 .warp {
   min-height: 100vh;
   width: 100%;
-}
-.slide {
-  width: 20%;
-  height: 100%;
-  margin-right: 30px;
-}
 
-.header {
-  height: 60px;
-  display: flex;
-  position: fixed;
-  width: 100%;
-  align-items: center;
-  border: 1px solid rebeccapurple;
-}
+  .slide {
+    width: 20%;
+    height: 100%;
+    margin-right: 30px;
+  }
 
-.content_warp {
-  display: flex;
-  padding-top: 71px;
-  height: calc(100vh - 71px);
-  width: 100%;
-}
+  .header {
+    height: 60px;
+    display: flex;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+    border: 1px solid rebeccapurple;
+  }
 
-.content {
-  flex: 1;
-}
+  .content_warp {
+    display: flex;
+    padding-top: 71px;
+    height: calc(100vh - 71px);
+    width: 100%;
+  }
 
-.content_div {
-  margin-top: 30px;
+  .content {
+    flex: 1;
+  }
+
+  .content_div {
+    margin-top: 30px;
+  }
 }
 </style>

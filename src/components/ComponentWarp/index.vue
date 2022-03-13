@@ -5,7 +5,7 @@
                     icon=""
                     :content="detailTitle()">
     </el-page-header>
-    <slot></slot>
+    <slot name="main"></slot>
   </div>
 </template>
 <script lang="ts" setup>
