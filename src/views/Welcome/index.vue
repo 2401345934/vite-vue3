@@ -21,9 +21,6 @@ const handleDispatch = () => {
 
 const getGetters = () => {
   const v = getters['home/getStateCountDouble']
-  console.log(getters['userInfo/get'], 'get');
-  console.log(getters['home/getStateCountDouble'], 'getStateCountDouble');
-
 
 }
 

@@ -24,25 +24,22 @@
     <div>index --- {{index}}</div>
   </div>
 </template>
-<script setup>
-import { reactive, onMounted, ref } from 'vue'
+<script lang="ts" setup>
+import { reactive, onMounted, ref } from "vue";
 const props = defineProps({
-  parentValue: String
-})
-defineEmits(['updateParaentValue'])
-
-
+  parentValue: String,
+});
+defineEmits(["updateParaentValue"]);
 
 // 2、beforeMount 挂载之前    改名  onBeforeMount
 
-const inp = ref()
+const inp = ref();
 // 3、mounted 挂载之后    改名  onMounted
-const a = ref(1)
 
 onMounted(() => {
-  inp.value.focus()
-  state.list = JSON.parse(localStorage.getItem("list") || '[]')
-})
+  inp.value.focus();
+  state.list = JSON.parse(localStorage.getItem("list") || "[]");
+});
 
 // 4、beforeUpdate 数据更新之前    改名  onBeforeUpdate
 
@@ -53,45 +50,42 @@ onMounted(() => {
 // 7、destoryed 销毁后    改名  onUnmounted
 
 // 8、errorCaptured 报错    改名  onErrorCaptured
-const state = reactive({
-  value: '',
+const state :any= reactive({
+  value: "",
   list: [],
   object: {
     name: "张三",
-    age: 18
-  }
-})
+    age: 18,
+  },
+});
 
 const add = () => {
-  // if (state.value) {
-  //   state.list.unshift({
-  //     text: state.value,
-  //     checked: false
-  //   })
-  //   state.value = ''
-  // }
-  // resetLocalStorage()
-  a.value += 1
-}
+  if (state.value) {
+    state.list.unshift({
+      text: state.value,
+      checked: false,
+    });
+    state.value = "";
+  }
+  resetLocalStorage();
+};
 
 const remove = (item, index) => {
-  state.list = state.list.filter((_, i) => i !== index)
-  resetLocalStorage()
-}
+  state.list = state.list.filter((_, i) => i !== index);
+  resetLocalStorage();
+};
 
 const children = (item, index) => {
   // state.list = state.list.filter((_, i) => i !== index)
-  return state.list
-}
+  return state.list;
+};
 
 defineExpose({
   children,
-  a: 111
-})
+});
 const resetLocalStorage = () => {
-  localStorage.setItem("list", JSON.stringify(state.list))
-
-}
+  localStorage.setItem("list", JSON.stringify(state.list));
+};
 
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup

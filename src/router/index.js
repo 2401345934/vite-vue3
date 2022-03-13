@@ -62,7 +62,6 @@ router.beforeEach((to, from) => {
 router.afterEach((to, from) => {
   // ...
   const userInfo = store.getters['userInfo/get']
-  console.log(userInfo);
   if (to.path !== '/login' && (!userInfo.userName || !userInfo.passWord)) {
     ElMessage({
       message: '当前没有登录 请登录',
