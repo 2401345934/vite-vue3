@@ -40,7 +40,6 @@ const routerChange = (path) => {
 
 </script>
 <style >
-@import "@/default.css";
 .warp {
   min-height: 100vh;
   width: 100%;

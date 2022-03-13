@@ -13,22 +13,21 @@
 <script setup>
 import { useStore } from "vuex"
 const { state, dispatch, commit, getters } = useStore()
-console.log(useStore(), 'useStore');
 
 const handleDispatch = () => {
-  console.log('handleDispatch');
   dispatch('home/double', 'xiaominghui')
 
 }
 
 const getGetters = () => {
   const v = getters['home/getStateCountDouble']
-  console.log(v, 'v');
+  console.log(getters['userInfo/get'], 'get');
+  console.log(getters['home/getStateCountDouble'], 'getStateCountDouble');
+
 
 }
 
 const handleCommit = () => {
-  console.log('handleCommit');
   commit('home/increment', 10000)
 
 }

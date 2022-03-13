@@ -40,8 +40,6 @@ const inp = ref()
 const a = ref(1)
 
 onMounted(() => {
-  console.log('todo dom dom 挂载阶段  ');
-  console.log(inp.value);
   inp.value.focus()
   state.list = JSON.parse(localStorage.getItem("list") || '[]')
 })
@@ -75,7 +73,6 @@ const add = () => {
   // resetLocalStorage()
   a.value += 1
 }
-console.log('render')
 
 const remove = (item, index) => {
   state.list = state.list.filter((_, i) => i !== index)
