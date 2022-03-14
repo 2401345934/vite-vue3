@@ -35,8 +35,6 @@ import router from "@/router/index.js";
 // @ts-ignore
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
 const routers = useRouter();
 // @ts-ignore
 const route: any = router.options.routes[0].children;

@@ -3,7 +3,7 @@
   <div class="contentWarp">
     <el-page-header title=" "
                     icon=""
-                    :content="detailTitle()">
+                    :content="$emit('detailTitle')">
     </el-page-header>
     <slot name="main"></slot>
   </div>
@@ -14,13 +14,9 @@
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import router from "@/router/index.js";
 // @ts-ignore
-import { useRouter } from "vue-router";
-import { ref } from "vue";
 const routers = useRouter();
-defineProps({
-  detailTitle,
-});
 
+defineEmits(["detailTitle"]);
 // @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);

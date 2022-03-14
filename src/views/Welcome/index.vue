@@ -13,20 +13,14 @@
 <script setup>
 import { useStore } from "vuex"
 const { state, dispatch, commit, getters } = useStore()
-
 const handleDispatch = () => {
   dispatch('home/double', 'xiaominghui')
-
 }
-
 const getGetters = () => {
   const v = getters['home/getStateCountDouble']
-
 }
-
 const handleCommit = () => {
   commit('home/increment', 10000)
-
 }
 
 </script>

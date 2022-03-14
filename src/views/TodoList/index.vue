@@ -22,7 +22,6 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import { reactive, onMounted, ref } from "vue";
 const props = defineProps({
   parentValue: String,
 });
