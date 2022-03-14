@@ -1,6 +1,10 @@
 
 <template>
-  <h1>todoList</h1>
+  <el-space>
+    <el-tag>当前共 {{ state.list.length || 0}} 项</el-tag>
+    <el-tag>当前已完成 {{  successLegnth }} 项</el-tag>
+    <el-tag>当前未完成 {{  notLenthg}} 项</el-tag>
+  </el-space>
   <div class="inp_warp">
     <el-input ref="inp"
               v-model="state.value"
@@ -35,6 +39,14 @@ const inp = ref();
 onMounted(() => {
   inp.value.focus();
   state.list = JSON.parse(localStorage.getItem("list") || "[]");
+});
+
+const successLegnth = computed(() => {
+  return state.list.filter((item: any) => item.checked).length || 0;
+});
+
+const notLenthg = computed(() => {
+  return state.list.filter((item: any) => !item.checked).length || 0;
 });
 
 // 4、beforeUpdate 数据更新之前    改名  onBeforeUpdate

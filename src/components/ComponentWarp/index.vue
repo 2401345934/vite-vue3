@@ -3,9 +3,11 @@
   <div class="contentWarp">
     <el-page-header title=" "
                     icon=""
-                    :content="$emit('detailTitle')">
+                    :content="detailTitle()">
     </el-page-header>
-    <slot name="main"></slot>
+    <div class="main">
+      <slot name="main"></slot>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -16,10 +18,13 @@ import router from "@/router/index.js";
 // @ts-ignore
 const routers = useRouter();
 
-defineEmits(["detailTitle"]);
+defineProps(["detailTitle"]);
 // @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 </script>
-<style >
+<style  lang="less">
+.main {
+  margin-top: 30px;
+}
 </style>
