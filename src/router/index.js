@@ -26,6 +26,14 @@ const routes = [
         meta: {
           title: '待办事项'
         }
+      },
+      {
+        path: '/queryTable',
+        name: 'QueryTable',
+        component: () => import('@/views/QueryTable/index.vue'),
+        meta: {
+          title: '查询列表'
+        }
       }
     ]
   },

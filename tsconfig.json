@@ -35,6 +35,9 @@
     "paths": {
       "@": [
         "src"
+      ],
+      "@/*": [
+        "src/*"
       ]
     },
     "lib": [
@@ -45,17 +48,16 @@
     ]
   },
   "include": [
+    "**/*.ts",
+    "**/*.tsx",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/**/*.vue",
+    "src/**/**/*.ts",
     "types/**/*.d.ts",
     "types/**/*.ts",
-    "preview/**/*.ts",
-    "preview/**/*.d.ts",
-    "preview/**/*.tsx",
-    "preview/**/*.vue"
   ],
   "exclude": [
     "node_modules",

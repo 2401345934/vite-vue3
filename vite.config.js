@@ -4,6 +4,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 const { resolve } = require('path') //必须要引入resolve 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+import server from "./config/propx.ts"
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -19,5 +22,7 @@ export default defineConfig({
   ],
   alias: {
     '@': resolve(__dirname, 'src') //把src改为@
-  }
+  },
+  // 请求代理
+  server
 })
