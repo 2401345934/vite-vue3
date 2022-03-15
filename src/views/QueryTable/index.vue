@@ -4,15 +4,30 @@
   <el-table :data="state.data"
             style="width: 100%"
             row-key="id"
+            highlightCurrentRow="true"
+            :empty-text="emptyText || '暂无数据'"
             border>
     <el-table-column v-for="(item,index) in state.columns"
                      :key="index"
                      :prop="item.key || item.dataIndex"
                      :label="item.title"
-                     :fixed="item.fixed" />
+                     :fixed="item.fixed">
+      <template v-if="item.isOperator"
+                #default="scope">
+        <el-button :type="btn.size || 'text' "
+                   :size="btn.size || 'small'"
+                   v-for="(btn,i) in item.render"
+                   :key="i"
+                   @click.prevent="btn.action(item,index)">
+          {{btn.children}}
+        </el-button>
+      </template>
+    </el-table-column>
+
   </el-table>
 </template>
 <script lang="ts" setup>
+// @ts-nocheck
 import request from "@/axios";
 const state = reactive({
   data: [],
@@ -60,28 +75,22 @@ const state = reactive({
       key: "totalQuality",
       title: "移仓数量",
     },
-    // {
-    //   key: "operator",
-    //   title: "操作",
-    //   isPermissionColumn: true,
-    //   fixed: "right",
-    //   render: [
-    //     {
-    //       type: "link",
-    //       props: {
-    //         type: "primary",
-    //         children: "编辑",
-    //       },
-    //       code: "WMS_Inside_Bill_Move_edit",
-    //       visible: "#{record.recordStatus ==0}",
-    //       action: ({ record }: any) => {
-    //         props.history.push(
-    //           `/warehouseManagement/warehouseMovingManagement/warehouseMoving/edit/${record.id}/edit`
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
+    {
+      key: "operator",
+      isOperator: true,
+      title: "操作",
+      fixed: "right",
+      render: [
+        {
+          type: "primary",
+          children: "编辑",
+          visible: "#{record.recordStatus ==0}",
+          action: (record: any, index) => {
+            console.log(record, index);
+          },
+        },
+      ],
+    },
   ],
 });
 onMounted(() => {
