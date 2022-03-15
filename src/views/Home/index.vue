@@ -60,6 +60,7 @@ routers.afterEach((to, from) => {
   .slide {
     width: 20%;
     height: 100%;
+    min-width: 20%;
     margin-right: 30px;
   }
 
@@ -81,6 +82,9 @@ routers.afterEach((to, from) => {
 
   .content {
     flex: 1;
+    width: calc(100vw - 20% - 30px);
+    max-width: calc(100vw - 20% - 30px);
+    min-width: calc(100vw - 20% - 30px);
   }
 
   .content_div {
