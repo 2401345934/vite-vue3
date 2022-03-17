@@ -1,31 +1,35 @@
 
 <template name="queryTable">
-  <el-form :inline="true"
-           ref="formRef"
-           :model="formInline"
-           class="demo-form-inline">
-    <el-form-item v-for="(field,index) in state.fields"
-                  :key="index"
-                  :prop="field.name"
-                  :label="field.label">
-      <el-input v-if="field.field.type === 'input'"
-                v-model="formInline[field.name]"
-                v-bind="field.field.props" />
-      <el-date-picker v-if="field.field.type === 'rangepicker'"
-                      v-model="formInline[field.name]"
-                      type="daterange"
-                      v-bind="field.field.props"
-                      range-separator="-" />
-    </el-form-item>
+  <div class="search_warp">
+    <el-form :inline="true"
+             ref="formRef"
+             :model="formInline"
+             class="demo-form-inline">
+      <el-form-item v-for="(field,index) in state.fields"
+                    :key="index"
+                    :prop="field.name"
+                    :label="field.label">
+        <el-input v-if="field.field.type === 'input'"
+                  v-model="formInline[field.name]"
+                  v-bind="field.field.props" />
+        <el-date-picker v-if="field.field.type === 'rangepicker'"
+                        v-model="formInline[field.name]"
+                        type="daterange"
+                        v-bind="field.field.props"
+                        range-separator="-" />
+      </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary"
-                 @click="onSubmit">查询</el-button>
-      <el-button @click="resetForm(formRef)">重置</el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item>
+        <el-button type="primary"
+                   @click="onSubmit">查询</el-button>
+        <el-button @click="resetForm(formRef)">重置</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
   <el-table :data="state.data"
-            style="width: 100%"
+            v-loading="loading"
+            class="table_content"
+            :height="'73vh'"
             row-key="id"
             :highlightCurrentRow='true'
             empty-text="暂无数据"
@@ -53,6 +57,16 @@
     </template>
 
   </el-table>
+  <el-pagination class="page"
+                 background
+                 v-model:currentPage="pages.currentPage"
+                 v-model:page-size="pages.pageSize"
+                 @size-change="sizeChange"
+                 :page-sizes="[10, 20, 30, 40, 50, 100,200,300,400,500]"
+                 :hide-on-single-page="false"
+                 @current-change="currentChange"
+                 layout="total, sizes, prev, pager, next, jumper"
+                 :total="pages.total" />
 </template>
 <script lang="ts" setup>
 // @ts-nocheck
@@ -62,12 +76,48 @@ import { queryParams } from "@/utils/utils";
 import { cloneDeep } from "loadsh";
 import qs from "qs";
 const formRef = ref<FormInstance>();
+onMounted(() => {
+  searchTable();
+});
 
+const loading = ref(false);
+const pages = reactive({
+  total: 0,
+  currentPage: 1,
+  pageSize: 10,
+});
+
+const searchTable = (params: any) => {
+  const value = cloneDeep(formInline);
+  const reqParams = {
+    ...params,
+    ...pages,
+    ...queryParams(value),
+    "qp-recordType-eq": 40,
+  };
+  loading.value = true;
+  request({
+    url: `/wms-ops/rwFrontRecord?${qs.stringify(reqParams)}`,
+    isToast: false,
+    method: "get",
+    converter: ({ data }: any) => {
+      if (data && Array.isArray(data.items)) {
+        state.data = data.items;
+        pages.total = Number(data.total);
+        pages.currentPage = Number(data.page);
+        pages.pageSize = Number(data.size);
+      }
+    },
+    fin: () => {
+      loading.value = false;
+    },
+  });
+};
 // 查询
 const onSubmit = () => {
   formRef.value.validate().then(() => {
-    const value = cloneDeep(formInline);
-    console.log(queryParams(value), "searchValue");
+    pages.currentPage = 1;
+    searchTable();
   });
 };
 // 重置
@@ -76,8 +126,19 @@ const formInline = reactive({});
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  formInline.value = {};
+  searchTable();
 };
+
+const sizeChange = (page: number) => {
+  pages.pageSize = page;
+  pages.currentPage = 1;
+  searchTable();
+};
+const currentChange = (page: number) => {
+  pages.currentPage = page;
+  searchTable();
+};
+
 const state: any = reactive({
   data: [],
   columns: [
@@ -170,7 +231,7 @@ const state: any = reactive({
     //   // initialSource: props.getDictionarySource("WO00014"),
     // },
     {
-      name: "qp-recordDate-ge*fullDate*qp-recordDate-le",
+      name: "qp-createTime-ge*fullDate*qp-createTime-le",
       label: "单据日期",
       field: {
         type: "rangepicker",
@@ -184,15 +245,17 @@ const state: any = reactive({
     },
   ],
 });
-onMounted(() => {
-  request({
-    url: `/wms-ops/rwFrontRecord?qp-recordType-eq=40&pageSize=10&currentPage=1`,
-    method: "get",
-    converter: ({ data }: any) => {
-      state.data = data.items;
-    },
-  });
-});
 </script>
-<style>
+<style lang="less">
+.table_content {
+  overflow: auto;
+  width: 100%;
+}
+
+.page {
+  display: flex;
+  margin-top: 8px;
+  margin-right: 8px;
+  justify-content: end;
+}
 </style>
