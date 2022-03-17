@@ -4,21 +4,21 @@
   <el-table :data="state.data"
             style="width: 100%"
             row-key="id"
-            highlightCurrentRow="true"
-            :empty-text="emptyText || '暂无数据'"
+            :highlightCurrentRow='true'
+            empty-text="暂无数据"
             border>
     <el-table-column v-for="(item,index) in state.columns"
                      :key="index"
-                     :prop="item.key || item.dataIndex"
+                     :prop=" item.dataIndex ||item.key  "
                      :label="item.title"
                      :fixed="item.fixed">
       <template v-if="item.isOperator"
                 #default="scope">
-        <el-button :type="btn.size || 'text' "
-                   :size="btn.size || 'small'"
+        <el-button :type=" 'text' "
+                   :size=" 'small'"
                    v-for="(btn,i) in item.render"
                    :key="i"
-                   @click.prevent="btn.action(item,index)">
+                   @click.prevent="btn.action(scope.row,scope)">
           {{btn.children}}
         </el-button>
       </template>
@@ -85,8 +85,8 @@ const state = reactive({
           type: "primary",
           children: "编辑",
           visible: "#{record.recordStatus ==0}",
-          action: (record: any, index) => {
-            console.log(record, index);
+          action: (record: any, object: any) => {
+            console.log(record, object, "listlist");
           },
         },
       ],

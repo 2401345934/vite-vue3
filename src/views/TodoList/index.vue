@@ -20,7 +20,6 @@
                      :checked="item.checked" />
         {{item.text}}
         <el-button @click="remove(item,index)">remove</el-button>
-        <el-button @click="$emit('updateParaentValue',item.text)">改变父组件传参</el-button>
       </div>
     </li>
   </ul>
@@ -29,7 +28,6 @@
 const props = defineProps({
   parentValue: String,
 });
-defineEmits(["updateParaentValue"]);
 
 // 2、beforeMount 挂载之前    改名  onBeforeMount
 

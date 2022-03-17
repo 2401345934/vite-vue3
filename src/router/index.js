@@ -28,6 +28,14 @@ const routes = [
         }
       },
       {
+        path: '/cart',
+        name: 'Cart',
+        component: () => import('@/views/Cart/index.vue'),
+        meta: {
+          title: '购物车'
+        }
+      },
+      {
         path: '/queryTable',
         name: 'QueryTable',
         component: () => import('@/views/QueryTable/index.vue'),
