@@ -10,7 +10,7 @@
     </el-form-item>
     <el-form-item label="单据日期"
                   name="bbbb">
-      <el-date-picker v-model="formInline['qp-createTime-ge']"
+      <el-date-picker v-model="formInline['qp-createTime-ge*fullDate*qp-createTime-le']"
                       type="daterange"
                       range-separator="-" />
     </el-form-item>
@@ -49,12 +49,14 @@
 // @ts-nocheck
 import request from "@/axios";
 import type { FormInstance } from "element-plus";
+import { queryParams } from "@/utils/utils";
+import qs from "qs";
 const formRef = ref<FormInstance>();
 
 // 查询
 const onSubmit = () => {
   formRef.value.validate().then(() => {
-    console.log(formInline, "searchValue");
+    console.log(queryParams(formInline), "searchValue");
   });
 };
 // 重置
