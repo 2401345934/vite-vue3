@@ -8,6 +8,7 @@
     <div class="main">
       <slot name="main"></slot>
     </div>
+
   </div>
 </template>
 <script lang="ts" setup>

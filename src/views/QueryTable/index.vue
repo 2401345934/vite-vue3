@@ -1,6 +1,25 @@
 
 <template name="queryTable">
-  <h1>queryTable</h1>
+  <el-form :inline="true"
+           ref="formRef"
+           :model="formInline"
+           class="demo-form-inline">
+    <el-form-item prop="qp-recordCode-like"
+                  label="单据编号">
+      <el-input v-model="formInline['qp-recordCode-like']" />
+    </el-form-item>
+    <el-form-item label="单据日期"
+                  name="bbbb">
+      <el-date-picker v-model="formInline['qp-createTime-ge']"
+                      type="daterange"
+                      range-separator="-" />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary"
+                 @click="onSubmit">查询</el-button>
+      <el-button @click="resetForm(formRef)">重置</el-button>
+    </el-form-item>
+  </el-form>
   <el-table :data="state.data"
             style="width: 100%"
             row-key="id"
@@ -29,6 +48,22 @@
 <script lang="ts" setup>
 // @ts-nocheck
 import request from "@/axios";
+import type { FormInstance } from "element-plus";
+const formRef = ref<FormInstance>();
+
+// 查询
+const onSubmit = () => {
+  formRef.value.validate().then(() => {
+    console.log(formInline, "searchValue");
+  });
+};
+// 重置
+const formInline = reactive({});
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+};
 const state = reactive({
   data: [],
   columns: [
