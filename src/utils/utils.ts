@@ -42,6 +42,22 @@ export function queryParams(params: any,) {
           }
         });
         delete params[key];
+      } else if (element && key.indexOf('*date*') >= 0) {
+        const dataParams = key.split('*date*')
+        dataParams.forEach((value, index) => {
+          if (index === 0) {
+            params[value] = moment(element[index])
+              .format('YYYY-MM-DD');
+          } else {
+            params[value] = moment(element[index])
+              .format('YYYY-MM-DD');
+          }
+        });
+        delete params[key];
+      } else if (element && key.indexOf('*size*') >= 0) {
+        const dataParams = key.split('*size*')[0];
+        params[dataParams] = typeof element === 'string' ? element.toUpperCase() : element;
+        delete params[key];
       } else if (element && key.indexOf('*') >= 0) {
         const dataParams = key.split('*');
         dataParams.forEach((value, index) => {

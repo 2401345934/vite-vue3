@@ -4,16 +4,20 @@
            ref="formRef"
            :model="formInline"
            class="demo-form-inline">
-    <el-form-item prop="qp-recordCode-like"
-                  label="单据编号">
-      <el-input v-model="formInline['qp-recordCode-like']" />
-    </el-form-item>
-    <el-form-item label="单据日期"
-                  name="bbbb">
-      <el-date-picker v-model="formInline['qp-createTime-ge*fullDate*qp-createTime-le']"
+    <el-form-item v-for="(field,index) in state.fields"
+                  :key="index"
+                  :prop="field.name"
+                  :label="field.label">
+      <el-input v-if="field.field.type === 'input'"
+                v-model="formInline[field.name]"
+                v-bind="field.field.props" />
+      <el-date-picker v-if="field.field.type === 'rangepicker'"
+                      v-model="formInline[field.name]"
                       type="daterange"
+                      v-bind="field.field.props"
                       range-separator="-" />
     </el-form-item>
+
     <el-form-item>
       <el-button type="primary"
                  @click="onSubmit">查询</el-button>
@@ -55,13 +59,15 @@
 import request from "@/axios";
 import type { FormInstance } from "element-plus";
 import { queryParams } from "@/utils/utils";
+import { cloneDeep } from "loadsh";
 import qs from "qs";
 const formRef = ref<FormInstance>();
 
 // 查询
 const onSubmit = () => {
   formRef.value.validate().then(() => {
-    console.log(queryParams(formInline), "searchValue");
+    const value = cloneDeep(formInline);
+    console.log(queryParams(value), "searchValue");
   });
 };
 // 重置
@@ -70,6 +76,7 @@ const formInline = reactive({});
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  formInline.value = {};
 };
 const state: any = reactive({
   data: [],
@@ -135,6 +142,45 @@ const state: any = reactive({
           },
         },
       ],
+    },
+  ],
+  fields: [
+    {
+      label: "单据编号",
+      name: "qp-recordCode-like",
+      field: {
+        type: "input",
+        props: {
+          placeholder: "请输入",
+          clearable: true,
+        },
+      },
+    },
+    // {
+    //   label: "单据状态",
+    //   name: "qp-recordStatus-eq",
+    //   field: {
+    //     type: "select",
+    //     props: {
+    //       dropdownMatchSelectWidth: false,
+    //       placeholder: "请选择",
+    //       allowClear: true,
+    //     },
+    //   },
+    //   // initialSource: props.getDictionarySource("WO00014"),
+    // },
+    {
+      name: "qp-recordDate-ge*fullDate*qp-recordDate-le",
+      label: "单据日期",
+      field: {
+        type: "rangepicker",
+        props: {
+          type: "daterange",
+          style: {
+            width: "100%",
+          },
+        },
+      },
     },
   ],
 });
