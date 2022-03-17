@@ -26,22 +26,27 @@
             :highlightCurrentRow='true'
             empty-text="暂无数据"
             border>
-    <el-table-column v-for="(item,index) in state.columns"
-                     :key="index"
-                     :prop=" item.dataIndex ||item.key  "
-                     :label="item.title"
-                     :fixed="item.fixed">
-      <template v-if="item.isOperator"
-                #default="scope">
-        <el-button :type=" 'text' "
-                   :size=" 'small'"
-                   v-for="(btn,i) in item.render"
-                   :key="i"
-                   @click.prevent="btn.action(scope.row,scope)">
-          {{btn.children}}
-        </el-button>
-      </template>
-    </el-table-column>
+    <template v-for="(item,index) in state.columns"
+              :key="index">
+      <el-table-column :prop=" item.dataIndex ||item.key  "
+                       :label="item.title"
+                       :fixed="item.fixed">
+        <template v-if="item.render"
+                  #default="scope">
+          {{item.render(scope.row,scope.$index,scope)}}
+        </template>
+        <template v-if="item.isOperator"
+                  #default="scope">
+          <el-button :type=" 'text' "
+                     :size=" 'small'"
+                     v-for="(btn,i) in item.render"
+                     :key="i"
+                     @click.prevent="btn.action(scope.row,scope)">
+            {{btn.children}}
+          </el-button>
+        </template>
+      </el-table-column>
+    </template>
 
   </el-table>
 </template>
@@ -66,7 +71,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
 };
-const state = reactive({
+const state: any = reactive({
   data: [],
   columns: [
     {
@@ -111,6 +116,9 @@ const state = reactive({
     {
       key: "totalQuality",
       title: "移仓数量",
+      render: (record: any, index: number) => {
+        return record.totalQuality;
+      },
     },
     {
       key: "operator",
