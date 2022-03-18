@@ -4,7 +4,7 @@
     <el-form :inline="true"
              ref="formRef"
              :model="formInline"
-             class="demo-form-inline">
+             class="form">
       <el-form-item v-for="(field,index) in state.fields"
                     :key="index"
                     :prop="field.name"
@@ -29,6 +29,28 @@
           </template>
         </el-select>
 
+        <el-checkbox-group v-if="field.field.type === 'checkbox'"
+                           v-model="formInline[field.name] "
+                           v-bind="field.field.props">
+          <template v-if=" typeof field.source === 'function'">
+            <el-checkbox v-for="(select,i) in field.source()"
+                         :key="i"
+                         :label="select.value"> {{select.text}}</el-checkbox>
+
+          </template>
+        </el-checkbox-group>
+        <template v-if=" typeof field.source === 'function'">
+          <el-radio-group v-if="field.field.type === 'radio'"
+                          v-model="formInline[field.name] "
+                          v-bind="field.field.props">
+            <el-radio v-for="(select,i) in field.source()"
+                      :key="i"
+                      :label="select.value">
+              {{select.text}}
+            </el-radio>
+          </el-radio-group>
+        </template>
+
       </el-form-item>
 
       <el-form-item>
@@ -41,7 +63,7 @@
   <el-table :data="state.data"
             v-loading="loading"
             class="table_content"
-            :height="'73vh'"
+            :height="height"
             row-key="id"
             :highlightCurrentRow='true'
             empty-text="暂无数据"
@@ -87,6 +109,7 @@ import type { FormInstance } from "element-plus";
 import { queryParams } from "@/utils/utils";
 import { cloneDeep } from "loadsh";
 import qs from "qs";
+import { he } from "element-plus/lib/locale";
 const formRef = ref<FormInstance>();
 onMounted(() => {
   searchTable();
@@ -101,6 +124,8 @@ const pages = reactive({
 
 const searchTable = (reset?: boolean) => {
   const value = cloneDeep(formInline);
+  console.log(queryParams(value), "queryParams(value)queryParams(value)");
+
   const initParams = {
     "qp-recordType-eq": 40,
   };
@@ -255,6 +280,40 @@ const state: any = reactive({
       ],
     },
     {
+      label: "单据状态2",
+      name: "qp-recordStatu2s-eq",
+      field: {
+        type: "checkbox",
+      },
+      source: () => [
+        {
+          text: "已提交",
+          value: 0,
+        },
+        {
+          text: "初始化",
+          value: 1,
+        },
+      ],
+    },
+    {
+      label: "单据状态2",
+      name: "aaaa",
+      field: {
+        type: "radio",
+      },
+      source: () => [
+        {
+          text: "已提交",
+          value: 0,
+        },
+        {
+          text: "初始化",
+          value: 1,
+        },
+      ],
+    },
+    {
       name: "qp-createTime-ge*fullDate*qp-createTime-le",
       label: "单据日期",
       field: {
@@ -269,6 +328,16 @@ const state: any = reactive({
     },
   ],
 });
+const height = ref();
+
+onMounted(() => {
+  height.value =
+    document.body.clientHeight -
+    (document.querySelector(".search_warp")?.clientHeight || 0) -
+    200 +
+    "px";
+  console.log(height.value);
+});
 </script>
 <style lang="less">
 .table_content {
@@ -281,5 +350,12 @@ const state: any = reactive({
   margin-top: 8px;
   margin-right: 8px;
   justify-content: end;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
