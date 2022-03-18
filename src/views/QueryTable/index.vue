@@ -15,10 +15,11 @@
         <el-date-picker v-if="field.field.type === 'rangepicker'"
                         v-model="formInline[field.name]"
                         type="daterange"
+                        :unlink-panels="true"
                         v-bind="field.field.props"
                         range-separator="-" />
         <el-select v-if="field.field.type === 'select'"
-                   v-model="formInline[field.name]"
+                   v-model="formInline[field.name] "
                    v-bind="field.field.props">
           <template v-if=" typeof field.source === 'function'">
             <el-option v-for="(select,i) in field.source()"
@@ -98,14 +99,21 @@ const pages = reactive({
   pageSize: 10,
 });
 
-const searchTable = (params: any) => {
+const searchTable = (reset?: boolean) => {
   const value = cloneDeep(formInline);
-  const reqParams = {
-    ...params,
-    ...pages,
-    ...queryParams(value),
+  const initParams = {
     "qp-recordType-eq": 40,
   };
+  const reqParams = reset
+    ? {
+        ...pages,
+        ...initParams,
+      }
+    : {
+        ...pages,
+        ...queryParams(value),
+        ...initParams,
+      };
   loading.value = true;
   request({
     url: `/wms-ops/rwFrontRecord?${qs.stringify(reqParams)}`,
@@ -137,7 +145,12 @@ const formInline = reactive({});
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  searchTable();
+  for (let k in formInline) {
+    if (k.indexOf("fullDate") !== -1 || k.indexOf("time") !== -1) {
+      formInline[k] = [];
+    }
+  }
+  searchTable(true);
 };
 
 const sizeChange = (page: number) => {
