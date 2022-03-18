@@ -17,6 +17,17 @@
                         type="daterange"
                         v-bind="field.field.props"
                         range-separator="-" />
+        <el-select v-if="field.field.type === 'select'"
+                   v-model="formInline[field.name]"
+                   v-bind="field.field.props">
+          <template v-if=" typeof field.source === 'function'">
+            <el-option v-for="(select,i) in field.source()"
+                       :key="i"
+                       :label="select.text"
+                       :value="select.value" />
+          </template>
+        </el-select>
+
       </el-form-item>
 
       <el-form-item>
@@ -217,19 +228,19 @@ const state: any = reactive({
         },
       },
     },
-    // {
-    //   label: "单据状态",
-    //   name: "qp-recordStatus-eq",
-    //   field: {
-    //     type: "select",
-    //     props: {
-    //       dropdownMatchSelectWidth: false,
-    //       placeholder: "请选择",
-    //       allowClear: true,
-    //     },
-    //   },
-    //   // initialSource: props.getDictionarySource("WO00014"),
-    // },
+    {
+      label: "单据状态",
+      name: "qp-recordStatus-eq",
+      field: {
+        type: "select",
+      },
+      source: () => [
+        {
+          text: "已提交",
+          value: 0,
+        },
+      ],
+    },
     {
       name: "qp-createTime-ge*fullDate*qp-createTime-le",
       label: "单据日期",
