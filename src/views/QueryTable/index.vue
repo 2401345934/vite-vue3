@@ -5,59 +5,67 @@
              ref="formRef"
              :model="formInline"
              class="form">
-      <el-form-item v-for="(field,index) in state.fields"
-                    :key="index"
-                    :prop="field.name"
-                    :label="field.label">
-        <el-input v-if="field.field.type === 'input'"
-                  v-model="formInline[field.name]"
-                  v-bind="field.field.props" />
-        <el-date-picker v-if="field.field.type === 'rangepicker'"
+      <div class="actions_warp">
+        <el-row>
+          <el-col v-for="(field,index) in state.fields"
+                  :key="index"
+                  :span="6">
+            <el-form-item :prop="field.name"
+                          :label="field.label">
+              <el-input v-if="field.field.type === 'input'"
                         v-model="formInline[field.name]"
-                        type="daterange"
-                        :unlink-panels="true"
-                        v-bind="field.field.props"
-                        range-separator="-" />
-        <el-select v-if="field.field.type === 'select'"
-                   v-model="formInline[field.name] "
-                   v-bind="field.field.props">
-          <template v-if=" typeof field.source === 'function'">
-            <el-option v-for="(select,i) in field.source()"
-                       :key="i"
-                       :label="select.text"
-                       :value="select.value" />
-          </template>
-        </el-select>
+                        v-bind="field.field.props" />
+              <el-date-picker v-if="field.field.type === 'rangepicker'"
+                              v-model="formInline[field.name]"
+                              type="daterange"
+                              :unlink-panels="true"
+                              v-bind="field.field.props"
+                              range-separator="-" />
+              <el-select v-if="field.field.type === 'select'"
+                         v-model="formInline[field.name] "
+                         v-bind="field.field.props">
+                <template v-if=" typeof field.source === 'function'">
+                  <el-option v-for="(select,i) in field.source()"
+                             :key="i"
+                             :label="select.text"
+                             :value="select.value" />
+                </template>
+              </el-select>
 
-        <el-checkbox-group v-if="field.field.type === 'checkbox'"
-                           v-model="formInline[field.name] "
-                           v-bind="field.field.props">
-          <template v-if=" typeof field.source === 'function'">
-            <el-checkbox v-for="(select,i) in field.source()"
-                         :key="i"
-                         :label="select.value"> {{select.text}}</el-checkbox>
+              <el-checkbox-group v-if="field.field.type === 'checkbox'"
+                                 v-model="formInline[field.name] "
+                                 v-bind="field.field.props">
+                <template v-if=" typeof field.source === 'function'">
+                  <el-checkbox v-for="(select,i) in field.source()"
+                               :key="i"
+                               :label="select.value"> {{select.text}}</el-checkbox>
 
-          </template>
-        </el-checkbox-group>
-        <template v-if=" typeof field.source === 'function'">
-          <el-radio-group v-if="field.field.type === 'radio'"
-                          v-model="formInline[field.name] "
-                          v-bind="field.field.props">
-            <el-radio v-for="(select,i) in field.source()"
-                      :key="i"
-                      :label="select.value">
-              {{select.text}}
-            </el-radio>
-          </el-radio-group>
-        </template>
+                </template>
+              </el-checkbox-group>
+              <template v-if=" typeof field.source === 'function'">
+                <el-radio-group v-if="field.field.type === 'radio'"
+                                v-model="formInline[field.name] "
+                                v-bind="field.field.props">
+                  <el-radio v-for="(select,i) in field.source()"
+                            :key="i"
+                            :label="select.value">
+                    {{select.text}}
+                  </el-radio>
+                </el-radio-group>
+              </template>
 
-      </el-form-item>
+            </el-form-item>
+          </el-col>
 
-      <el-form-item>
-        <el-button type="primary"
-                   @click="onSubmit">查询</el-button>
-        <el-button @click="resetForm(formRef)">重置</el-button>
-      </el-form-item>
+        </el-row>
+        <div class="actions">
+          <el-form-item>
+            <el-button type="primary"
+                       @click="onSubmit">查询</el-button>
+            <el-button @click="resetForm(formRef)">重置</el-button>
+          </el-form-item>
+        </div>
+      </div>
     </el-form>
   </div>
   <el-table :data="state.data"
@@ -357,5 +365,12 @@ onMounted(() => {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+}
+
+.actions_warp {
+  display: flex;
+}
+.actions {
+  min-width: 200px;
 }
 </style>
