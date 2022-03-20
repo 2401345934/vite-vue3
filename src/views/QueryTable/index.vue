@@ -72,13 +72,27 @@
 
   <!-- actions -->
   <div class="actions_warp">
-    <el-space>
-      <el-button v-for="(btn,index) in state.actions || []"
-                 :key="index"
-                 @click="btn.action(selectProps,onSubmit)"
-                 :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
-                 :type="btn.type">{{btn.text}}</el-button>
-    </el-space>
+    <!-- 左边按钮 -->
+    <div class="actions_warp_left">
+      <el-space>
+        <el-button v-for="(btn,index) in state.actions || []"
+                   :key="index"
+                   @click="btn.action(selectProps,onSubmit)"
+                   :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
+                   :type="btn.type">{{btn.text}}</el-button>
+      </el-space>
+    </div>
+    <!-- 右边按钮 -->
+
+    <div class="actions_warp_right">
+      <el-space>
+        <el-button v-for="(btn,index) in state.actionsRight || []"
+                   :key="index"
+                   @click="btn.action(selectProps,onSubmit)"
+                   :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
+                   :type="btn.type">{{btn.text}}</el-button>
+      </el-space>
+    </div>
   </div>
   <!-- table -->
   <div class="table_warp">
@@ -111,7 +125,7 @@
                        :size=" 'small'"
                        v-for="(btn,i) in item.render"
                        :key="i"
-                       @click.prevent="btn.action(scope.row,scope)">
+                       @click.prevent="btn.action(scope.row,scope,onSubmit)">
               {{btn.children}}
             </el-button>
           </template>
@@ -285,14 +299,36 @@ const state: any = reactive({
           type: "primary",
           children: "编辑",
           visible: "#{record.recordStatus ==0}",
-          action: (record: any, object: any) => {
+          action: (record: any, object: any, searchTable: () => void) => {
             console.log(record, object, "listlist");
+          },
+        },
+        {
+          type: "primary",
+          children: "删除",
+          visible: "#{record.recordStatus ==0}",
+          action: (record: any, object: any, searchTable: () => void) => {
+            console.log(record, object, "listlist");
+            searchTable();
           },
         },
       ],
     },
   ],
   actions: [
+    {
+      // 是否开启勾选启用
+      // isDisabled: true,
+      type: "primary",
+      text: "批量操作",
+      // 勾选的数据
+      // searchtable  刷新表格的方法
+      action: (rows: T[], searchTable: () => void) => {
+        searchTable();
+      },
+    },
+  ],
+  actionsRight: [
     {
       // 是否开启勾选启用
       // isDisabled: true,
@@ -428,6 +464,9 @@ const getTableHeight = () => {
 
 .actions_warp {
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
 }
 
 .search_from_warp {
