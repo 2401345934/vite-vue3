@@ -339,13 +339,19 @@ const state: any = reactive({
 const height = ref();
 
 onMounted(() => {
+  getTableHeight();
+  window.onresize = () => {
+    getTableHeight();
+  };
+});
+
+const getTableHeight = () => {
   height.value =
     document.body.clientHeight -
     (document.querySelector(".search_warp")?.clientHeight || 0) -
     200 +
     "px";
-  console.log(height.value);
-});
+};
 </script>
 <style lang="less">
 .table_content {
