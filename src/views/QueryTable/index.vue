@@ -11,7 +11,8 @@
                   :key="index"
                   :span="6">
             <el-form-item :prop="field.name"
-                          :label="field.label">
+                          :label="field.label"
+                          :rules="field.rules || []">
               <el-input v-if="field.field.type === 'input'"
                         v-model="formInline[field.name]"
                         v-bind="field.field.props" />
@@ -61,7 +62,7 @@
         <div class="actions">
           <el-form-item>
             <el-button type="primary"
-                       @click="onSubmit">查询</el-button>
+                       @click="onSubmit()">查询</el-button>
             <el-button @click="resetForm(formRef)">重置</el-button>
           </el-form-item>
         </div>
@@ -120,7 +121,7 @@ import qs from "qs";
 import { he } from "element-plus/lib/locale";
 const formRef = ref<FormInstance>();
 onMounted(() => {
-  searchTable();
+  onSubmit();
 });
 
 const loading = ref(false);
@@ -132,8 +133,6 @@ const pages = reactive({
 
 const searchTable = (reset?: boolean) => {
   const value = cloneDeep(formInline);
-  console.log(queryParams(value), "queryParams(value)queryParams(value)");
-
   const initParams = {
     "qp-recordType-eq": 40,
   };
@@ -147,6 +146,7 @@ const searchTable = (reset?: boolean) => {
         ...queryParams(value),
         ...initParams,
       };
+
   loading.value = true;
   request({
     url: `/wms-ops/rwFrontRecord?${qs.stringify(reqParams)}`,
@@ -166,10 +166,10 @@ const searchTable = (reset?: boolean) => {
   });
 };
 // 查询
-const onSubmit = () => {
+const onSubmit = (flag?: boolean) => {
   formRef.value.validate().then(() => {
     pages.currentPage = 1;
-    searchTable();
+    searchTable(flag);
   });
 };
 // 重置
@@ -180,10 +180,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   for (let k in formInline) {
     if (k.indexOf("fullDate") !== -1 || k.indexOf("time") !== -1) {
-      formInline[k] = [];
+      formInline[k] = "";
     }
   }
-  searchTable(true);
+  onSubmit(true);
 };
 
 const sizeChange = (page: number) => {
@@ -266,6 +266,13 @@ const state: any = reactive({
     {
       label: "单据编号",
       name: "qp-recordCode-like",
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: "单据编号不能为空",
+      //     trigger: "blur",
+      //   },
+      // ],
       field: {
         type: "input",
         props: {
