@@ -62,8 +62,10 @@
         <div class="search_actions">
           <el-form-item>
             <el-button type="primary"
+                       :loading="loading"
                        @click="onSubmit()">查询</el-button>
-            <el-button @click="resetForm(formRef)">重置</el-button>
+            <el-button :loading="loading"
+                       @click="resetForm(formRef)">重置</el-button>
           </el-form-item>
         </div>
       </div>
@@ -96,7 +98,7 @@
   </div>
   <!-- table -->
   <div class="table_warp">
-    <el-table :data="state.data"
+    <el-table :data="pages.data"
               v-loading="loading"
               class="table_content"
               :height="height"
@@ -154,20 +156,43 @@ import { queryParams } from "@/utils/utils";
 import { cloneDeep } from "loadsh";
 import qs from "qs";
 const formRef = ref<FormInstance>();
-onMounted(() => {
-  onSubmit();
+const { state }: any = defineProps({
+  state: Object,
 });
+
+// table height
+const height = ref();
+onMounted(() => {
+  getTableHeight();
+
+  // 初始化加载
+  onSubmit();
+  window.onresize = () => {
+    getTableHeight();
+  };
+});
+
+// 获取table高度
+const getTableHeight = () => {
+  height.value =
+    document.body.clientHeight -
+    (document.querySelector(".search_warp")?.clientHeight || 0) -
+    (document.querySelector(".actions_warp")?.clientHeight || 0) -
+    200 +
+    "px";
+};
 //  table ref
 const queryTableRef = ref("");
 // form 表单 属性值
 const formInline = reactive({});
 //  loading
 const loading = ref(false);
-//  分页参数
+//  分页参数 table Source
 const pages = reactive({
   total: 0,
   currentPage: 1,
   pageSize: 10,
+  data: [],
 });
 // 多选数据
 const selectProps = ref<T>([]);
@@ -183,23 +208,28 @@ const searchTable = (reset?: boolean) => {
   };
   const reqParams = reset
     ? {
-        ...pages,
+        currentPage: pages.currentPage,
+        pageSize: pages.pageSize,
         ...initParams,
       }
     : {
-        ...pages,
+        currentPage: pages.currentPage,
+        pageSize: pages.pageSize,
         ...queryParams(value),
         ...initParams,
       };
 
   loading.value = true;
   request({
-    url: `/wms-ops/rwFrontRecord?${qs.stringify(reqParams)}`,
+    url: state.request.url + `?${qs.stringify(reqParams)}`,
     isToast: false,
-    method: "get",
+    method: state.request.method || "get",
     converter: ({ data }: any) => {
+      if (state.request.tableCallBack) {
+        state.request.tableCallBack(data);
+      }
       if (data && Array.isArray(data.items)) {
-        state.data = data.items;
+        pages.data = data.items;
         pages.total = Number(data.total);
         pages.currentPage = Number(data.page);
         pages.pageSize = Number(data.size);
@@ -238,207 +268,6 @@ const currentChange = (page: number) => {
   pages.currentPage = page;
   searchTable();
 };
-
-const state: any = reactive({
-  data: [],
-  type: "selection",
-  columns: [
-    {
-      key: "recordCode",
-      fixed: "left",
-
-      title: "单据编号",
-    },
-    // {
-    //   key: 'recordType',
-    //   title: '单据类型',
-    //   render: ({ text }: any) => props.getDictionaryTextByValue('WO00003', text),
-    // },
-    {
-      key: "recordStatus",
-      title: "单据状态",
-    },
-    {
-      key: "businessType",
-      title: "业务类型",
-    },
-    {
-      key: "recordDate",
-      title: "单据日期",
-    },
-    {
-      key: "outWarehouseName",
-      title: "移出仓库",
-    },
-    {
-      key: "inWarehouseName",
-      title: "移入仓库",
-    },
-    // {
-    //   key: 'sourceRecordName',
-    //   title: '来源单据名称',
-    // },
-    {
-      key: "sourceRecordCode",
-      title: "来源单据号",
-    },
-    {
-      key: "totalQuality",
-      title: "移仓数量",
-      render: (record: any, index: number) => {
-        return record.totalQuality;
-      },
-    },
-    {
-      key: "operator",
-      isOperator: true,
-      title: "操作",
-      fixed: "right",
-      render: [
-        {
-          type: "primary",
-          children: "编辑",
-          visible: "#{record.recordStatus ==0}",
-          action: (record: any, object: any, searchTable: () => void) => {
-            console.log(record, object, "listlist");
-          },
-        },
-        {
-          type: "primary",
-          children: "删除",
-          visible: "#{record.recordStatus ==0}",
-          action: (record: any, object: any, searchTable: () => void) => {
-            console.log(record, object, "listlist");
-            searchTable();
-          },
-        },
-      ],
-    },
-  ],
-  actions: [
-    {
-      // 是否开启勾选启用
-      // isDisabled: true,
-      type: "primary",
-      text: "批量操作",
-      // 勾选的数据
-      // searchtable  刷新表格的方法
-      action: (rows: T[], searchTable: () => void) => {
-        searchTable();
-      },
-    },
-  ],
-  actionsRight: [
-    {
-      // 是否开启勾选启用
-      // isDisabled: true,
-      type: "primary",
-      text: "批量操作",
-      // 勾选的数据
-      // searchtable  刷新表格的方法
-      action: (rows: T[], searchTable: () => void) => {
-        searchTable();
-      },
-    },
-  ],
-  fields: [
-    {
-      label: "单据编号",
-      name: "qp-recordCode-like",
-      // rules: [
-      //   {
-      //     required: true,
-      //     message: "单据编号不能为空",
-      //     trigger: "blur",
-      //   },
-      // ],
-      field: {
-        type: "input",
-        props: {
-          placeholder: "请输入",
-          clearable: true,
-        },
-      },
-    },
-    {
-      label: "单据状态",
-      name: "qp-recordStatus-eq",
-      field: {
-        type: "select",
-      },
-      source: () => [
-        {
-          text: "已提交",
-          value: 0,
-        },
-      ],
-    },
-    {
-      label: "单据状态2",
-      name: "qp-recordStatu2s-eq",
-      field: {
-        type: "checkbox",
-      },
-      source: () => [
-        {
-          text: "已提交",
-          value: 0,
-        },
-        {
-          text: "初始化",
-          value: 1,
-        },
-      ],
-    },
-    {
-      label: "单据状态2",
-      name: "aaaa",
-      field: {
-        type: "radio",
-      },
-      source: () => [
-        {
-          text: "已提交",
-          value: 0,
-        },
-        {
-          text: "初始化",
-          value: 1,
-        },
-      ],
-    },
-    {
-      name: "qp-createTime-ge*fullDate*qp-createTime-le",
-      label: "单据日期",
-      field: {
-        type: "rangepicker",
-        props: {
-          type: "daterange",
-          style: {
-            width: "100%",
-          },
-        },
-      },
-    },
-  ],
-});
-const height = ref();
-
-onMounted(() => {
-  getTableHeight();
-  window.onresize = () => {
-    getTableHeight();
-  };
-});
-
-const getTableHeight = () => {
-  height.value =
-    document.body.clientHeight -
-    (document.querySelector(".search_warp")?.clientHeight || 0) -
-    (document.querySelector(".actions_warp")?.clientHeight || 0) -
-    200 +
-    "px";
-};
 </script>
 <style scoped lang="less">
 .table_warp {
@@ -473,6 +302,6 @@ const getTableHeight = () => {
   display: flex;
 }
 .search_actions {
-  min-width: 200px;
+  min-width: 230px;
 }
 </style>
