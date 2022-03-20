@@ -24,5 +24,5 @@ const handleCommit = () => {
 }
 
 </script>
-<style>
+<style scoped>
 </style>

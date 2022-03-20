@@ -53,7 +53,7 @@ routers.afterEach((to, from) => {
   pathname.value = to.fullPath;
 });
 </script>
-<style  lang="less">
+<style scoped lang="less">
 .warp {
   min-height: 100vh;
   width: 100%;

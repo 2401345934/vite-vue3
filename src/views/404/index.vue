@@ -36,5 +36,5 @@ const goBack = () => {
   router.push("/")
 }
 </script>
-<style>
+<style scoped>
 </style>

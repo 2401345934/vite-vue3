@@ -26,5 +26,5 @@ const cardList = [
 ];
 // @ts-nocheck
 </script>
-<style>
+<style scoped>
 </style>

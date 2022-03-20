@@ -24,7 +24,7 @@ defineProps(["detailTitle"]);
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 </script>
-<style  lang="less">
+<style scoped lang="less">
 .main {
   margin-top: 30px;
 }

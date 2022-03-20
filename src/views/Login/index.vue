@@ -62,5 +62,5 @@ const onSubmit = () => {
   });
 };
 </script>
-<style>
+<style scoped>
 </style>

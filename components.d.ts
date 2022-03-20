@@ -32,6 +32,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/Header/index.vue')['default']
     'Header copy': typeof import('./src/components/Header copy/index.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
+    QueryTable: typeof import('./src/components/BusinessComponent/QueryTable/index.vue')['default']
   }
 }
 

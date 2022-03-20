@@ -440,7 +440,7 @@ const getTableHeight = () => {
     "px";
 };
 </script>
-<style lang="less">
+<style scoped lang="less">
 .table_warp {
   .table_content {
     overflow: auto;
