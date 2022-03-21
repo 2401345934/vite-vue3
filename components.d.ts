@@ -33,6 +33,10 @@ declare module 'vue' {
     'Header copy': typeof import('./src/components/Header copy/index.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     QueryTable: typeof import('./src/components/BusinessComponent/QueryTable/index.vue')['default']
+    RenderElement: typeof import('./src/components/BusinessComponent/QueryTable/components/RenderElement/index.vue')['default']
+    Test: typeof import('./src/components/BusinessComponent/QueryTable/components/test/index.vue')['default']
+    Vnode: typeof import('./src/components/BusinessComponent/QueryTable/components/Vnode.vue')['default']
+    VNode: typeof import('./src/components/BusinessComponent/QueryTable/components/VNode.ts)['default']
   }
 }
 

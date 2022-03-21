@@ -113,6 +113,27 @@ const state: any = reactive({
   ],
   fields: [
     {
+      label: "测试h函数渲染",
+      name: "qp-recordCode111-like",
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: "单据编号不能为空",
+      //     trigger: "blur",
+      //   },
+      // ],
+      renderH: {
+        type: "el-input",
+      },
+      field: {
+        type: "input",
+        props: {
+          placeholder: "请输入",
+          clearable: true,
+        },
+      },
+    },
+    {
       label: "单据编号",
       name: "qp-recordCode-like",
       // rules: [

@@ -1,7 +1,8 @@
 
 <template name="queryTable">
   <!-- search -->
-  <div class="search_warp">
+  <div class="
+           search_warp">
     <el-form :inline="true"
              ref="formRef"
              :model="formInline"
@@ -33,7 +34,6 @@
                              :value="select.value" />
                 </template>
               </el-select>
-
               <el-checkbox-group v-if="field.field.type === 'checkbox'"
                                  v-model="formInline[field.name] "
                                  v-bind="field.field.props">
@@ -55,7 +55,6 @@
                   </el-radio>
                 </el-radio-group>
               </template>
-
             </el-form-item>
           </el-col>
         </el-row>
@@ -152,6 +151,7 @@
 // @ts-nocheck
 import request from "@/axios";
 import type { FormInstance } from "element-plus";
+import RenderElement from "./components/test/index.vue";
 import { queryParams } from "@/utils/utils";
 import { cloneDeep } from "loadsh";
 import qs from "qs";
