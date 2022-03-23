@@ -8,7 +8,7 @@
   <div class="inp_warp">
     <el-input ref="inp"
               v-model="state.value"
-              @keydown="handleKeyDown" />
+              @keydown.enter="handleKeyDown" />
     <el-button @click="add">click</el-button>
   </div>
   <ul>
@@ -90,9 +90,7 @@ const resetLocalStorage = () => {
 };
 
 const handleKeyDown = (e: any) => {
-  if (e.keyCode === 13) {
-    add();
-  }
+  add();
 };
 
 // This starter template is using Vue 3 <script setup> SFCs

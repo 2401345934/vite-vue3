@@ -17,16 +17,20 @@
                           :rules="field.rules || []">
               <el-input v-if="field.field.type === 'input'"
                         v-model="formInline[field.name]"
+                        @keydown.enter="onSubmit()"
                         v-bind="field.field.props" />
               <el-date-picker v-if="field.field.type === 'rangepicker'"
                               v-model="formInline[field.name]"
                               type="daterange"
                               :unlink-panels="true"
+                              @keydown.enter="onSubmit()"
                               v-bind="field.field.props"
                               range-separator="-" />
               <el-select v-if="field.field.type === 'select'"
                          v-model="formInline[field.name] "
+                         @keydown.enter="onSubmit()"
                          v-bind="field.field.props">
+
                 <template v-if=" typeof field.source === 'function'">
                   <el-option v-for="(select,i) in field.source()"
                              :key="i"
@@ -36,6 +40,7 @@
               </el-select>
               <el-checkbox-group v-if="field.field.type === 'checkbox'"
                                  v-model="formInline[field.name] "
+                                 @keydown.enter="onSubmit()"
                                  v-bind="field.field.props">
                 <template v-if=" typeof field.source === 'function'">
                   <el-checkbox v-for="(select,i) in field.source()"
@@ -46,6 +51,7 @@
               </el-checkbox-group>
               <template v-if=" typeof field.source === 'function'">
                 <el-radio-group v-if="field.field.type === 'radio'"
+                                @keydown.enter="onSubmit()"
                                 v-model="formInline[field.name] "
                                 v-bind="field.field.props">
                   <el-radio v-for="(select,i) in field.source()"
