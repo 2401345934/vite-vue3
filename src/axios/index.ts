@@ -35,6 +35,19 @@ axios.interceptors.request.use((config: any) => {
   return Promise.reject(error)
 })
 
+type requestType = {
+  url: string,
+  method?: string,
+  data?: object | string,
+  isToast?: boolean,
+  successMessage?: string,
+  converter?: Function,
+  headers?: object,
+  isdownload?: boolean,
+  fin?: Function,
+  responseType?: string,
+  errorConver?: Function
+}
 // axios的get请求
 export default function request({
   url,
@@ -57,7 +70,6 @@ export default function request({
       headers,
       responseType,
     }).then(res => {
-
       if (isdownload) {
         resolve(res?.data)
         if (converter) {
