@@ -12,7 +12,13 @@
     <el-button @click="add">click</el-button>
   </div>
   <ul>
-    <li v-bind:key="index"
+    <TodoInfoVue v-bind:key="index"
+                 v-for="(item,index) in state.list"
+                 :item="item"
+                 @remove="remove"
+                 :index="index"
+                 @resetLocalStorage="resetLocalStorage"></TodoInfoVue>
+    <!-- <li v-bind:key="index"
         v-for="(item,index) in state.list">
       <div>
         <el-checkbox @change="() => {resetLocalStorage()}"
@@ -21,10 +27,11 @@
         {{item.text}}
         <el-button @click="remove(item,index)">remove</el-button>
       </div>
-    </li>
+    </li> -->
   </ul>
 </template>
 <script lang="ts" setup>
+import TodoInfoVue from "./TodoInfo.vue";
 const props = defineProps({
   parentValue: String,
 });
