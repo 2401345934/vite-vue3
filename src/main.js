@@ -5,17 +5,12 @@ import App from '@/App.vue'
 import store from "@/store/index"
 import 'element-plus/dist/index.css'
 import "./styles/global.less"
+import QueryTable from "./components/BusinessComponent/QueryTable/index.vue"
 
-createApp(App)
+const app = createApp(App);
+app.component("QueryTable", QueryTable)
+app
   .use(router)
   .use(store)
   .mount('#app')
 
-  // .component("xmh", {
-  //   template: `<h2>{{aaaa}}<h2/>`,
-  //   data () {
-  //     return {
-  //       aaaa: '肖明辉'
-  //     }
-  //   }
-  // })

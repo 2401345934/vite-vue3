@@ -1,14 +1,13 @@
 
 <template name="queryTable">
-  <QueryTable :state="{...state}"></QueryTable>
+  <QueryTable :state="{ ...state }"></QueryTable>
 </template>
 <script lang="ts" setup>
 // @ts-nocheck
-import QueryTable from "@/components/BusinessComponent/QueryTable/index.vue";
 const state: any = reactive({
   request: {
     url: `/wms-ops/rwFrontRecord`,
-    tableCallBack: () => {},
+    tableCallBack: () => { },
   },
   type: "selection",
   columns: [
