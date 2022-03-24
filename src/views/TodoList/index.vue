@@ -15,6 +15,7 @@
     <TodoInfoVue v-bind:key="index"
                  v-for="(item,index) in state.list"
                  :item="item"
+                 id="todolist"
                  @remove="remove"
                  :index="index"
                  @resetLocalStorage="resetLocalStorage"></TodoInfoVue>
