@@ -26,7 +26,6 @@
     "baseUrl": ".",
     "types": [
       "vite/client",
-      "node"
     ],
     "typeRoots": [
       "./node_modules/@types/",
@@ -48,19 +47,19 @@
     ]
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/**/**/*.vue",
-    "src/**/**/*.ts",
     "types/**/*.d.ts",
     "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "**/*.js"
   ]
 }

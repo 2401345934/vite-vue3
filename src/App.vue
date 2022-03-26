@@ -8,7 +8,6 @@ const locale = zhCn
 <template>
   <el-config-provider :locale="locale">
     <router-view />
-
   </el-config-provider>
 </template>
 

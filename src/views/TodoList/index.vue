@@ -1,24 +1,24 @@
 
 <template>
   <el-space>
-    <el-tag>当前共 {{ state.list.length || 0}} 项</el-tag>
-    <el-tag>当前已完成 {{  successLegnth }} 项</el-tag>
-    <el-tag>当前未完成 {{  notLenthg}} 项</el-tag>
+    <el-tag>当前共 {{ state.list.length || 0 }} 项</el-tag>
+    <el-tag>当前已完成 {{ successLegnth }} 项</el-tag>
+    <el-tag>当前未完成 {{ notLenthg }} 项</el-tag>
   </el-space>
   <div class="inp_warp">
-    <el-input ref="inp"
-              v-model="state.value"
-              @keydown.enter="handleKeyDown" />
+    <el-input ref="inp" v-model="state.value" @keydown.enter="handleKeyDown" />
     <el-button @click="add">click</el-button>
   </div>
   <ul>
-    <TodoInfoVue v-bind:key="index"
-                 v-for="(item,index) in state.list"
-                 :item="item"
-                 id="todolist"
-                 @remove="remove"
-                 :index="index"
-                 @resetLocalStorage="resetLocalStorage"></TodoInfoVue>
+    <TodoInfoVue
+      v-bind:key="index"
+      v-for="(item, index) in state.list"
+      :item="item"
+      id="todolist"
+      @remove="remove"
+      :index="index"
+      @resetLocalStorage="resetLocalStorage"
+    ></TodoInfoVue>
     <!-- <li v-bind:key="index"
         v-for="(item,index) in state.list">
       <div>
@@ -28,7 +28,7 @@
         {{item.text}}
         <el-button @click="remove(item,index)">remove</el-button>
       </div>
-    </li> -->
+    </li>-->
   </ul>
 </template>
 <script lang="ts" setup>

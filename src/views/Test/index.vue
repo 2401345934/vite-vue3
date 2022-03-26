@@ -1,41 +1,33 @@
 <template>
-  <div>
-    <el-button @click="handClick('wx')">微信</el-button>
-    <el-button @click="handClick('Zfb')">支付宝</el-button>
-    <el-button @click="name++">修改name</el-button>
-    <keep-alive>
-      <component :is="currentElementComponent"></component>
-    </keep-alive>
-  </div>
+  <transition name="xmh">
+    <test-components v-show="flag">肖明辉</test-components>
+  </transition>
+  <transition name="xmh2">
+    <test-components v-show="flag">小垃圾</test-components>
+  </transition>
+  <el-button @click="flag = !flag">切换</el-button>
 </template>
-
 <script setup lang='ts'>
-import Wx from "./components/Wx.vue"
-import Zfb from "./components/Zfb.vue"
+import TestComponents from "./components/TestComponents.vue";
 
-const t = ref("wx")
-
-
-const handClick = (type: string) => {
-  t.value = type
-}
-const name = ref(1)
-const name2 = ref(10)
-provide('xmh', {
-  name,
-  name2
-})//两个参数第一个是自定义名字，第二个是要传递的参数
-watch(() => name.value, () => {
-  name2.value += name.value
-})
-const currentElementComponent = computed(() => {
-  const map = new Map([
-    ['wx', Wx],
-    ['Zfb', Zfb],
-  ])
-  return map.get(t.value)
-})
-
+const flag = ref(false);
 </script>
 <style scoped lang='less'>
+.xmh-enter-from,
+.xmh2-enter-from,
+.xmh-leave-to,
+.xmh2-leave-to {
+  opacity: 0;
+}
+.xmh-enter-active,
+.xmh-leave-active,
+.xmh2-enter-active,
+.xmh2-leave-active {
+  transition: 2s ease;
+}
+
+.v-enter-to,
+.v-leave-from {
+  opacity: 1;
+}
 </style>

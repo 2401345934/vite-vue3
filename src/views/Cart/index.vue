@@ -3,7 +3,6 @@
   商品数量 --- {{ counts }}
   <el-button type="primary" @click="addCard">添加商品</el-button>
   <el-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</el-button>
-  <el-input @keyup.backspace="keyup"></el-input>
   <div>
     <el-button @click="sortType = 'price'" :class="{ r: sortType === 'price' }">价格排序</el-button>
     <el-button @click="sortType = 'num'" :class="{ r: sortType === 'num' }">数量排序</el-button>
@@ -83,10 +82,6 @@ const cardList = [
   },
 ];
 const xmh = "aaa";
-
-const keyup = () => {
-  console.log("我触发了");
-};
 // @ts-nocheck
 </script>
 <style scoped>
