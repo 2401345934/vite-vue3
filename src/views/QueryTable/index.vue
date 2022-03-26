@@ -1,9 +1,13 @@
 
 <template name="queryTable">
-  <QueryTable :state="{ ...state }"></QueryTable>
+  <QueryTable ref="tableRef" :state="{ ...state }"></QueryTable>
 </template>
 <script lang="ts" setup>
-// @ts-nocheck
+const tableRef: any = ref("")
+
+onMounted(() => {
+})
+
 const state: any = reactive({
   request: {
     url: `/wms-ops/rwFrontRecord`,

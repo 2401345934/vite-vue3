@@ -36,7 +36,7 @@ declare module 'vue' {
     RenderElement: typeof import('./src/components/BusinessComponent/QueryTable/components/RenderElement/index.vue')['default']
     Test: typeof import('./src/components/BusinessComponent/QueryTable/components/test/index.vue')['default']
     Vnode: typeof import('./src/components/BusinessComponent/QueryTable/components/Vnode.vue')['default']
-    VNode: typeof import('./src/components/BusinessComponent/QueryTable/components/VNode.ts)['default']
+    VNode: typeof import('./src/components/BusinessComponent/QueryTable/components/VNode.ts')['default']
   }
 }
 
