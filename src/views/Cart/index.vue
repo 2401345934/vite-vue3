@@ -1,28 +1,21 @@
 
 <template name="card">
-  商品数量 --- {{count}}
-  <el-button type="primary"
-             @click="addCard">添加商品</el-button>
-  <el-button type="primary"
-             @click="descCard($event)"
-             :class="[xmh]">减少商品</el-button>
+  商品数量 --- {{ count }}
+  <el-button type="primary" @click="addCard">添加商品</el-button>
+  <el-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</el-button>
   <el-input @keyup.backspace="keyup"></el-input>
   <div>
-    <el-button @click="data.sortType = 'price'"
-               :class="{r:data.sortType === 'price'}">价格排序</el-button>
-    <el-button @click="data.sortType = 'num'"
-               :class="{r:data.sortType === 'num'}">数量排序</el-button>
-    <el-button @click="data.sort = 'acs'"
-               :class="{r:data.sort === 'acs'}">升序</el-button>
-    <el-button @click="data.sort = 'desc'"
-               :class="{r:data.sort === 'desc'}">降序</el-button>
+    <el-button @click="data.sortType = 'price'" :class="{ r: data.sortType === 'price' }">价格排序</el-button>
+    <el-button @click="data.sortType = 'num'" :class="{ r: data.sortType === 'num' }">数量排序</el-button>
+    <el-button @click="data.sort = 'acs'" :class="{ r: data.sort === 'acs' }">升序</el-button>
+    <el-button @click="data.sort = 'desc'" :class="{ r: data.sort === 'desc' }">降序</el-button>
   </div>
   <el-scrollbar max-height="400px">
-    <p v-for="(item,index) in cardListcomputed"
-       :key="index"
-       class="scrollbar-demo-item">
-      {{ item.name }} ---- 价格 {{item.price}} ---- 数量 {{item.num}}
-    </p>
+    <p
+      v-for="(item, index) in cardListcomputed"
+      :key="index"
+      class="scrollbar-demo-item"
+    >{{ item.name }} ---- 价格 {{ item.price }} ---- 数量 {{ item.num }}</p>
   </el-scrollbar>
 </template>
 <script lang="ts" setup>
@@ -35,9 +28,13 @@ const data = reactive({
 watch(
   () => data.count,
   (newValue: number, oldValue: number) => {
-    console.log("新的", newValue, "老的", oldValue, "改变");
+    // console.log("新的", newValue, "老的", oldValue, "改变");
   }
 );
+
+watchEffect(() => {
+  console.log(data.count);
+})
 
 const count = computed(() => {
   if (data.count < 0) {
@@ -54,8 +51,6 @@ const addCard = () => {
   data.count++;
 };
 const descCard = (e: Event) => {
-  console.log(e);
-
   data.count--;
 };
 
