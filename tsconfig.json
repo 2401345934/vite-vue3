@@ -47,22 +47,29 @@
     ]
   },
   "include": [
+    "**/*.ts",
+    "**/*.tsx",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/**/*.vue",
-    "src/**/**/*.tsx",
+    "src/**/**/**/*.vue",
+    "src/**/**/**/**/*.vue",
+    "src/**/**/**/**/*.ts",
+    "src/**/**/**/**/*.vue",
+    "src/**/**/**/**/**/*.vue",
+    "src/**/**/**/**/**/*.js",
+    "src/**/**/**/**/**/*.ts",
+    "src/**/**/**/**/**/**/*.js",
+    "src/**/**/**/**/**/**/*.ts",
+    "src/**/**/**/**/**/**/*.vue",
     "src/**/**/*.ts",
     "types/**/*.d.ts",
     "types/**/*.ts",
-    "build/**/*.ts",
-    "build/**/*.d.ts",
-    "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "**/*.js"
+    "dist"
   ]
 }
