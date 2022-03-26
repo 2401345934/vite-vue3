@@ -1,14 +1,14 @@
 
 <template name="card">
-  商品数量 --- {{ count }}
+  商品数量 --- {{ counts }}
   <el-button type="primary" @click="addCard">添加商品</el-button>
   <el-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</el-button>
   <el-input @keyup.backspace="keyup"></el-input>
   <div>
-    <el-button @click="data.sortType = 'price'" :class="{ r: data.sortType === 'price' }">价格排序</el-button>
-    <el-button @click="data.sortType = 'num'" :class="{ r: data.sortType === 'num' }">数量排序</el-button>
-    <el-button @click="data.sort = 'acs'" :class="{ r: data.sort === 'acs' }">升序</el-button>
-    <el-button @click="data.sort = 'desc'" :class="{ r: data.sort === 'desc' }">降序</el-button>
+    <el-button @click="sortType = 'price'" :class="{ r: sortType === 'price' }">价格排序</el-button>
+    <el-button @click="sortType = 'num'" :class="{ r: sortType === 'num' }">数量排序</el-button>
+    <el-button @click="sort = 'acs'" :class="{ r: sort === 'acs' }">升序</el-button>
+    <el-button @click="sort = 'desc'" :class="{ r: sort === 'desc' }">降序</el-button>
   </div>
   <el-scrollbar max-height="400px">
     <p
@@ -24,41 +24,42 @@ const data = reactive({
   sortType: "price",
   sort: "desc",
 });
+const { count, sortType, sort } = toRefs(data)
 
 watch(
-  () => data.count,
+  () => count.value,
   (newValue: number, oldValue: number) => {
     // console.log("新的", newValue, "老的", oldValue, "改变");
   }
 );
 
 watchEffect(() => {
-  console.log(data.count);
+  console.log(count.value);
 })
 
-const count = computed(() => {
-  if (data.count < 0) {
-    data.count = 0;
+const counts = computed(() => {
+  if (count.value < 0) {
+    count.value = 0;
     return 0;
   }
-  if (data.count > 10) {
-    data.count = 10;
+  if (count.value > 10) {
+    count.value = 10;
     return 10;
   }
-  return data.count;
+  return count.value;
 });
 const addCard = () => {
-  data.count++;
+  count.value++;
 };
 const descCard = (e: Event) => {
-  data.count--;
+  count.value--;
 };
 
 const cardListcomputed = computed(() => {
   return cardList.sort((a, b) => {
-    return data.sort !== "desc"
-      ? a[data.sortType] - b[data.sortType]
-      : b[data.sortType] - a[data.sortType];
+    return sort.value !== "desc"
+      ? a[sortType.value] - b[sortType.value]
+      : b[sortType.value] - a[sortType.value];
   });
 });
 const cardList = [
