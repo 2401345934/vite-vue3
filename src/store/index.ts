@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import home from "@/store/module/home"
+import todoList from "@/store/module/todoList"
 import userInfo from "@/store/module/userInfo"
 import createPersistedstate from 'vuex-persistedstate'
 const defaultState = {
@@ -20,7 +21,8 @@ const store = createStore({
 
   modules: {
     home,
-    userInfo
+    userInfo,
+    todo: todoList
   },
   // 持久化
   plugins: [

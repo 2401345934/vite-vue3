@@ -1,12 +1,14 @@
 <template>
-  <transition
+  <transition-group
     appear
     mode="out-in"
+    tag="ul"
     enter-active-class="animate__animated animate__lightSpeedInRight"
     leave-active-class="animate__animated animate__lightSpeedOutRight"
   >
-    <test-components v-show="flag">肖明辉</test-components>
-  </transition>
+    <test-components key="1">肖明辉</test-components>
+    <test-components key="2">肖明辉</test-components>
+  </transition-group>
   <el-button @click="flag = !flag">切换</el-button>
 </template>
 <script setup lang='ts'>

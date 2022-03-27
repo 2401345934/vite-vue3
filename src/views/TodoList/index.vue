@@ -19,32 +19,19 @@
       :index="index"
       @resetLocalStorage="resetLocalStorage"
     ></TodoInfoVue>
-    <!-- <li v-bind:key="index"
-        v-for="(item,index) in state.list">
-      <div>
-        <el-checkbox @change="() => {resetLocalStorage()}"
-                     v-model="item.checked"
-                     :checked="item.checked" />
-        {{item.text}}
-        <el-button @click="remove(item,index)">remove</el-button>
-      </div>
-    </li>-->
   </ul>
 </template>
 <script lang="ts" setup>
 import TodoInfoVue from "./TodoInfo.vue";
-const props = defineProps({
-  parentValue: String,
-});
-
+import { useStore } from "vuex"
+const vuex = useStore();
+const { dispatch, commit } = vuex
 // 2、beforeMount 挂载之前    改名  onBeforeMount
-
 const inp = ref();
 // 3、mounted 挂载之后    改名  onMounted
-
 onMounted(() => {
   inp.value.focus();
-  state.list = JSON.parse(localStorage.getItem("list") || "[]");
+  state.list = vuex.state.todo.todoList || [];
 });
 
 const successLegnth = computed(() => {
@@ -94,7 +81,7 @@ defineExpose({
   children,
 });
 const resetLocalStorage = () => {
-  localStorage.setItem("list", JSON.stringify(state.list));
+  dispatch("todo/set", state.list)
 };
 
 const handleKeyDown = (e: any) => {
