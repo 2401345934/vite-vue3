@@ -20,11 +20,19 @@ const routes = [
         }
       },
       {
-        path: '/todoList',
-        name: 'TodoList',
-        component: () => import('@/views/TodoList/index.vue'),
+        path: '/todoListVux',
+        name: 'TodoListVux',
+        component: () => import('@/views/TodoListVux/index.vue'),
         meta: {
-          title: '待办事项'
+          title: '待办事项-Vux'
+        }
+      },
+      {
+        path: '/todoListPinia',
+        name: 'TodoListPinia',
+        component: () => import('@/views/TodoListPinia/index.vue'),
+        meta: {
+          title: '待办事项-Pinia'
         }
       },
       {
