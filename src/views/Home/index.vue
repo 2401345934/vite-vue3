@@ -13,7 +13,7 @@
           active-text-color="#ffd04b"
           :default-active="pathname"
           :key="item.path"
-          class="el-menu-vertical-demo"
+          class="el-menu-home-class"
           router
         >
           <el-menu-item :index="item.path">
@@ -72,10 +72,6 @@ routers.afterEach((to, from) => {
     margin-right: 30px;
   }
 
-  .el-menu-vertical-demo {
-    background-color: var(--el-color-primary);
-  }
-
   .header {
     height: 60px;
     display: flex;
@@ -103,8 +99,15 @@ routers.afterEach((to, from) => {
     margin-top: 30px;
   }
 
-  .el-menu-item.is-active {
+  .el-menu-home-class {
+    background-color: var(--el-color-primary);
     color: var(--el-menu_active_color);
+    &:hover {
+      --el-menu-hover-bg-color: var(--el-menu_bg_color) !important;
+    }
+  }
+  .el-menu-item.is-active {
+    color: inherit;
   }
 }
 </style>
