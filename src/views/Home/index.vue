@@ -102,5 +102,9 @@ routers.afterEach((to, from) => {
   .content_div {
     margin-top: 30px;
   }
+
+  .el-menu-item.is-active {
+    color: var(--el-menu_active_color);
+  }
 }
 </style>
