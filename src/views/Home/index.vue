@@ -8,9 +8,7 @@
       <div class="slide">
         <el-menu
           v-for="item in route"
-          background-color="#545c64"
           text-color="#fff"
-          active-text-color="#ffd04b"
           :default-active="pathname"
           :key="item.path"
           class="el-menu-home-class"
