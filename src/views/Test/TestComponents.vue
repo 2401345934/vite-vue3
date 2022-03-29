@@ -12,7 +12,7 @@ main {
 div {
   padding: 20px;
   margin-bottom: 20px;
-  background-color: aqua;
+  background-color: var(--el-color-primary);
   transition: 1s;
   display: inline-block;
   border-radius: 0.9rem;

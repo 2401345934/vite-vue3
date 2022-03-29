@@ -6,16 +6,18 @@
     </div>
     <div class="content_warp">
       <div class="slide">
-        <el-menu v-for="item in route"
-                 background-color="#545c64"
-                 text-color="#fff"
-                 active-text-color="#ffd04b"
-                 :default-active="pathname"
-                 :key="item.path"
-                 class="el-menu-vertical-demo"
-                 router>
+        <el-menu
+          v-for="item in route"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          :default-active="pathname"
+          :key="item.path"
+          class="el-menu-vertical-demo"
+          router
+        >
           <el-menu-item :index="item.path">
-            <span>{{item.meta.title}}</span>
+            <span>{{ item.meta.title }}</span>
           </el-menu-item>
         </el-menu>
       </div>
@@ -25,7 +27,6 @@
             <router-view></router-view>
           </template>
         </ComponentWarp>
-
       </div>
     </div>
   </div>
@@ -65,6 +66,10 @@ routers.afterEach((to, from) => {
     margin-right: 30px;
   }
 
+  .el-menu-vertical-demo {
+    background-color: var(--el-color-primary);
+  }
+
   .header {
     height: 60px;
     display: flex;
@@ -72,6 +77,7 @@ routers.afterEach((to, from) => {
     width: 100%;
     align-items: center;
     border: 1px solid rebeccapurple;
+    background-color: var(--el-color-primary);
   }
 
   .content_warp {
