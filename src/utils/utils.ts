@@ -71,3 +71,9 @@ export function queryParams(params: any,) {
   }
   return params;
 }
+
+
+export const changeTheme = (color: string) => {
+  document.documentElement.style.setProperty("--el-color-primary", color);
+
+}

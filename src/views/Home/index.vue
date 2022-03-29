@@ -33,17 +33,23 @@
 </template>
 <script lang="ts" setup>
 // @ts-nocheck
-import router from "@/router/index.js";
+import router from "@/router/index";
 // @ts-ignore
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
 const routers = useRouter();
+import { theme } from "@/piniaStore/module/theme"
+const store = theme()
 // @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 const detailTitle: any = () => {
   return route.find((item: any) => item.path === pathname.value).meta.title;
 };
+
+onMounted(() => {
+  store.updateTheme()
+})
 
 const goBack = () => {
   routers.back();
@@ -76,7 +82,6 @@ routers.afterEach((to, from) => {
     position: fixed;
     width: 100%;
     align-items: center;
-    border: 1px solid rebeccapurple;
     background-color: var(--el-color-primary);
   }
 
