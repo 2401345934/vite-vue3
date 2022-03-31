@@ -68,11 +68,14 @@ routers.afterEach((to, from) => {
     height: 100%;
     min-width: 20%;
     margin-right: 30px;
+    z-index: 20;
+    position: fixed;
   }
 
   .header {
     height: 60px;
     display: flex;
+    z-index: 30;
     position: fixed;
     width: 100%;
     align-items: center;
@@ -88,7 +91,8 @@ routers.afterEach((to, from) => {
 
   .content {
     flex: 1;
-    width: calc(100vw - 20% - 30px);
+    margin-left: 21%;
+    width: calc(100vw - 23% - 30px);
     max-width: calc(100vw - 20% - 30px);
     min-width: calc(100vw - 20% - 30px);
   }
