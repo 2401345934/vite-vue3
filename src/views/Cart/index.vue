@@ -85,9 +85,6 @@ const xmh = "aaa";
 // @ts-nocheck
 </script>
 <style scoped>
-.aaa {
-}
-
 .r {
   color: red;
 }

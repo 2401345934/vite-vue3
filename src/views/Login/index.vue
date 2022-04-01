@@ -1,21 +1,15 @@
 
 <template name="Login">
   <h1>登录</h1>
-  <el-form ref="ruleFormRef"
-           :model="state.form"
-           :rules="rules"
-           label-width="120px">
-    <el-form-item label="账号"
-                  prop="userName">
+  <el-form ref="ruleFormRef" :model="state.form" :rules="rules" label-width="120px">
+    <el-form-item label="账号" prop="userName">
       <el-input v-model="state.form.userName"></el-input>
     </el-form-item>
-    <el-form-item label="密码"
-                  prop="passWord">
+    <el-form-item label="密码" prop="passWord">
       <el-input v-model="state.form.passWord"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary"
-                 @click="onSubmit">登录</el-button>
+      <el-button type="primary" @click="onSubmit">登录</el-button>
     </el-form-item>
   </el-form>
 </template>

@@ -111,7 +111,7 @@ const state: any = reactive({
       text: "批量操作",
       // 勾选的数据
       // searchtable  刷新表格的方法
-      action: (rows: T[], searchTable: () => void) => {
+      action: (rows: any, searchTable: () => void) => {
         searchTable();
       },
     },
