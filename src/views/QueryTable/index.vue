@@ -11,7 +11,9 @@ onMounted(() => {
 const state: any = reactive({
   request: {
     url: `/wms-ops/rwFrontRecord`,
-    tableCallBack: () => { },
+    tableCallBack: () => {
+
+    },
   },
   type: "selection",
   columns: [
@@ -95,7 +97,7 @@ const state: any = reactive({
       text: "批量操作",
       // 勾选的数据
       // searchtable  刷新表格的方法
-      action: (rows: T[], searchTable: () => void) => {
+      action: (rows: [], searchTable: () => void) => {
         searchTable();
         console.log(rows, "rows");
       },
