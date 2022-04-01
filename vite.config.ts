@@ -29,6 +29,51 @@ export default defineConfig({
       algorithm: 'gzip',
       ext: '.gz',
     }),
+    //   viteImagemin({
+    //     gifsicle: {
+    //         optimizationLevel: 7,
+    //         interlaced: false,
+    //     },
+    //     optipng: {
+    //         optimizationLevel: 7,
+    //     },
+    //     mozjpeg: {
+    //         quality: 50,
+    //     },
+    //     pngquant: {
+    //         quality: [0.8, 0.9],
+    //         speed: 4,
+    //     },
+    //     svgo: {
+    //         plugins: [
+    //             {
+    //                 name: 'removeViewBox',
+    //             },
+    //             {
+    //                 name: 'removeEmptyAttrs',
+    //                 active: false,
+    //             },
+    //         ],
+    //     },
+    // }),
+    //   import viteImagemin from 'vite-plugin-imagemin'
+    // import importToCDN from 'vite-plugin-cdn-import'
+    // 配置CDN
+    //    importToCDN({
+    //     modules: [
+    //         {
+    //             name: 'vue',
+    //             var: 'Vue',
+    //             path: 'https://unpkg.com/vue@next',
+    //         },
+    //         {
+    //             name: 'element-plus',
+    //             var: 'ElementPlus',
+    //             path: `https://unpkg.com/element-plus`,
+    //             css: 'https://unpkg.com/element-plus/dist/index.css',
+    //         },
+    //     ],
+    // }),
 
   ],
   resolve: {
@@ -53,5 +98,6 @@ export default defineConfig({
   },
 
   // 请求代理
-  server
+  server,
+
 })
