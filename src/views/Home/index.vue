@@ -6,7 +6,24 @@
     </div>
     <div class="content_warp">
       <div class="slide">
-        <el-menu
+        <el-menu router text-color="#fff" :default-active="pathname" class="el-menu-home-class">
+          <template v-for="item in route" :key="item.path">
+            <el-sub-menu class="el-menu-home-class" :index="item.path" v-if="item.children">
+              <template #title>
+                <span>{{ item.meta.title }}</span>
+              </template>
+              <template v-for="childrenRouter in item.children" :key="childrenRouter.path">
+                <el-menu-item :index="childrenRouter.path">
+                  <span>{{ childrenRouter.meta.title }}</span>
+                </el-menu-item>
+              </template>
+            </el-sub-menu>
+            <el-menu-item :index="item.path" v-else>
+              <span>{{ item.meta.title }}</span>
+            </el-menu-item>
+          </template>
+        </el-menu>
+        <!-- <el-menu
           v-for="item in route"
           text-color="#fff"
           :default-active="pathname"
@@ -14,10 +31,10 @@
           class="el-menu-home-class"
           router
         >
-          <el-menu-item :index="item.path">
+          <el-menu-item :index="item.path" v-if="item.component">
             <span>{{ item.meta.title }}</span>
           </el-menu-item>
-        </el-menu>
+        </el-menu>-->
       </div>
       <div class="content">
         <ComponentWarp :detailTitle="detailTitle">
@@ -42,7 +59,7 @@ const store = theme()
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 const detailTitle: any = () => {
-  return route.find((item: any) => item.path === pathname.value).meta.title;
+  return route.find((item: any) => item.path === pathname.value)?.meta?.title;
 };
 
 onMounted(() => {
@@ -70,6 +87,14 @@ routers.afterEach((to, from) => {
     margin-right: 30px;
     z-index: 20;
     position: fixed;
+
+    /deep/ .el-menu {
+      background-color: var(--el-color-primary) !important;
+      color: var(--el-menu_active_color);
+      &:hover {
+        --el-menu-hover-bg-color: var(--el-menu_bg_color) !important;
+      }
+    }
   }
 
   .header {
@@ -101,13 +126,6 @@ routers.afterEach((to, from) => {
     margin-top: 30px;
   }
 
-  .el-menu-home-class {
-    background-color: var(--el-color-primary);
-    color: var(--el-menu_active_color);
-    &:hover {
-      --el-menu-hover-bg-color: var(--el-menu_bg_color) !important;
-    }
-  }
   .el-menu-item.is-active {
     color: inherit;
   }

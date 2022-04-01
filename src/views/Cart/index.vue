@@ -86,7 +86,6 @@ const xmh = "aaa";
 </script>
 <style scoped>
 .aaa {
-  color: red;
 }
 
 .r {

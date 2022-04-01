@@ -5,7 +5,6 @@ import store from "@/store"
 
 // createWebHistory   history 模式 不带有# 号  刷新时需要后端配合   在某个页面刷新 会以当前url  前往后端请求 需要nginx 做相应的配置 才不会出现 刷新404
 const routes = [
-
   {
     path: '/',
     component: () => import('@/views/Home/index.vue'),
@@ -20,28 +19,39 @@ const routes = [
         }
       },
       {
-        path: '/todoListVux',
-        name: 'TodoListVux',
-        component: () => import('@/views/TodoListVux/index.vue'),
+        path: '/yewu',
+        name: 'Yewu',
         meta: {
-          title: '待办事项-Vux'
-        }
-      },
-      {
-        path: '/todoListPinia',
-        name: 'TodoListPinia',
-        component: () => import('@/views/TodoListPinia/index.vue'),
-        meta: {
-          title: '待办事项-Pinia'
-        }
-      },
-      {
-        path: '/cart',
-        name: 'Cart',
-        component: () => import('@/views/Cart/index.vue'),
-        meta: {
-          title: '购物车'
-        }
+          title: '业务测试'
+        },
+        component: () => import('@/views/ChilrenComponent/index.vue'),
+        children: [
+          {
+            path: '/yewu/todoListVux',
+            name: 'TodoListVux',
+            component: () => import('@/views/TodoListVux/index.vue'),
+            meta: {
+              title: '待办事项-Vux'
+            }
+          },
+          {
+            path: '/yewu/todoListPinia',
+            name: 'TodoListPinia',
+            component: () => import('@/views/TodoListPinia/index.vue'),
+            meta: {
+              title: '待办事项-Pinia'
+            }
+          },
+          {
+            path: '/yewu/cart',
+            name: 'Cart',
+            component: () => import('@/views/Cart/index.vue'),
+            meta: {
+              title: '购物车'
+            }
+          },
+
+        ]
       },
       {
         path: '/queryTable',
