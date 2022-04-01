@@ -3,11 +3,23 @@ import { createRouter, createWebHashHistory, } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import store from "@/store"
 
+
+type RouterType = {
+  path: string,
+  component: () => any,
+  redirect?: string,
+  name?: string,
+  meta?: {
+    title: string
+  },
+  children?: RouterType[]
+}
+
 // createWebHistory   history 模式 不带有# 号  刷新时需要后端配合   在某个页面刷新 会以当前url  前往后端请求 需要nginx 做相应的配置 才不会出现 刷新404
-const routes = [
+const routes: RouterType[] = [
   {
     path: '/',
-    component: () => import('@/views/Home/index.vue'),
+    component: () => import("@/views/Home/index.vue"),
     redirect: "/welcome",
     children: [
       {
