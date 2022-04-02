@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory, } from 'vue-router'
 // createWebHashHistory  hash 模式 带有# 号   无需后端
-import { ElMessage } from 'element-plus'
 import store from "@/store"
 
+import { message } from 'ant-design-vue';
 
 export type RouterType = {
   path: string,
@@ -39,22 +39,6 @@ const routes: RouterType[] = [
         component: () => import('@/views/ChilrenComponent/index.vue'),
         children: [
           {
-            path: '/yewu/todoListVux',
-            name: 'TodoListVux',
-            component: () => import('@/views/TodoListVux/index.vue'),
-            meta: {
-              title: '待办事项-Vux'
-            }
-          },
-          {
-            path: '/yewu/todoListPinia',
-            name: 'TodoListPinia',
-            component: () => import('@/views/TodoListPinia/index.vue'),
-            meta: {
-              title: '待办事项-Pinia'
-            }
-          },
-          {
             path: '/yewu/cart',
             name: 'Cart',
             component: () => import('@/views/Cart/index.vue'),
@@ -73,14 +57,6 @@ const routes: RouterType[] = [
           title: '查询列表'
         }
       },
-      {
-        path: '/test',
-        name: 'Test',
-        component: () => import('@/views/Test/index.vue'),
-        meta: {
-          title: '测试'
-        }
-      }
     ]
   },
   {
@@ -117,10 +93,7 @@ router.afterEach((to, from) => {
   // ...
   const userInfo = store.getters['userInfo/get']
   if (to.path !== '/login' && (!userInfo.userName || !userInfo.passWord)) {
-    ElMessage({
-      message: '当前没有登录 请登录',
-      type: 'error',
-    })
+    message.error('当前没有登录 请登录')
     router.push('/login')
   }
 

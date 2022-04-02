@@ -5,46 +5,32 @@
       <Header></Header>
     </div>
     <div class="slide">
-      <el-menu router text-color="#fff" :default-active="pathname" class="el-menu-home-class">
+      <a-menu @click="changeMenuKey" mode="inline" :selectedKeys="selectedKeys" :openKeys="openKey">
         <template v-for="item in route" :key="item.path">
-          <el-sub-menu class="el-menu-home-class" :index="item.path" v-if="item.children">
+          <a-sub-menu :key="item.path" v-if="item.children">
             <template #title>
               <span>{{ item.meta.title }}</span>
             </template>
             <template v-for="childrenRouter in item.children" :key="childrenRouter.path">
-              <el-menu-item :index="childrenRouter.path">
+              <a-menu-item :title="childrenRouter.meta.title" :index="childrenRouter.path">
                 <span>{{ childrenRouter.meta.title }}</span>
-              </el-menu-item>
+              </a-menu-item>
             </template>
-          </el-sub-menu>
-          <el-menu-item :index="item.path" v-else>
+          </a-sub-menu>
+          <a-menu-item :title="item.meta.title" :key="(item.path)" v-else>
             <span>{{ item.meta.title }}</span>
-          </el-menu-item>
+          </a-menu-item>
         </template>
-      </el-menu>
-      <!-- <el-menu
-          v-for="item in route"
-          text-color="#fff"
-          :default-active="pathname"
-          :key="item.path"
-          class="el-menu-home-class"
-          router
-        >
-          <el-menu-item :index="item.path" v-if="item.component">
-            <span>{{ item.meta.title }}</span>
-          </el-menu-item>
-      </el-menu>-->
+      </a-menu>
     </div>
     <div class="content_warp">
-      <a-config-provider>
-        <div class="content">
-          <ComponentWarp :detailTitle="detailTitle">
-            <template #main>
-              <router-view></router-view>
-            </template>
-          </ComponentWarp>
-        </div>
-      </a-config-provider>
+      <div class="content">
+        <ComponentWarp :detailTitle="detailTitle">
+          <template #main>
+            <router-view></router-view>
+          </template>
+        </ComponentWarp>
+      </div>
     </div>
   </div>
 </template>
@@ -62,10 +48,23 @@ const store = theme()
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 
-
+const selectedKeys = ref<string[]>([]);
+const openKey = ref<string[]>([]);
 const routerFlat = ref([])
+const changeMenuKey = (i: MenuInfo) => {
+  selectedKeys.value = i.keyPath
+  if (i.key) {
+    router.push(i.key)
+  } else {
+    router.push('/404')
+  }
+}
 
 onMounted(() => {
+  const keysArr = routers.currentRoute.value.matched.map(d => d.path)
+  keysArr.splice(0, 1)
+  selectedKeys.value = keysArr
+  openKey.value = keysArr
   store.updateTheme()
   deepRouter(route)
 })
@@ -104,20 +103,18 @@ routers.afterEach((to, from) => {
   width: 100%;
 
   .slide {
-    width: 20%;
-    height: 100%;
-    min-width: 20%;
-    margin-right: 30px;
+    width: 208px;
+    height: 100vh;
+    min-width: 208px;
+    overflow-y: auto;
     z-index: 20;
+    overflow-x: hidden;
     position: fixed;
+    border: none;
     padding-top: 60px;
-
-    /deep/ .el-menu {
-      background-color: var(--el-menu-bg) !important;
-      color: var(--el-menu_active_color);
-      &:hover {
-        --el-menu-hover-bg-color: var(--el-menu_bg_color) !important;
-      }
+    background-color: var(--a-menu-bg);
+    /deep/ .ant-menu {
+      background-color: var(--a-menu-bg) !important;
     }
   }
 
@@ -128,7 +125,7 @@ routers.afterEach((to, from) => {
     position: fixed;
     width: 100%;
     align-items: center;
-    background-color: var(--el-header-bg);
+    background-color: var(--a-header-bg);
   }
 
   .content_warp {
@@ -140,7 +137,7 @@ routers.afterEach((to, from) => {
 
   .content {
     flex: 1;
-    margin-left: 21%;
+    margin-left: 208px;
     width: calc(100vw - 23% - 30px);
     max-width: calc(100vw - 20% - 30px);
     min-width: calc(100vw - 20% - 30px);
@@ -150,7 +147,7 @@ routers.afterEach((to, from) => {
     margin-top: 30px;
   }
 
-  .el-menu-item.is-active {
+  .a-menu-item.is-active {
     color: inherit;
   }
 }

@@ -1,10 +1,11 @@
 
 <template name="contentWarp">
   <div class="contentWarp">
-    <el-page-header title=" " icon :content="detailTitle()"></el-page-header>
-    <div class="main">
-      <slot name="main"></slot>
-    </div>
+    <a-page-header :title="detailTitle()">
+      <div class="main">
+        <slot name="main"></slot>
+      </div>
+    </a-page-header>
   </div>
 </template>
 <script lang="ts" setup>

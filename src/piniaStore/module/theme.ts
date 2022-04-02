@@ -3,12 +3,15 @@ import { defineStore } from "pinia"
 export const theme = defineStore('theme', {
   state: () => {
     return {
-      // element-plus 主题色
-      '--el-color-primary': '#409EFF',
       // header 主题色
-      '--el-header-bg': '#303133',
+      '--a-header-bg': '#303133',
       // menu 主题色
-      '--el-menu-bg': '#67C23A',
+      '--a-menu-bg': '#67C23A',
+      primaryColor: '#1890ff',
+      errorColor: '#ff4d4f',
+      warningColor: '#faad14',
+      successColor: '#52c41a',
+      infoColor: '#1890ff',
     }
   },
   getters: {},

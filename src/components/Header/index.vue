@@ -6,47 +6,84 @@
       <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
     </div>
   </div>
-  <el-drawer v-model="drawer" :with-header="false">
-    <div>
-      <span>element-plus 主题色</span>
-      <el-color-picker v-model="themeParams['--el-color-primary']" />
-    </div>
-    <div>
-      <span>headers 主题色</span>
-      <el-color-picker v-model="themeParams['--el-header-bg']" />
-    </div>
-    <div>
-      <span>menus 主题色</span>
-      <el-color-picker v-model="themeParams['--el-menu-bg']" />
-    </div>
-  </el-drawer>
+  <a-drawer v-model:visible="drawer">
+    <a-row :gutter="16">
+      <a-col flex="none">
+        <a-space direction="vertical" align="center">
+          <!-- Primary Color -->
+          <input
+            type="color"
+            :value="colorState.primaryColor"
+            @input="e => onColorChange('primaryColor', e)"
+          />
+          <span style="color: var(--ant-primary-color)">主题色</span>
+          <!-- Error Color -->
+          <input
+            type="color"
+            :value="colorState.errorColor"
+            @input="e => onColorChange('errorColor', e)"
+          />
+          <span style="color: var(--ant-error-color)">失败色</span>
+
+          <!-- Warning Color -->
+          <input
+            type="color"
+            :value="colorState.warningColor"
+            @input="e => onColorChange('warningColor', e)"
+          />
+
+          <span style="color: var(--ant-warning-color)">警告色</span>
+
+          <!-- Success Color -->
+          <input
+            type="color"
+            :value="colorState.successColor"
+            @input="e => onColorChange('successColor', e)"
+          />
+
+          <span style="color: var(--ant-success-color)">成功色</span>
+
+          <!-- Info Color -->
+          <input
+            type="color"
+            :value="colorState.infoColor"
+            @input="e => onColorChange('infoColor', e)"
+          />
+          <span style="color: var(--ant-info-color)">提示色</span>
+          <input
+            type="color"
+            :value="colorState['--a-header-bg']"
+            @input="e => onColorChange('--a-header-bg', e)"
+          />
+          <span style="color: var(--ant-info-color)">headers 背景色</span>
+
+          <input
+            type="color"
+            :value="colorState['--a-menu-bg']"
+            @input="e => onColorChange('--a-menu-bg', e)"
+          />
+          <span style="color: var(--ant-info-color)">menu 背景色</span>
+        </a-space>
+      </a-col>
+    </a-row>
+  </a-drawer>
 </template>
 <script setup lang="ts">
 import { theme } from "@/piniaStore/module/theme"
+import { ConfigProvider } from "ant-design-vue";
 const store = theme()
-const themeParams = reactive({
-  '--el-color-primary': store.$state["--el-color-primary"],
-  '--el-menu-bg': store.$state["--el-menu-bg"],
-  '--el-header-bg': store.$state["--el-header-bg"],
-})
+const colorState = reactive({
+  ...store.$state
+});
 const drawer = ref(false)
-onMounted(() => {
-  console.log(store);
-
-
-})
-
-watch(themeParams, (params: any) => {
-  const obj = {}
-  for (const k in params) {
-    if (params[k]) {
-      obj[k] = params[k]
-    }
-  }
-  store.changeStateTheme(obj)
+const onColorChange = (type: string, e: any) => {
+  Object.assign(colorState, { [type]: e.target.value });
+  ConfigProvider.config({
+    theme: colorState,
+  });
+  store.changeStateTheme(colorState)
   store.updateTheme()
-})
-
+};
 </script>
 <style scoped lang="less">
 .header {

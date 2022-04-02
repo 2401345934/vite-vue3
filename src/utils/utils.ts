@@ -1,5 +1,6 @@
 import qs from "qs"
 import moment from "moment"
+import { ConfigProvider } from "ant-design-vue";
 
 export function queryParams(params: any,) {
   for (const key in params) {
@@ -79,5 +80,9 @@ export const changeTheme = (colorParams: ColorParams): void => {
   for (const k in colorParams) {
     document.documentElement.style.setProperty(k, colorParams[k]);
   }
-
+  ConfigProvider.config({
+    theme: {
+      ...colorParams,
+    },
+  });
 }

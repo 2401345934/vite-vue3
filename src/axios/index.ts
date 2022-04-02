@@ -5,8 +5,8 @@
  * @LastEditTime: 2021-10-27 13:54:58
  * @LastEditors: rodchen
  */
+import { message } from 'ant-design-vue';
 import axios from 'axios'
-import { ElMessage } from 'element-plus';
 
 // 应用
 // export let baseURL = "http://47.100.87.54:9109/"
@@ -82,10 +82,7 @@ export default function request({
       if (res && res.data && (res.data.status === '0' || res.data.code === '000000')) {
         resolve(res?.data?.data || {})
         if (isToast) {
-          ElMessage({
-            message: successMessage || '操作成功',
-            type: 'success',
-          })
+          message.success(successMessage || '操作成功')
           // successMsg(successMessage || '操作成功')
         }
         if (converter) {
@@ -97,10 +94,7 @@ export default function request({
         if (errorConver) {
           errorConver()
         }
-        ElMessage({
-          message: res.data.msg,
-          type: 'error',
-        })
+        message.error(res.data.msg)
       }
     }).catch(err => {
       reject(err)

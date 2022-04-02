@@ -14,15 +14,14 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver(), AntDesignVueResolver()],
+      resolvers: [AntDesignVueResolver()],
       imports: ['vue', 'vue-router'],
       dts: "types/auto-import.d.ts"
     }),
     Components({
       resolvers:
         [
-          ElementPlusResolver(),
-          AntDesignVueResolver(),
+          // AntDesignVueResolver(),
         ],
     }),
     viteCompression({
