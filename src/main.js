@@ -14,6 +14,7 @@ import { createPinia } from "pinia"
 const pinia = createPinia()
 pinia.use(createPersistedState())
 
+// 测试push 同时推送2个仓库
 const app = createApp(App);
 app.component("QueryTable", QueryTable)
 app
