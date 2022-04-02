@@ -36,13 +36,15 @@
       </el-menu>-->
     </div>
     <div class="content_warp">
-      <div class="content">
-        <ComponentWarp :detailTitle="detailTitle">
-          <template #main>
-            <router-view></router-view>
-          </template>
-        </ComponentWarp>
-      </div>
+      <a-config-provider>
+        <div class="content">
+          <ComponentWarp :detailTitle="detailTitle">
+            <template #main>
+              <router-view></router-view>
+            </template>
+          </ComponentWarp>
+        </div>
+      </a-config-provider>
     </div>
   </div>
 </template>
@@ -52,6 +54,7 @@ import router, { RouterType } from "@/router/index";
 // @ts-ignore
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
+
 const routers = useRouter();
 import { theme } from "@/piniaStore/module/theme"
 const store = theme()

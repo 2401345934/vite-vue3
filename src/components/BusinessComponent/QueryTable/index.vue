@@ -70,8 +70,8 @@
         </el-row>
         <div class="search_actions">
           <el-form-item>
-            <el-button type="primary" :loading="loading" @click="onSubmit()">查询</el-button>
-            <el-button :loading="loading" @click="resetForm(formRef)">重置</el-button>
+            <a-button type="primary" :loading="loading" @click="onSubmit()">查询</a-button>
+            <a-button :loading="loading" @click="resetForm(formRef)">重置</a-button>
           </el-form-item>
         </div>
       </div>
@@ -83,26 +83,26 @@
     <!-- 左边按钮 -->
     <div class="actions_warp_left">
       <el-space>
-        <el-button
+        <a-button
           v-for="(btn, index) in state.actions || []"
           :key="index"
           @click="btn.action(selectProps, onSubmit)"
           :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
           :type="btn.type"
-        >{{ btn.text }}</el-button>
+        >{{ btn.text }}</a-button>
       </el-space>
     </div>
     <!-- 右边按钮 -->
 
     <div class="actions_warp_right">
       <el-space>
-        <el-button
+        <a-button
           v-for="(btn, index) in state.actionsRight || []"
           :key="index"
           @click="btn.action(selectProps, onSubmit)"
           :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
           :type="btn.type"
-        >{{ btn.text }}</el-button>
+        >{{ btn.text }}</a-button>
       </el-space>
     </div>
   </div>
@@ -128,13 +128,13 @@
             #default="scope"
           >{{ item.render(scope.row, scope.$index, scope) }}</template>
           <template v-if="item.isOperator" #default="scope">
-            <el-button
+            <a-button
               :type="'text'"
               :size="'small'"
               v-for="(btn, i) in item.render"
               :key="i"
               @click.prevent="btn.action(scope.row, scope, onSubmit)"
-            >{{ btn.children }}</el-button>
+            >{{ btn.children }}</a-button>
           </template>
         </el-table-column>
       </template>

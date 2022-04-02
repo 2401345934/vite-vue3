@@ -16,7 +16,7 @@
         v-model="item.text"
         @change="() => { $emit('resetLocalStorage') }"
       ></el-input>
-      <el-button :style="{ marginLeft: '8px' }" @click="del(item, index)">删除</el-button>
+      <a-button :style="{ marginLeft: '8px' }" @click="del(item, index)">删除</a-button>
     </div>
   </li>
 </template>

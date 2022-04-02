@@ -9,7 +9,7 @@
       <el-input v-model="state.form.passWord"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">登录</el-button>
+      <a-button type="primary" @click="onSubmit">登录</a-button>
     </el-form-item>
   </el-form>
 </template>

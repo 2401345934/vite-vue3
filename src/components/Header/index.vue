@@ -3,7 +3,7 @@
   <div class="header">
     <div></div>
     <div class="change_theme">
-      <el-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</el-button>
+      <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
     </div>
   </div>
   <el-drawer v-model="drawer" :with-header="false">

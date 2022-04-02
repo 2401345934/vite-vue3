@@ -1,13 +1,13 @@
 
 <template name="card">
   商品数量 --- {{ counts }}
-  <el-button type="primary" @click="addCard">添加商品</el-button>
-  <el-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</el-button>
+  <a-button type="primary" @click="addCard">添加商品</a-button>
+  <a-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</a-button>
   <div>
-    <el-button @click="sortType = 'price'" :class="{ r: sortType === 'price' }">价格排序</el-button>
-    <el-button @click="sortType = 'num'" :class="{ r: sortType === 'num' }">数量排序</el-button>
-    <el-button @click="sort = 'acs'" :class="{ r: sort === 'acs' }">升序</el-button>
-    <el-button @click="sort = 'desc'" :class="{ r: sort === 'desc' }">降序</el-button>
+    <a-button @click="sortType = 'price'" :class="{ r: sortType === 'price' }">价格排序</a-button>
+    <a-button @click="sortType = 'num'" :class="{ r: sortType === 'num' }">数量排序</a-button>
+    <a-button @click="sort = 'acs'" :class="{ r: sort === 'acs' }">升序</a-button>
+    <a-button @click="sort = 'desc'" :class="{ r: sort === 'desc' }">降序</a-button>
   </div>
   <el-scrollbar max-height="400px">
     <p

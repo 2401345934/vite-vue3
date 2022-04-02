@@ -7,18 +7,23 @@ import viteCompression from 'vite-plugin-compression'
 const { resolve } = require('path') //必须要引入resolve 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import server from "./config/propx"
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver(), AntDesignVueResolver()],
       imports: ['vue', 'vue-router'],
       dts: "types/auto-import.d.ts"
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers:
+        [
+          ElementPlusResolver(),
+          AntDesignVueResolver(),
+        ],
     }),
     viteCompression({
       //生成压缩包gz
@@ -107,5 +112,11 @@ export default defineConfig({
   },
   // 请求代理
   server,
-
+  // css: {
+  //   preprocessorOptions: {
+  //     less: {
+  //       javascriptEnabled: true
+  //     }
+  //   }
+  // }
 })
