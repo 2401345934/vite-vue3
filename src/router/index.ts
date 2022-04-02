@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 import store from "@/store"
 
 
-type RouterType = {
+export type RouterType = {
   path: string,
   component: any,
   redirect?: string,

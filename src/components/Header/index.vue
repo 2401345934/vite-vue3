@@ -7,20 +7,45 @@
     </div>
   </div>
   <el-drawer v-model="drawer" :with-header="false">
-    <span>主题色</span>
-    <el-color-picker v-model="themeCorlo" />
+    <div>
+      <span>element-plus 主题色</span>
+      <el-color-picker v-model="themeParams['--el-color-primary']" />
+    </div>
+    <div>
+      <span>headers 主题色</span>
+      <el-color-picker v-model="themeParams['--el-header-bg']" />
+    </div>
+    <div>
+      <span>menus 主题色</span>
+      <el-color-picker v-model="themeParams['--el-menu-bg']" />
+    </div>
   </el-drawer>
 </template>
 <script setup lang="ts">
 import { theme } from "@/piniaStore/module/theme"
 const store = theme()
-const themeCorlo = ref(document.documentElement.style.getPropertyPriority("--el-color-primary"))
+const themeParams = reactive({
+  '--el-color-primary': store.$state["--el-color-primary"],
+  '--el-menu-bg': store.$state["--el-menu-bg"],
+  '--el-header-bg': store.$state["--el-header-bg"],
+})
 const drawer = ref(false)
-watch(themeCorlo, (v: string) => {
-  store.changeState(v)
-  store.updateTheme()
+onMounted(() => {
+  console.log(store);
+
+
 })
 
+watch(themeParams, (params: any) => {
+  const obj = {}
+  for (const k in params) {
+    if (params[k]) {
+      obj[k] = params[k]
+    }
+  }
+  store.changeStateTheme(obj)
+  store.updateTheme()
+})
 
 </script>
 <style scoped lang="less">

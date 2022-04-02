@@ -72,8 +72,12 @@ export function queryParams(params: any,) {
   return params;
 }
 
-
-export const changeTheme = (color: string) => {
-  document.documentElement.style.setProperty("--el-color-primary", color);
+type ColorParams = {
+  [key: string]: any
+}
+export const changeTheme = (colorParams: ColorParams): void => {
+  for (const k in colorParams) {
+    document.documentElement.style.setProperty(k, colorParams[k]);
+  }
 
 }
