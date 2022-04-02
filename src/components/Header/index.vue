@@ -76,8 +76,8 @@ const colorState = reactive({
   ...store.$state
 });
 const drawer = ref(false)
-const onColorChange = (type: string, e: any) => {
-  Object.assign(colorState, { [type]: e.target.value });
+const onColorChange = (type: string, e: Event) => {
+  Object.assign(colorState, { [type]: (e as Event as any).target.value });
   ConfigProvider.config({
     theme: colorState,
   });

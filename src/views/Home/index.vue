@@ -35,26 +35,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-// @ts-nocheck
 import router, { RouterType } from "@/router/index";
-// @ts-ignore
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
+import { theme } from "@/piniaStore/module/theme"
+import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 
 const routers = useRouter();
-import { theme } from "@/piniaStore/module/theme"
 const store = theme()
-// @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
-
 const selectedKeys = ref<string[]>([]);
 const openKey = ref<string[]>([]);
-const routerFlat = ref([])
+const routerFlat = ref<RouterType[]>([])
 const changeMenuKey = (i: MenuInfo) => {
-  selectedKeys.value = i.keyPath
+  selectedKeys.value = i.keyPath as string[]
   if (i.key) {
-    router.push(i.key)
+    router.push(i.key as any)
   } else {
     router.push('/404')
   }
@@ -72,7 +69,7 @@ onMounted(() => {
 // 递归打平
 const deepRouter = (routers: RouterType[]) => {
   if (routers && Array.isArray(routers)) {
-    routers.forEach(d => {
+    routers.forEach((d: RouterType) => {
       if (d.children) {
         deepRouter(d.children)
       } else {
@@ -80,7 +77,6 @@ const deepRouter = (routers: RouterType[]) => {
       }
     })
   }
-
 }
 
 const detailTitle: any = () => {
@@ -113,7 +109,7 @@ routers.afterEach((to, from) => {
     border: none;
     padding-top: 60px;
     background-color: var(--a-menu-bg);
-    /deep/ .ant-menu {
+    :deep(.ant-menu) {
       background-color: var(--a-menu-bg) !important;
     }
   }
