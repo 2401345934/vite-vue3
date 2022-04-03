@@ -2,7 +2,7 @@
   <div class="multi_tab">
     <a-tabs @change="routerChange" :activeKey="$state.activeKey">
       <a-tab-pane v-for="route in routerList" :key="route.path" :tab="`${route.name}`">
-        <keep-alive include="cart">
+        <keep-alive>
           <slot></slot>
         </keep-alive>
       </a-tab-pane>
