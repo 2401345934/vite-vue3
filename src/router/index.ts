@@ -37,7 +37,7 @@ const routes: RouterType[] = [
         meta: {
           title: '业务测试',
         },
-        component: () => import('@/views/ChilrenComponent/index.vue'),
+        component: () => import('@/components/ChilrenComponent/index.vue'),
         children: [
           {
             path: '/yewu/cart',
