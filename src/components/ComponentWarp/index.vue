@@ -15,13 +15,15 @@
 import router from "@/router/index";
 // @ts-ignore
 const routers = useRouter();
-
 defineProps(["detailTitle"]);
 // @ts-ignore
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 </script>
 <style scoped lang="less">
+.contentWarp {
+  width: 100%;
+}
 .main {
   margin-top: 30px;
 }

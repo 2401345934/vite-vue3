@@ -81,6 +81,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/Header/index.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     Logo: typeof import('./src/components/Header/components/logo.vue')['default']
+    MultiTab: typeof import('./src/components/MultiTab/index.vue')['default']
     QueryTable: typeof import('./src/components/BusinessComponent/QueryTable/index.vue')['default']
     RenderElement: typeof import('./src/components/BusinessComponent/QueryTable/components/RenderElement/index.vue')['default']
   }

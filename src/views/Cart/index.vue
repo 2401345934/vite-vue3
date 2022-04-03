@@ -1,5 +1,5 @@
 
-<template name="card">
+<template name="cart">
   商品数量 --- {{ counts }}
   <a-button type="primary" @click="addCard">添加商品</a-button>
   <a-button type="primary" @click="descCard($event)" :class="[xmh]">减少商品</a-button>
@@ -17,7 +17,7 @@
     >{{ item.name }} ---- 价格 {{ item.price }} ---- 数量 {{ item.num }}</p>
   </el-scrollbar>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="cart" setup>
 const data = reactive({
   count: 0,
   sortType: "price",
@@ -28,12 +28,11 @@ const { count, sortType, sort } = toRefs(data)
 watch(
   () => count.value,
   (newValue: number, oldValue: number) => {
-    // console.log("新的", newValue, "老的", oldValue, "改变");
   }
 );
-
-watchEffect(() => {
-  console.log(count.value);
+onMounted(() => {
+  count.value += 1
+  console.log('我是购物车被处罚了 ', count.value);
 })
 
 const counts = computed(() => {

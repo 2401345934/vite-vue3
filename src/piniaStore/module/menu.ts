@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 export const menu = defineStore('menu', {
   state: () => {
     return {
-      collapsed: true
+      collapsed: false
     }
   },
   getters: {},

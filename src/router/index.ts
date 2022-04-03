@@ -40,7 +40,7 @@ const routes: RouterType[] = [
         children: [
           {
             path: '/yewu/cart',
-            name: 'Cart',
+            name: 'cart',
             component: () => import('@/views/Cart/index.vue'),
             meta: {
               title: '购物车'

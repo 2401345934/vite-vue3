@@ -29,27 +29,34 @@
         </template>
       </a-menu>
     </div>
-    <div class="content_warp">
-      <div class="content">
-        <ComponentWarp :detailTitle="detailTitle">
-          <template #main>
-            <router-view></router-view>
-          </template>
-        </ComponentWarp>
+    <keep-alive>
+      <div class="content_warp">
+        <div class="content">
+          <MultiTab>
+            <ComponentWarp :detailTitle="detailTitle">
+              <template #main>
+                <router-view></router-view>
+              </template>
+            </ComponentWarp>
+          </MultiTab>
+        </div>
       </div>
-    </div>
+    </keep-alive>
   </div>
 </template>
 <script lang="ts" setup>
 import router, { RouterType } from "@/router/index";
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
+import MultiTab from "@/components/MultiTab/index.vue";
+import { multiTab } from "@/piniaStore/module/multiTab"
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 
 const routers = useRouter();
 const store = theme()
+const multiTabStore = multiTab()
 const menuStore = menu()
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
@@ -74,6 +81,14 @@ onMounted(() => {
   deepRouter(route)
 })
 
+
+watch(() => routers.currentRoute.value.fullPath, (v) => {
+  const keysArr = routers.currentRoute.value.matched.map(d => d.path)
+  keysArr.splice(0, 1)
+  selectedKeys.value = keysArr
+  openKey.value = keysArr
+})
+
 // 递归打平
 const deepRouter = (routers: RouterType[]) => {
   if (routers && Array.isArray(routers)) {
@@ -91,10 +106,6 @@ const detailTitle: any = () => {
   return routerFlat.value.find((item: any) => item.path === pathname.value)?.meta?.title;
 };
 
-
-const goBack = () => {
-  routers.back();
-};
 // @ts-ignore
 routers.afterEach((to, from) => {
   if (pathname.value === to.fullPath) return;
@@ -139,21 +150,20 @@ routers.afterEach((to, from) => {
 
   .content_warp {
     display: flex;
+    position: relative;
     padding-top: 60px;
     height: calc(100vh - 71px);
     width: 100%;
-  }
 
-  .content {
-    flex: 1;
-    margin-left: 208px;
-    width: calc(100vw - 23% - 30px);
-    max-width: calc(100vw - 20% - 30px);
-    min-width: calc(100vw - 20% - 30px);
-  }
+    .content {
+      flex: 1;
+      margin-left: 208px;
+      width: calc(100vw - 208px);
+    }
 
-  .content_div {
-    margin-top: 30px;
+    .content_div {
+      margin-top: 30px;
+    }
   }
 
   .a-menu-item.is-active {
