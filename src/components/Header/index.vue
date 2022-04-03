@@ -105,11 +105,11 @@ const onColorChange = (type: string, e: Event) => {
   .header_l {
     width: 208px;
     height: 100%;
-    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    transition: var(--menu_transition);
   }
   .header_l_w {
     width: 80px;
-    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    transition: var(--menu_transition);
     min-width: 80px;
   }
   .header_c {

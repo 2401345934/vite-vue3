@@ -10,7 +10,8 @@ export type RouterType = {
   redirect?: string,
   name?: string,
   meta?: {
-    title: string
+    title: string,
+    keepAlive?: boolean
   },
   children?: RouterType[]
 }
@@ -34,16 +35,16 @@ const routes: RouterType[] = [
         path: '/yewu',
         name: 'Yewu',
         meta: {
-          title: '业务测试'
+          title: '业务测试',
         },
         component: () => import('@/views/ChilrenComponent/index.vue'),
         children: [
           {
             path: '/yewu/cart',
-            name: 'cart',
+            name: 'Cart',
             component: () => import('@/views/Cart/index.vue'),
             meta: {
-              title: '购物车'
+              title: '购物车',
             }
           },
 

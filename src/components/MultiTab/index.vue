@@ -1,17 +1,17 @@
 <template>
-  <div class="multi_tab">
-    <a-tabs @change="routerChange" :activeKey="$state.activeKey">
-      <a-tab-pane v-for="route in routerList" :key="route.path" :tab="`${route.name}`">
-        <keep-alive>
-          <slot></slot>
-        </keep-alive>
-      </a-tab-pane>
-    </a-tabs>
+  <div class="multi_tab" :class="menuStore.$state.collapsed && 'multi_tab_w'">
+    <keep-alive>
+      <a-tabs @change="routerChange" :activeKey="$state.activeKey">
+        <a-tab-pane v-for="route in routerList" :key="route.path" :tab="`${route.name}`"></a-tab-pane>
+      </a-tabs>
+    </keep-alive>
   </div>
 </template>
 
 <script setup lang='ts'>
 import { multiTab } from "@/piniaStore/module/multiTab"
+import { menu } from "@/piniaStore/module/menu"
+const menuStore = menu()
 const multiTabStore = multiTab()
 const { $state, updateActiveKey, addRouter } = multiTabStore
 const { routerList } = $state
@@ -58,8 +58,16 @@ onMounted(() => {
 <style scoped lang='less'>
 .multi_tab {
   overflow-x: auto;
+  position: absolute;
+  height: 50px;
+  left: 208px;
+  transition: var(--menu_transition);
   :deep(.ant-tabs-nav) {
     margin-bottom: 0;
   }
+}
+.multi_tab_w {
+  left: 80px;
+  transition: var(--menu_transition);
 }
 </style>

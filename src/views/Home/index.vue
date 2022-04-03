@@ -31,14 +31,17 @@
     </div>
     <keep-alive>
       <div class="content_warp">
+        <MultiTab></MultiTab>
         <div class="content">
-          <MultiTab>
-            <ComponentWarp :detailTitle="detailTitle">
-              <template #main>
-                <router-view></router-view>
-              </template>
-            </ComponentWarp>
-          </MultiTab>
+          <ComponentWarp :detailTitle="detailTitle">
+            <template #main>
+              <router-view v-slot="{ Component }">
+                <keep-alive>
+                  <component :is="Component" />
+                </keep-alive>
+              </router-view>
+            </template>
+          </ComponentWarp>
         </div>
       </div>
     </keep-alive>
@@ -49,14 +52,12 @@ import router, { RouterType } from "@/router/index";
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
 import MultiTab from "@/components/MultiTab/index.vue";
-import { multiTab } from "@/piniaStore/module/multiTab"
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 
 const routers = useRouter();
 const store = theme()
-const multiTabStore = multiTab()
 const menuStore = menu()
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
@@ -127,7 +128,7 @@ routers.afterEach((to, from) => {
     position: fixed;
     border: none;
     padding-top: 60px;
-    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    transition: var(--menu_transition);
     background-color: var(--a-menu-bg);
     :deep(.ant-menu) {
       background-color: var(--a-menu-bg) !important;
@@ -135,7 +136,7 @@ routers.afterEach((to, from) => {
   }
   .slide_w {
     width: 80px;
-    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    transition: var(--menu_transition);
     min-width: 80px;
   }
   .header {
@@ -154,13 +155,12 @@ routers.afterEach((to, from) => {
     padding-top: 60px;
     height: calc(100vh - 71px);
     width: 100%;
-
     .content {
       flex: 1;
+      padding-top: 50px;
       margin-left: 208px;
       width: calc(100vw - 208px);
     }
-
     .content_div {
       margin-top: 30px;
     }
