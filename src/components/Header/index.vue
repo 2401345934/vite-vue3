@@ -1,9 +1,16 @@
 
 <template name="header">
   <div class="header">
-    <div></div>
-    <div class="change_theme">
-      <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
+    <div class="header_l" :class="menuStore.$state.collapsed && 'header_l_w'">
+      <logo></logo>
+    </div>
+    <div class="header_c">
+      <content></content>
+    </div>
+    <div class="header_r">
+      <div class="change_theme">
+        <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
+      </div>
     </div>
   </div>
   <a-drawer v-model:visible="drawer">
@@ -70,7 +77,11 @@
 </template>
 <script setup lang="ts">
 import { theme } from "@/piniaStore/module/theme"
+import { menu } from "@/piniaStore/module/menu"
+import logo from "./components/logo.vue"
+import content from "./components/content.vue"
 import { ConfigProvider } from "ant-design-vue";
+const menuStore = menu()
 const store = theme()
 const colorState = reactive({
   ...store.$state
@@ -89,7 +100,25 @@ const onColorChange = (type: string, e: Event) => {
 .header {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  .header_l {
+    width: 208px;
+    background-color: red;
+    height: 100%;
+    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+  }
+  .header_l_w {
+    width: 80px;
+    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    min-width: 80px;
+  }
+  .header_c {
+    flex: 1;
+  }
+  .header_r {
+    width: 300px;
+  }
 
   .change_theme {
     margin-right: 30px;

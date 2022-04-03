@@ -4,8 +4,14 @@
     <div class="header">
       <Header></Header>
     </div>
-    <div class="slide">
-      <a-menu @click="changeMenuKey" mode="inline" :selectedKeys="selectedKeys" :openKeys="openKey">
+    <div class="slide" :class="menuStore.$state.collapsed && 'slide_w'">
+      <a-menu
+        :inline-collapsed="menuStore.$state.collapsed"
+        @click="changeMenuKey"
+        mode="inline"
+        :selectedKeys="selectedKeys"
+        :openKeys="openKey"
+      >
         <template v-for="item in route" :key="item.path">
           <a-sub-menu :key="item.path" v-if="item.children">
             <template #title>
@@ -39,10 +45,12 @@ import router, { RouterType } from "@/router/index";
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
 import { theme } from "@/piniaStore/module/theme"
+import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 
 const routers = useRouter();
 const store = theme()
+const menuStore = menu()
 const route: any = router.options.routes[0].children;
 const pathname = ref(routers.currentRoute.value.fullPath);
 const selectedKeys = ref<string[]>([]);
@@ -108,12 +116,17 @@ routers.afterEach((to, from) => {
     position: fixed;
     border: none;
     padding-top: 60px;
+    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
     background-color: var(--a-menu-bg);
     :deep(.ant-menu) {
       background-color: var(--a-menu-bg) !important;
     }
   }
-
+  .slide_w {
+    width: 80px;
+    transition: 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+    min-width: 80px;
+  }
   .header {
     height: 60px;
     display: flex;

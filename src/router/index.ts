@@ -49,14 +49,14 @@ const routes: RouterType[] = [
 
         ]
       },
-      {
-        path: '/queryTable',
-        name: 'QueryTable',
-        component: () => import('@/views/QueryTable/index.vue'),
-        meta: {
-          title: '查询列表'
-        }
-      },
+      // {
+      //   path: '/queryTable',
+      //   name: 'QueryTable',
+      //   component: () => import('@/views/QueryTable/index.vue'),
+      //   meta: {
+      //     title: '查询列表'
+      //   }
+      // },
     ]
   },
   {

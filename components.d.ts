@@ -50,6 +50,7 @@ declare module 'vue' {
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     ComponentWarp: typeof import('./src/components/ComponentWarp/index.vue')['default']
+    Content: typeof import('./src/components/Header/components/content.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
@@ -79,6 +80,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     Header: typeof import('./src/components/Header/index.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
+    Logo: typeof import('./src/components/Header/components/logo.vue')['default']
     QueryTable: typeof import('./src/components/BusinessComponent/QueryTable/index.vue')['default']
     RenderElement: typeof import('./src/components/BusinessComponent/QueryTable/components/RenderElement/index.vue')['default']
   }
