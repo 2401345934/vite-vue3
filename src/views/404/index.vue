@@ -31,6 +31,7 @@ onBeforeUnmount(() => {
 
 
 const goBack = () => {
+  clearInterval(timeEnd)
   router.push("/")
 }
 </script>
