@@ -114,6 +114,8 @@ const onColorChange = (type: string, e: Event) => {
   }
   .header_c {
     flex: 1;
+    display: flex;
+    align-items: center;
   }
   .header_r {
     width: 300px;
