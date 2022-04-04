@@ -59,7 +59,6 @@ const routes: RouterType[] = [
           },
         ]
       },
-
       {
         path: '/queryTable',
         name: 'QueryTable',
