@@ -50,6 +50,14 @@ const routes: RouterType[] = [
 
         ]
       },
+      {
+        path: '/cart',
+        name: 'Cart2',
+        component: () => import('@/views/Cart/index.vue'),
+        meta: {
+          title: '购物11车',
+        }
+      },
       // {
       //   path: '/queryTable',
       //   name: 'QueryTable',

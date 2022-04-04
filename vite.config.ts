@@ -5,7 +5,6 @@ import Components from 'unplugin-vue-components/vite'
 // 增加 gzip 打包配置
 import viteCompression from 'vite-plugin-compression'
 const { resolve } = require('path') //必须要引入resolve 
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import server from "./config/propx"
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
