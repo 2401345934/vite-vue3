@@ -49,6 +49,7 @@ declare module 'vue' {
     ATreeSelect: typeof import('ant-design-vue/es')['TreeSelect']
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
+    BaseLayout: typeof import('./src/components/BaseLayout/index.vue')['default']
     ChilrenComponent: typeof import('./src/components/ChilrenComponent/index.vue')['default']
     ComponentWarp: typeof import('./src/components/ComponentWarp/index.vue')['default']
     Content: typeof import('./src/components/Header/components/content.vue')['default']

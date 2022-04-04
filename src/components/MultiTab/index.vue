@@ -78,7 +78,8 @@ const handleMenuClick = (info: MenuInfo) => {
     case '3':
       replaceRouterList([{
         path: "/welcome",
-        name: "首页"
+        name: "首页",
+        componentName: "Welcome",
       }], () => {
         updateActiveKey('/welcome');
         routers.push('/welcome')
@@ -91,7 +92,8 @@ const handleMenuClick = (info: MenuInfo) => {
 
 const onEdit = (path: string | number) => {
   removeRouter(path as string, (index: number) => {
-    updateActiveKey($state.routerList[index]?.path || '/welcome')
+    const i = (index - 1) < 0 ? 0 : index - 1
+    updateActiveKey($state.routerList[i]?.path || '/welcome')
     routers.push($state.activeKey)
   })
 }
@@ -107,22 +109,27 @@ watch(() => routers.currentRoute.value.fullPath, (v) => {
     updateActiveKey(to.fullPath)
     addRouter({
       path: to.fullPath,
-      name: to.meta.title as string
+      name: to.meta.title as string,
+      componentName: to.name as string,
     })
   }
 })
 
 onMounted(() => {
   const path = routers.currentRoute.value.fullPath
+  const to = routers.currentRoute.value
+
   if ($state.routerList.find(d => d.path === path)) {
     updateActiveKey(path)
     routers.push(path)
   } else {
     addRouter({
-      path: routers.currentRoute.value.fullPath,
-      name: routers.currentRoute.value.meta.title as string,
+      path: to.fullPath,
+      name: to.meta.title as string,
+      componentName: to.name as string,
+
     })
-    updateActiveKey(routers.currentRoute.value.fullPath)
+    updateActiveKey(path)
 
   }
 

@@ -195,8 +195,6 @@ const { state }: any = defineProps({
 const height = ref();
 onMounted(() => {
   getTableHeight();
-
-  // 初始化加载
   onSubmit();
   window.onresize = () => {
     getTableHeight();
@@ -209,7 +207,7 @@ const getTableHeight = () => {
     document.body.clientHeight -
     (document.querySelector(".search_warp")?.clientHeight || 0) -
     (document.querySelector(".actions_warp")?.clientHeight || 0) -
-    200 +
+    350 +
     "px";
 };
 //  table ref

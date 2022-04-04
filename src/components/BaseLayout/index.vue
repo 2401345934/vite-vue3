@@ -31,14 +31,15 @@
     </div>
     <keep-alive>
       <div class="content_warp">
-        <MultiTab></MultiTab>
+        <MultiTabComponent></MultiTabComponent>
         <div class="content">
           <ComponentWarp :detailTitle="detailTitle">
             <template #main>
-              <router-view v-slot="{ Component }">
+              <router-view v-slot="{ Component, route }">
                 <keep-alive>
-                  <component :is="Component" />
+                  <component v-if="route.meta.keepAlive" :is="Component" :key="route.path" />
                 </keep-alive>
+                <component v-if="!route.meta.keepAlive" :is="Component" :key="route.path" />
               </router-view>
             </template>
           </ComponentWarp>
@@ -51,11 +52,13 @@
 import router, { RouterType } from "@/router/index";
 import Header from "@/components/Header/index.vue";
 import ComponentWarp from "@/components/ComponentWarp/index.vue";
-import MultiTab from "@/components/MultiTab/index.vue";
+import MultiTabComponent from "@/components/MultiTab/index.vue";
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
+import { multiTab } from "@/piniaStore/module/multiTab"
 
+const multiTabStore = multiTab()
 const routers = useRouter();
 const store = theme()
 const menuStore = menu()

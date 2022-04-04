@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, } from 'vue-router'
 // createWebHashHistory  hash 模式 带有# 号   无需后端
 import store from "@/store"
+import { multiTab, RouterListType } from "@/piniaStore/module/multiTab"
 
 import { message } from 'ant-design-vue';
 
@@ -20,7 +21,7 @@ export type RouterType = {
 const routes: RouterType[] = [
   {
     path: '/',
-    component: () => import("@/views/Home/index.vue"),
+    component: () => import("@/components/BaseLayout/index.vue"),
     redirect: "/welcome",
     children: [
       {
@@ -28,7 +29,8 @@ const routes: RouterType[] = [
         name: 'Welcome',
         component: () => import('@/views/Welcome/index.vue'),
         meta: {
-          title: '首页'
+          title: '首页',
+          keepAlive: true
         }
       },
       {
@@ -92,6 +94,10 @@ router.beforeEach((to, from) => {
   // 返回 false 以取消导航
   // 404  
 
+  // 卸载缓存
+  const multiTabStore = multiTab()
+  // 判断当前页面是否要缓存
+  to.meta.keepAlive = multiTabStore.$state.routerList.find((d: RouterListType) => d.path === to.path)
   if (to.matched.length === 0) {
     router.push('/404')
   }

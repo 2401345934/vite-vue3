@@ -1,11 +1,18 @@
 
 <template name="contentWarp">
   <div class="contentWarp">
-    <a-page-header :title="detailTitle()">
-      <div class="main">
-        <slot name="main"></slot>
-      </div>
-    </a-page-header>
+    <transition
+      mode="out-in"
+      appear
+      enter-active-class="animate__animated animate__lightSpeedInRight"
+      leave-active-class="animate__animated animate__lightSpeedOutRight"
+    >
+      <a-page-header :title="detailTitle()">
+        <div class="main">
+          <slot name="main"></slot>
+        </div>
+      </a-page-header>
+    </transition>
   </div>
 </template>
 <script lang="ts" setup>

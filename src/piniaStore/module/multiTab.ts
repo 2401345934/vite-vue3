@@ -3,6 +3,8 @@ import { defineStore } from "pinia"
 export type RouterListType = {
   path: string,
   name: string,
+  componentName: string,
+
 }
 
 const routerList: RouterListType[] = []
@@ -27,7 +29,8 @@ export const multiTab = defineStore('multiTab', {
       if (routerList.length === 0) {
         routerList.push({
           path: "/welcome",
-          name: "首页"
+          name: "首页",
+          componentName: "Welcome",
         })
       }
       if (callback) {
