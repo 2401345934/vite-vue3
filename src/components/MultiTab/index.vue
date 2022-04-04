@@ -91,7 +91,7 @@ const handleMenuClick = (info: MenuInfo) => {
 
 const onEdit = (path: string | number) => {
   removeRouter(path as string, (index: number) => {
-    updateActiveKey($state.routerList[index - 1]?.path || '/welcome')
+    updateActiveKey($state.routerList[index]?.path || '/welcome')
     routers.push($state.activeKey)
   })
 }
