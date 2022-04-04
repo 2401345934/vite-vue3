@@ -2,87 +2,98 @@
 <template name="queryTable">
   <!-- search -->
   <div class="search_warp">
-    <el-form :inline="true" ref="formRef" :model="formInline" class="form">
+    <a-form
+      name="queryTableForm"
+      :label-col="{ span: 10 }"
+      :wrapper-col="{ span: 14 }"
+      :inline="true"
+      ref="formRef"
+      :model="formInline"
+      class="form"
+    >
       <div class="search_from_warp">
-        <el-row>
-          <el-col v-for="(field, index) in state.fields" :key="index" :span="6">
-            <el-form-item :prop="field.name" :label="field.label" :rules="field.rules || []">
-              <el-input
+        <a-row class="search_from_left" :gutter="[24, 24]">
+          <a-col v-for="(field, index) in state.fields" :key="index" :span="8">
+            <a-form-item :name="field.name" :label="field.label" :rules="field.rules || []">
+              <a-input
                 v-if="field.field.type === 'input'"
-                v-model="formInline[field.name]"
+                v-model:value="formInline[field.name]"
                 @keydown.enter="onSubmit()"
                 v-bind="field.field.props"
               />
-              <el-date-picker
+              <a-range-picker
                 v-if="field.field.type === 'rangepicker'"
-                v-model="formInline[field.name]"
+                v-model:value="formInline[field.name]"
                 type="daterange"
-                :unlink-panels="true"
                 @keydown.enter="onSubmit()"
                 v-bind="field.field.props"
-                range-separator="-"
               />
-              <el-select
+              <a-select
                 v-if="field.field.type === 'select'"
-                v-model="formInline[field.name]"
+                v-model:value="formInline[field.name]"
                 @keydown.enter="onSubmit()"
                 v-bind="field.field.props"
               >
                 <template v-if="typeof field.source === 'function'">
-                  <el-option
+                  <a-select-option
                     v-for="(select, i) in field.source()"
                     :key="i"
-                    :label="select.text"
                     :value="select.value"
-                  />
+                  >
+                    {{
+                      select.text
+                    }}
+                  </a-select-option>
                 </template>
-              </el-select>
-              <el-checkbox-group
+              </a-select>
+              <a-checkbox-group
                 v-if="field.field.type === 'checkbox'"
-                v-model="formInline[field.name]"
+                v-model:value="formInline[field.name]"
                 @keydown.enter="onSubmit()"
                 v-bind="field.field.props"
               >
                 <template v-if="typeof field.source === 'function'">
-                  <el-checkbox
+                  <a-checkbox
                     v-for="(select, i) in field.source()"
                     :key="i"
-                    :label="select.value"
-                  >{{ select.text }}</el-checkbox>
+                    :value="select.value"
+                  >{{ select.text }}</a-checkbox>
                 </template>
-              </el-checkbox-group>
+              </a-checkbox-group>
               <template v-if="typeof field.source === 'function'">
-                <el-radio-group
+                <a-radio-group
                   v-if="field.field.type === 'radio'"
                   @keydown.enter="onSubmit()"
-                  v-model="formInline[field.name]"
+                  v-model:value="formInline[field.name]"
                   v-bind="field.field.props"
                 >
-                  <el-radio
+                  <a-radio
                     v-for="(select, i) in field.source()"
                     :key="i"
-                    :label="select.value"
-                  >{{ select.text }}</el-radio>
-                </el-radio-group>
+                    :value="select.value"
+                  >{{ select.text }}</a-radio>
+                </a-radio-group>
               </template>
-            </el-form-item>
-          </el-col>
-        </el-row>
+            </a-form-item>
+          </a-col>
+        </a-row>
         <div class="search_actions">
-          <el-form-item>
-            <a-button type="primary" :loading="loading" @click="onSubmit()">查询</a-button>
-            <a-button :loading="loading" @click="resetForm(formRef)">重置</a-button>
-          </el-form-item>
+          <a-form-item>
+            <a-space>
+              <a-button type="primary" :loading="loading" @click="onSubmit()">查询</a-button>
+              <a-button :loading="loading" @click="resetForm(formRef)">重置</a-button>
+            </a-space>
+          </a-form-item>
         </div>
       </div>
-    </el-form>
+    </a-form>
   </div>
 
   <!-- actions -->
   <div class="actions_warp">
     <!-- 左边按钮 -->
     <div class="actions_warp_left">
-      <el-space>
+      <a-space>
         <a-button
           v-for="(btn, index) in state.actions || []"
           :key="index"
@@ -90,12 +101,12 @@
           :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
           :type="btn.type"
         >{{ btn.text }}</a-button>
-      </el-space>
+      </a-space>
     </div>
     <!-- 右边按钮 -->
 
     <div class="actions_warp_right">
-      <el-space>
+      <a-space>
         <a-button
           v-for="(btn, index) in state.actionsRight || []"
           :key="index"
@@ -103,65 +114,79 @@
           :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
           :type="btn.type"
         >{{ btn.text }}</a-button>
-      </el-space>
+      </a-space>
     </div>
   </div>
   <!-- table -->
   <div class="table_warp">
-    <el-table
-      :data="pages.data"
-      v-loading="loading"
+    <a-table
+      :loading="loading"
       class="table_content"
-      :height="height"
-      row-key="id"
+      bordered
+      :data-source="pages.data"
+      :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : '')"
+      :row-selection="state.type ? rowSelection : false"
+      :scroll="{ y: height }"
+      :row-key="record => record.id"
       ref="queryTableRef"
+      :pagination="false"
+      :locale="{
+        emptyText: '暂无数据'
+      }"
+      @resizeColumn="handleResizeColumn"
       :highlightCurrentRow="true"
       @selection-change="handleSelectionChange"
-      empty-text="暂无数据"
-      border
     >
-      <el-table-column :type="state.type" :v-if="state.type" width="40" />
       <template v-for="(item, index) in state.columns" :key="index">
-        <el-table-column :prop="item.dataIndex || item.key" :label="item.title" :fixed="item.fixed">
+        <!-- 正常列 -->
+        <a-table-column
+          :dataIndex="item.dataIndex || item.key"
+          :title="item.title"
+          :fixed="item.fixed"
+        >
+          <!-- render处理 -->
           <template
             v-if="item.render"
-            #default="scope"
-          >{{ item.render(scope.row, scope.$index, scope) }}</template>
-          <template v-if="item.isOperator" #default="scope">
-            <a-button
-              :type="'text'"
-              :size="'small'"
-              v-for="(btn, i) in item.render"
-              :key="i"
-              @click.prevent="btn.action(scope.row, scope, onSubmit)"
-            >{{ btn.children }}</a-button>
+            #default="{ text, record, index }"
+          >{{ item.render(text, record, index) }}</template>
+          <!-- 操作列 -->
+          <template v-if="item.isOperator" #default="{ text, record, index }">
+            <template v-for="(btn, i) in item.render" :key="i">
+              <a-button
+                :type="'text'"
+                :size="'small'"
+                @click.prevent="btn.action(record, onSubmit, index)"
+              >{{ btn.children }}</a-button>
+            </template>
           </template>
-        </el-table-column>
+        </a-table-column>
       </template>
-    </el-table>
-    <el-pagination
+    </a-table>
+    <a-pagination
       class="page"
-      background
-      v-model:currentPage="pages.currentPage"
-      v-model:page-size="pages.pageSize"
-      @size-change="sizeChange"
-      :page-sizes="[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]"
-      :hide-on-single-page="false"
-      @current-change="currentChange"
-      layout="total, sizes, prev, pager, next, jumper"
+      size="small"
       :total="pages.total"
-    />
+      show-size-changer
+      show-quick-jumper
+      :show-total="(total: number) => `共 ${total || 0} 条数据`"
+      v-model:current="pages.currentPage"
+      v-model:pageSize="pages.pageSize"
+      @change="currentChangeAndsizeChange"
+      :page-size-options="[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]"
+    >
+      <template #buildOptionText="props">
+        <span>{{ props.value }}条/页</span>
+      </template>
+    </a-pagination>
   </div>
 </template>
 <script lang="ts" setup>
 // @ts-nocheck
 import request from "@/axios";
-import type { FormInstance } from "element-plus";
-import RenderElement from "./components/test/index.vue";
 import { queryParams } from "@/utils/utils";
 import { cloneDeep } from "loadsh";
 import qs from "qs";
-const formRef = ref<FormInstance>();
+const formRef = ref<any>();
 const { state }: any = defineProps({
   state: Object,
 });
@@ -206,6 +231,12 @@ const selectProps = ref<T>([]);
 const handleSelectionChange = (val: T[]) => {
   selectProps.value = val;
 };
+const rowSelection: TableProps['rowSelection'] = {
+  onChange: (selectedRowKeys: string[], selectedRows: DataType[]) => {
+    selectProps.value = selectedRows
+  },
+  type: state.type
+};
 // 查询事件
 const searchTable = (reset?: boolean) => {
   const value = cloneDeep(formInline);
@@ -247,6 +278,9 @@ const searchTable = (reset?: boolean) => {
   });
 };
 
+const handleResizeColumn = (w, col) => {
+  col.width = w;
+};
 
 // form 表单查询
 const onSubmit = (flag?: boolean) => {
@@ -267,13 +301,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
   onSubmit(true);
 };
 
-const sizeChange = (page: number) => {
-  pages.pageSize = page;
-  pages.currentPage = 1;
-  searchTable();
-};
-const currentChange = (page: number) => {
-  pages.currentPage = page;
+const currentChangeAndsizeChange = (currentPage: number, pageSize: number) => {
+  pages.pageSize = pageSize;
+  pages.currentPage = currentPage;
   searchTable();
 };
 
@@ -286,6 +316,11 @@ defineExpose({
 </script>
 <style scoped lang="less">
 .table_warp {
+  overflow-x: auto;
+
+  .table_one {
+    background-color: aqua;
+  }
   .table_content {
     overflow: auto;
     width: 100%;
@@ -296,6 +331,10 @@ defineExpose({
     margin-top: 8px;
     margin-right: 8px;
     justify-content: end;
+
+    :deep(.ant-select-selector) {
+      width: 100px;
+    }
   }
 }
 
@@ -315,8 +354,13 @@ defineExpose({
 
 .search_from_warp {
   display: flex;
+  width: 100%;
+
+  .search_from_left {
+    flex: 1;
+  }
 }
 .search_actions {
-  min-width: 230px;
+  margin-left: 10px;
 }
 </style>

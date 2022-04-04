@@ -693,7 +693,7 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ant-design-vue@^3.1.0-beta.0:
+ant-design-vue@^3.1.0-rc.6:
   version "3.1.0-rc.6"
   resolved "https://registry.npmjs.org/ant-design-vue/-/ant-design-vue-3.1.0-rc.6.tgz#e508904eb7f6d4d29b104c07768b1c2c1a4f81a3"
   integrity sha512-gnJiN2nRFRbCAl+zCnvZSiIFVoXHGHbbLuGuOi5ZHc0QDGLoglQmsqL7s3oYBWS0i2+0e6MsYQMhVR1pyfUyGA==

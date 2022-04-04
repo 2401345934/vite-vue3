@@ -27,7 +27,7 @@ axios.interceptors.request.use((config: any) => {
   const resposne = JSON.parse(localStorage.getItem('userInfo') || '{}');
   // sessionId 处理
   // config.headers['sso-sessionid'] = localStorage.getItem("sessionId") || '';
-  config.headers['sso-sessionid'] = resposne?.sessionId || '1433280191601446912_1_1_1';
+  config.headers['sso-sessionid'] = resposne?.sessionId || '1471373608333791234_1_1_1';
   config.withCredentials = true;
   config.baseURL = baseURL
   return config;

@@ -57,22 +57,15 @@ const routes: RouterType[] = [
           },
         ]
       },
+
       {
-        path: '/cart',
-        name: 'Cart2',
-        component: () => import('@/views/Cart/index.vue'),
+        path: '/queryTable',
+        name: 'QueryTable',
+        component: () => import('@/views/QueryTable/index.vue'),
         meta: {
-          title: '购物11车',
+          title: '查询列表'
         }
       },
-      // {
-      //   path: '/queryTable',
-      //   name: 'QueryTable',
-      //   component: () => import('@/views/QueryTable/index.vue'),
-      //   meta: {
-      //     title: '查询列表'
-      //   }
-      // },
     ]
   },
   {

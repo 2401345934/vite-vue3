@@ -12,59 +12,58 @@ const state: any = reactive({
   request: {
     url: `/wms-ops/rwFrontRecord`,
     tableCallBack: () => {
-
     },
   },
   type: "selection",
   columns: [
     {
-      key: "recordCode",
+      dataIndex: "recordCode",
       fixed: "left",
 
       title: "单据编号",
     },
     // {
-    //   key: 'recordType',
+    //   dataIndex: 'recordType',
     //   title: '单据类型',
     //   render: ({ text }: any) => props.getDictionaryTextByValue('WO00003', text),
     // },
     {
-      key: "recordStatus",
+      dataIndex: "recordStatus",
       title: "单据状态",
     },
     {
-      key: "businessType",
+      dataIndex: "businessType",
       title: "业务类型",
     },
     {
-      key: "recordDate",
+      dataIndex: "recordDate",
       title: "单据日期",
     },
     {
-      key: "outWarehouseName",
+      dataIndex: "outWarehouseName",
       title: "移出仓库",
     },
     {
-      key: "inWarehouseName",
+      dataIndex: "inWarehouseName",
       title: "移入仓库",
     },
     // {
-    //   key: 'sourceRecordName',
+    //   dataIndex: 'sourceRecordName',
     //   title: '来源单据名称',
     // },
     {
-      key: "sourceRecordCode",
+      dataIndex: "sourceRecordCode",
       title: "来源单据号",
     },
     {
-      key: "totalQuality",
+      dataIndex: "totalQuality",
       title: "移仓数量",
-      render: (record: any, index: number) => {
-        return record.totalQuality;
+      render: (text: any, record: any, index: number) => {
+        return text;
       },
     },
     {
-      key: "operator",
+      dataIndex: "operator",
       isOperator: true,
       title: "操作",
       fixed: "right",
@@ -72,17 +71,16 @@ const state: any = reactive({
         {
           type: "primary",
           children: "编辑",
-          visible: "#{record.recordStatus ==0}",
-          action: (record: any, object: any, searchTable: () => void) => {
-            console.log(record, object, "listlist");
+          action: (record: any, searchTable: () => void, index) => {
+            console.log(record, index, "listlist");
+            searchTable();
           },
         },
         {
           type: "primary",
           children: "删除",
-          visible: "#{record.recordStatus ==0}",
-          action: (record: any, object: any, searchTable: () => void) => {
-            console.log(record, object, "listlist");
+          action: (record: any, searchTable: () => void, index) => {
+            console.log(record, index, "listlist");
             searchTable();
           },
         },

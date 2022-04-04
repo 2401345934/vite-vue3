@@ -4,6 +4,10 @@ import { ConfigProvider } from "ant-design-vue";
 
 export function queryParams(params: any,) {
   for (const key in params) {
+    if (typeof params[key] === 'undefined' && !params[key]) {
+      params[key] = null
+      delete params[key]
+    }
     if (Object.prototype.hasOwnProperty.call(params, key)) {
       const element = params[key];
       if (element && key.indexOf('*number*') >= 0) {
