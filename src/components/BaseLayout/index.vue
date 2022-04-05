@@ -95,29 +95,31 @@ onMounted(() => {
 const togglefullscreenFlag = (fullscreenFlag: boolean) => {
   // true 是全屏幕 
   // false  取消全凭
-  const isFullScreen: any = document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen;
+  const isFullScreen: any = document.fullscreen || (document as any).webkitIsFullScreen || (document as any).mozFullScreen;
   const contentEle: any = document.querySelector(`.content_warp`);
   // 全屏幕
   if (contentEle && !isFullScreen && fullscreenFlag) {
-    let fullScreenEle =
+    let fullScreenEle: any =
       contentEle.requestFullscreen ||
       contentEle.mozRequestFullScreen ||
       contentEle.webkitRequestFullScreen ||
       contentEle.msRequestFullscreen;
     if (fullScreenEle) {
-      fullScreenEle.call(contentEle);
+      // 是否全屏
+      // fullScreenEle.call(contentEle);
       return;
     }
   }
   // 取消全凭
   if (document && isFullScreen && !fullscreenFlag) {
-    let exitFullScreen =
+    let exitFullScreen: any =
       document.exitFullscreen ||
-      document.mozCancelFullScreen ||
-      document.webkitCancelFullScreen ||
-      document.msExitFullscreen;
+      (document as any).mozCancelFullScreen ||
+      (document as any).webkitCancelFullScreen ||
+      (document as any).msExitFullscreen;
     if (exitFullScreen) {
-      exitFullScreen.call(document);
+      // 是否取消 全屏
+      // exitFullScreen.call(document);
       return;
     }
   }
