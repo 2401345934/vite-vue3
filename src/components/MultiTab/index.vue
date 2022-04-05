@@ -1,5 +1,8 @@
 <template>
-  <div class="multi_tab" :class="menuStore.$state.collapsed && 'multi_tab_w'">
+  <div
+    class="multi_tab"
+    :class="[$state.fullscreenFlag ? 'full_evaluation' : 'multi_tab', menuStore.$state.collapsed && 'multi_tab_w']"
+  >
     <keep-alive>
       <a-tabs
         hide-add
@@ -19,8 +22,7 @@
             <a-space>
               <a-dropdown :trigger="['click']">
                 <a class="ant-dropdown-link" @click.prevent>
-                  多页签操作
-                  <DownOutlined />
+                  <FormOutlined />
                 </a>
                 <template #overlay>
                   <a-menu @click="handleMenuClick">
@@ -39,6 +41,10 @@
                   </a-menu>
                 </template>
               </a-dropdown>
+              <a class="ant-dropdown-link" @click.prevent="fullscreenChange">
+                <fullscreen-outlined v-show="!$state.fullscreenFlag" />
+                <fullscreen-exit-outlined v-show="$state.fullscreenFlag" />
+              </a>
             </a-space>
           </div>
         </template>
@@ -49,12 +55,12 @@
 
 <script setup lang='ts'>
 import { multiTab, RouterListType } from "@/piniaStore/module/multiTab"
-import { DownOutlined } from '@ant-design/icons-vue';
+import { FullscreenOutlined, FormOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
 import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 const menuStore = menu()
 const multiTabStore = multiTab()
-const { $state, updateActiveKey, addRouter, removeRouter, replaceRouterList } = multiTabStore
+const { $state, updateActiveKey, addRouter, removeRouter, replaceRouterList, toggleFullscreenFlag } = multiTabStore
 
 const routers = useRouter();
 const routerChange = (key: string) => {
@@ -62,6 +68,23 @@ const routerChange = (key: string) => {
   updateActiveKey(key)
 }
 
+onMounted(() => {
+  const path = routers.currentRoute.value.fullPath
+  const to = routers.currentRoute.value
+  if ($state.routerList.find(d => d.path === path)) {
+    updateActiveKey(path)
+    routers.push(path)
+  } else {
+    addRouter({
+      path: to.fullPath,
+      name: to.meta.title as string,
+      componentName: to.name as string,
+
+    })
+    updateActiveKey(path)
+  }
+
+})
 // 标签操作
 const handleMenuClick = (info: MenuInfo) => {
   const { key } = info
@@ -90,6 +113,10 @@ const handleMenuClick = (info: MenuInfo) => {
   }
 }
 
+const fullscreenChange = () => {
+  toggleFullscreenFlag()
+}
+
 const onEdit = (path: string | number) => {
   removeRouter(path as string, (index: number) => {
     const i = (index - 1) < 0 ? 0 : index - 1
@@ -115,25 +142,6 @@ watch(() => routers.currentRoute.value.fullPath, (v) => {
   }
 })
 
-onMounted(() => {
-  const path = routers.currentRoute.value.fullPath
-  const to = routers.currentRoute.value
-
-  if ($state.routerList.find(d => d.path === path)) {
-    updateActiveKey(path)
-    routers.push(path)
-  } else {
-    addRouter({
-      path: to.fullPath,
-      name: to.meta.title as string,
-      componentName: to.name as string,
-
-    })
-    updateActiveKey(path)
-
-  }
-
-})
 
 </script>
 <style scoped lang='less'>
@@ -147,6 +155,10 @@ onMounted(() => {
   :deep(.ant-tabs-nav) {
     margin-bottom: 0;
   }
+}
+.full_evaluation {
+  width: calc(100vw);
+  left: 0;
 }
 .multi_tab_w {
   left: 80px;

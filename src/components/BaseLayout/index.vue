@@ -1,10 +1,14 @@
 
 <template name="Home">
   <div class="warp">
-    <div class="header">
+    <div v-show="!$state.fullscreenFlag" class="header">
       <Header></Header>
     </div>
-    <div class="slide" :class="menuStore.$state.collapsed && 'slide_w'">
+    <div
+      class="slide"
+      v-show="!$state.fullscreenFlag"
+      :class="menuStore.$state.collapsed && 'slide_w'"
+    >
       <a-menu
         :inline-collapsed="menuStore.$state.collapsed"
         @click="changeMenuKey"
@@ -30,7 +34,7 @@
       </a-menu>
     </div>
     <keep-alive>
-      <div class="content_warp">
+      <div class="content_warp" :class="$state.fullscreenFlag ? 'full_evaluation' : 'content_warp'">
         <MultiTabComponent></MultiTabComponent>
         <div class="content">
           <ComponentWarp :detailTitle="detailTitle">
@@ -59,6 +63,7 @@ import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
 import { multiTab } from "@/piniaStore/module/multiTab"
 
 const multiTabStore = multiTab()
+const { $state } = multiTabStore
 const routers = useRouter();
 const store = theme()
 const menuStore = menu()
@@ -83,7 +88,45 @@ onMounted(() => {
   openKey.value = keysArr
   store.updateTheme()
   deepRouter(route)
+  togglefullscreenFlag($state.fullscreenFlag)
 })
+
+
+const togglefullscreenFlag = (fullscreenFlag: boolean) => {
+  // true 是全屏幕 
+  // false  取消全凭
+  const isFullScreen: any = document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen;
+  const contentEle: any = document.querySelector(`.content_warp`);
+  // 全屏幕
+  if (contentEle && !isFullScreen && fullscreenFlag) {
+    let fullScreenEle =
+      contentEle.requestFullscreen ||
+      contentEle.mozRequestFullScreen ||
+      contentEle.webkitRequestFullScreen ||
+      contentEle.msRequestFullscreen;
+    if (fullScreenEle) {
+      fullScreenEle.call(contentEle);
+      return;
+    }
+  }
+  // 取消全凭
+  if (document && isFullScreen && !fullscreenFlag) {
+    let exitFullScreen =
+      document.exitFullscreen ||
+      document.mozCancelFullScreen ||
+      document.webkitCancelFullScreen ||
+      document.msExitFullscreen;
+    if (exitFullScreen) {
+      exitFullScreen.call(document);
+      return;
+    }
+  }
+}
+
+watch(() => $state.fullscreenFlag, (v: boolean) => {
+  togglefullscreenFlag(v)
+})
+
 
 
 watch(() => routers.currentRoute.value.fullPath, (v) => {
@@ -156,6 +199,7 @@ routers.afterEach((to, from) => {
     display: flex;
     position: relative;
     padding-top: 60px;
+    background: #fff;
     height: calc(100vh - 71px);
     width: 100%;
     .content {
@@ -166,6 +210,17 @@ routers.afterEach((to, from) => {
     }
     .content_div {
       margin-top: 30px;
+    }
+  }
+
+  .full_evaluation {
+    height: calc(100vh);
+    padding-top: 0;
+    .content {
+      flex: 1;
+      padding-top: 50px;
+      margin-left: 0;
+      width: calc(100vw - 0);
     }
   }
 

@@ -4,21 +4,25 @@ export type RouterListType = {
   path: string,
   name: string,
   componentName: string,
-
 }
 
 const routerList: RouterListType[] = []
 const activeKey: string = ''
+const fullscreenFlag: boolean = false
 
 export const multiTab = defineStore('multiTab', {
   state: () => {
     return {
       routerList,
-      activeKey
+      activeKey,
+      fullscreenFlag
     }
   },
   getters: {},
   actions: {
+    toggleFullscreenFlag() {
+      this.$state.fullscreenFlag = !this.$state.fullscreenFlag
+    },
     addRouter(obj: RouterListType) {
       this.$state.routerList.push(obj)
     },
