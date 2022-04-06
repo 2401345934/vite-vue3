@@ -4,7 +4,10 @@
 </template>
 
 <script setup lang='ts'>
+
 onMounted(() => {
+  console.log(getCurrentInstance());
+
   console.log('购物车页面')
 })
 

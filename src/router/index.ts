@@ -67,6 +67,14 @@ const routes: RouterType[] = [
           title: '查询列表'
         }
       },
+      {
+        path: '/test',
+        name: 'Test',
+        component: () => import('@/views/Test/index.vue'),
+        meta: {
+          title: '测试'
+        }
+      },
     ]
   },
   {
