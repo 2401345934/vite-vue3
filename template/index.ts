@@ -42,7 +42,7 @@ const create = () => {
       {
         type: 'confirm',
         name: 'axios',
-        message: '是否需要请求',
+        message: '是否需要初始化请求',
         when:(answers)=>{
           return answers.type !== 'QueryTable'
         }
@@ -51,34 +51,36 @@ const create = () => {
       console.log('您选择的配置项为', options);
       createTemplate(options)
     }).catch((error) => {
-      console.log('创建失败 --------------------------------------------------------------------------------------------------------------------------',);
+      console.log(`创建失败 -------------------------------------------------------------------${error}`,);
     });
 
 }
 
 const createTemplate = (options) => {
   const { template_name, type, langType, cssLoader, axios } = options;
-  // if (FS.readFile(`src/views/${template_name}`)) {
-  //   throw new Error(`当前已存在${template_name}该文件夹`)
-  // }
-  const addConfig = {
-    cssLoader,
-    langType,
-    axios
-  }
-  FS.mkdirSync(`src/views/${template_name}`)
-  switch (type) {
-    case "vue2":
-      FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueTemplate(addConfig))
-      break;
-    case "QueryTable":
-      FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createQueryTable(addConfig))
-      break;
-    default:
-      FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueSetupTemplate(addConfig))
-  }
-
-  console.log('创建成功 --------------------------------------------------------------------------------------------------------------------------',);
+  FS.readFile(`src/views/${template_name}/index.vue`, function(err, data) {
+    if(data) {
+      console.log(`创建失败 -------------------------------------------------------------------该命名文件已存在`,);
+    }else{
+      const addConfig = {
+        cssLoader,
+        langType,
+        axios
+      }
+      FS.mkdirSync(`src/views/${template_name}`)
+      switch (type) {
+        case "vue2":
+          FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueTemplate(addConfig))
+          break;
+        case "QueryTable":
+          FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createQueryTable(addConfig))
+          break;
+        default:
+          FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueSetupTemplate(addConfig))
+      }
+      console.log('创建成功 --------------------------------------------------------------------------------------------------------------------------',);
+    }
+  })
 
 }
 
