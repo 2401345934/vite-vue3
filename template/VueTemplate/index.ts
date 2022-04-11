@@ -18,7 +18,7 @@ ${
   `onMounted(() => {
  request({
   url:"XXX/XXX/XX",
-  isToast:false;
+  isToast:false,
   converter: ({data}) => {
    list.value = data
   }
@@ -62,7 +62,7 @@ module.exports = {
       axios &&
 `request({
      url:"XXX/XXX/XX",
-     isToast:false;
+     isToast:false,
      converter: ({data}) => {
       this.list.value = data
       }

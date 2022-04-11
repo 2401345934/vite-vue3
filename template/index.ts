@@ -72,13 +72,12 @@ const createTemplate = (options) => {
   const { template_name, type, langType, cssLoader, axios } = options;
   FS.readFile(`src/views/${template_name}/index.vue`, function (err, data) {
     if (data) {
-      errorLog()
       inquirer.prompt(
         [
           {
             type: 'confirm',
             name: 'iscover',
-            message: '是否要覆盖该文件夹',
+            message: '该文件夹已存在, 是否要覆盖该文件夹',
           }
         ]).then(({ iscover }) => {
           if (iscover) {
@@ -117,6 +116,8 @@ const writeFs = (options, writeFileType) => {
     default:
       FS[writeFileType](`src/views/${template_name}/index.vue`, VueTemplate.createVueSetupTemplate(addConfig), () => { })
   }
+  console.log(`点我进去新创建的页面 ------------------      ../src/views/${template_name}/index.vue`);
+
 }
 
 
