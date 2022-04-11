@@ -23,7 +23,13 @@ const create = () => {
         type: 'list',
         name: 'type',
         message: '请选择vue语法模版',
-        choices: ['setup', 'vue2'],
+        choices:
+          [
+            'setup',
+            'vue2',
+            new inquirer.Separator(),
+            'QueryTable'
+          ],
         default: 'setup',
       },
       {
@@ -32,6 +38,14 @@ const create = () => {
         type: 'list',
         choices: ['less', 'css', 'sass'],
         default: 'css',
+      },
+      {
+        type: 'confirm',
+        name: 'axios',
+        message: '是否需要请求',
+        when:(answers)=>{
+          return answers.type !== 'QueryTable'
+        }
       }
     ]).then((options) => {
       console.log('您选择的配置项为', options);
@@ -43,18 +57,22 @@ const create = () => {
 }
 
 const createTemplate = (options) => {
-  const { template_name, type, langType, cssLoader } = options;
+  const { template_name, type, langType, cssLoader, axios } = options;
   // if (FS.readFile(`src/views/${template_name}`)) {
   //   throw new Error(`当前已存在${template_name}该文件夹`)
   // }
   const addConfig = {
     cssLoader,
-    langType
+    langType,
+    axios
   }
   FS.mkdirSync(`src/views/${template_name}`)
   switch (type) {
     case "vue2":
       FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueTemplate(addConfig))
+      break;
+    case "QueryTable":
+      FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createQueryTable(addConfig))
       break;
     default:
       FS.writeFileSync(`src/views/${template_name}/index.vue`, VueTemplate.createVueSetupTemplate(addConfig))
