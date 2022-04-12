@@ -4,18 +4,9 @@
     <div v-show="!$state.fullscreenFlag" class="header">
       <Header></Header>
     </div>
-    <div
-      class="slide"
-      v-show="!$state.fullscreenFlag"
-      :class="menuStore.$state.collapsed && 'slide_w'"
-    >
-      <a-menu
-        :inline-collapsed="menuStore.$state.collapsed"
-        @click="changeMenuKey"
-        mode="inline"
-        :selectedKeys="selectedKeys"
-        :openKeys="openKey"
-      >
+    <div class="slide" v-show="!$state.fullscreenFlag" :class="menuStore.$state.collapsed && 'slide_w'">
+      <a-menu :inline-collapsed="menuStore.$state.collapsed" @click="changeMenuKey" mode="inline"
+        :selectedKeys="selectedKeys" :openKeys="openKey">
         <template v-for="item in route" :key="item.path">
           <a-sub-menu :key="item.path" v-if="item.children">
             <template #title>
@@ -37,6 +28,8 @@
       <div class="content_warp" :class="$state.fullscreenFlag ? 'full_evaluation' : 'content_warp'">
         <MultiTabComponent></MultiTabComponent>
         <div class="content">
+          <!-- <transition mode="out-in" appear enter-active-class="animate__animated animate__lightSpeedInRight"
+            leave-active-class="animate__animated animate__lightSpeedOutRight"> -->
           <ComponentWarp :detailTitle="detailTitle">
             <template #main>
               <router-view v-slot="{ Component, route }">
@@ -47,6 +40,7 @@
               </router-view>
             </template>
           </ComponentWarp>
+          <!-- </transition> -->
         </div>
       </div>
     </keep-alive>
@@ -178,15 +172,18 @@ routers.afterEach((to, from) => {
     padding-top: 60px;
     transition: var(--menu_transition);
     background-color: var(--a-menu-bg);
+
     :deep(.ant-menu) {
       background-color: var(--a-menu-bg) !important;
     }
   }
+
   .slide_w {
     width: 80px;
     transition: var(--menu_transition);
     min-width: 80px;
   }
+
   .header {
     height: 60px;
     display: flex;
@@ -204,12 +201,14 @@ routers.afterEach((to, from) => {
     background: #fff;
     height: calc(100vh - 71px);
     width: 100%;
+
     .content {
       flex: 1;
       padding-top: 50px;
       margin-left: 208px;
       width: calc(100vw - 208px);
     }
+
     .content_div {
       margin-top: 30px;
     }
@@ -218,6 +217,7 @@ routers.afterEach((to, from) => {
   .full_evaluation {
     height: calc(100vh);
     padding-top: 0;
+
     .content {
       flex: 1;
       padding-top: 50px;
