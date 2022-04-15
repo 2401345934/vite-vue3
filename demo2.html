@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    const isInteger = (value) => typeof value === 'number' && !(value % 1)
+    const calculateSkuPromotion = (products, { promotion, scaleMap }) => {
+      Object.keys(scaleMap).forEach(item => {
+        scaleMap[item].calculatePrice = scaleMap[item].calculatePrice.toFixed(2)
+      })
+      const result = products.map(item => {
+        let countCalculate = 0
+        return new Array(item.quantity).fill(() => '').map((subitem, index) => {
+          if (isInteger(item.calculatePrice)) {
+            return {
+              ...item,
+              quantity: 1
+            }
+          }
+          let calculatePrice = (scaleMap[item.sku].calculatePrice / item.quantity).toFixed(2) - 0
+          if (index === item.quantity - 1) {
+            calculatePrice = (scaleMap[item.sku].calculatePrice - countCalculate).toFixed(2) - 0
+          } else {
+            countCalculate += Number(calculatePrice)
+          }
+          return {
+            ...item,
+            quantity: 1,
+            calculatePrice
+          }
+        })
+      })
+      return result
+    }
+
+
+
+    const countPromotion = (products, promotion) => {
+      const totalMarketPrice = products.reduce((total, item) => total += item.marketPrice, 0)
+      const scaleMap = products.reduce((total, item) => {
+        const scale = item.marketPrice / totalMarketPrice
+        total[item.sku] = {
+          scale: item.marketPrice / totalMarketPrice,
+          calculatePrice: scale * promotion.price,
+        }
+        return total
+      }, {})
+      const skuPromotionSort = products
+        .map(item => {
+          item.calculatePrice =
+            (scaleMap[item.sku].calculatePrice / item.quantity).toFixed(2) - 0
+          return item
+        })
+      const totalCalculatePrice = skuPromotionSort.reduce((total, item) => total += item.calculatePrice * item.quantity, 0)
+
+      if (totalCalculatePrice !== promotion.price) {
+        return calculateSkuPromotion(skuPromotionSort, { promotion, scaleMap })
+      }
+      return skuPromotionSort.map(item => {
+        return new Array(item.quantity).fill(() => '').map(() => {
+          return {
+            ...item,
+            quantity: 1
+          }
+        })
+      })
+    }
+
+    const products = [
+      { sku: 'SKU001', marketPrice: 100, quantity: 2 },
+      { sku: 'SKU002', marketPrice: 200, quantity: 2 },
+      { sku: 'SKU003', marketPrice: 300, quantity: 3 },
+    ]
+    const products2 = [
+      { sku: 'SKU001', marketPrice: 100, quantity: 3 },
+      { sku: 'SKU002', marketPrice: 600, quantity: 7 },
+    ]
+    const products3 = [
+      { sku: 'SKU001', marketPrice: 10, quantity: 10 },
+      { sku: 'SKU002', marketPrice: 900, quantity: 1 },
+    ]
+    const products4 = [
+      { sku: 'SKU001', marketPrice: 200, quantity: 3 },
+    ]
+    const promotion = { price: 100 }
+    const arr = countPromotion(products, promotion)
+    console.log(arr.flat(100), arr.flat(100).map(d => parseFloat((d.marketPrice - d.calculatePrice).toFixed(2))))
+    // console.log(countPromotion(products2, promotion))
+    // console.log(countPromotion(products3, promotion))
+    // console.log(countPromotion(products4, promotion))
+  </script>
+</body>
+
+</html>
