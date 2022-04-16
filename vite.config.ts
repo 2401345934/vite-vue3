@@ -7,7 +7,6 @@ import viteCompression from 'vite-plugin-compression'
 const { resolve } = require('path') //必须要引入resolve 
 import server from "./config/propx"
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -17,20 +16,20 @@ export default defineConfig({
       imports: ['vue', 'vue-router'],
       dts: "types/auto-import.d.ts"
     }),
-    // Components({
-    //   resolvers:
-    //     [
-    //       // AntDesignVueResolver(),
-    //     ],
-    // }),
-    // viteCompression({
-    //   //生成压缩包gz
-    //   verbose: true,
-    //   disable: false,
-    //   threshold: 10240,
-    //   algorithm: 'gzip',
-    //   ext: '.gz',
-    // }),
+    Components({
+      resolvers:
+        [
+          // AntDesignVueResolver(),
+        ],
+    }),
+    viteCompression({
+      //生成压缩包gz
+      verbose: true,
+      disable: false,
+      threshold: 10240,
+      algorithm: 'gzip',
+      ext: '.gz',
+    }),
     //   viteImagemin({
     //     gifsicle: {
     //         optimizationLevel: 7,
@@ -85,29 +84,29 @@ export default defineConfig({
     }
   },
   // 打包配置
-  // build: {
-  //   target: 'modules', // 设置最终构建的浏览器兼容目标。modules:支持原生 ES 模块的浏览器
-  //   outDir: 'dist', // 指定输出路径
-  //   rollupOptions: {
-  //     // 请确保外部化那些你的库中不需要的依赖
-  //     external: ['vue'],
-  //     output: {
-  //       // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-  //       globals: {
-  //         vue: 'Vue'
-  //       }
-  //     }
-  //   },
-  //   assetsDir: 'assets', // 指定生成静态资源的存放路径
-  //   sourcemap: false, // 构建后是否生成 source map 文件
-  //   minify: 'terser', // 混淆器，terser构建后文件体积更小
-  //   terserOptions: {
-  //     compress: {
-  //       drop_console: true,
-  //       drop_debugger: true,
-  //     },
-  //   },   //去除 console debugger
-  // },
+  build: {
+    target: 'modules', // 设置最终构建的浏览器兼容目标。modules:支持原生 ES 模块的浏览器
+    outDir: 'dist', // 指定输出路径
+    rollupOptions: {
+      // 请确保外部化那些你的库中不需要的依赖
+      external: ['vue'],
+      output: {
+        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    },
+    assetsDir: 'assets', // 指定生成静态资源的存放路径
+    sourcemap: false, // 构建后是否生成 source map 文件
+    minify: 'terser', // 混淆器，terser构建后文件体积更小
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },   //去除 console debugger
+  },
   // 请求代理
   server,
   // css: {
