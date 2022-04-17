@@ -1,26 +1,14 @@
 <template>
-  <div
-    class="multi_tab"
-    :class="[$state.fullscreenFlag ? 'full_evaluation' : 'multi_tab', menuStore.$state.collapsed && 'multi_tab_w']"
-  >
+  <div class="multi_tab"
+    :class="[$state.fullscreenFlag ? 'full_evaluation' : 'multi_tab', menuStore.$state.collapsed && 'multi_tab_w']">
     <keep-alive>
-      <a-tabs
-        hide-add
-        @change="routerChange"
-        type="editable-card"
-        @edit="onEdit"
-        :activeKey="$state.activeKey"
-      >
-        <a-tab-pane
-          v-for="route in $state.routerList"
-          :key="route.path"
-          :closable="true"
-          :tab="`${route.name}`"
-        ></a-tab-pane>
+      <a-tabs hide-add @change="routerChange" type="editable-card" @edit="onEdit" :activeKey="$state.activeKey">
+        <a-tab-pane v-for="route in $state.routerList" :key="route.path" :closable="true" :tab="`${route.name}`">
+        </a-tab-pane>
         <template #rightExtra>
           <div class="multi_tab_r">
             <a-space>
-              <a-dropdown :trigger="['click']">
+              <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
                   <FormOutlined />
                 </a>
@@ -151,18 +139,26 @@ watch(() => routers.currentRoute.value.fullPath, (v) => {
   width: calc(100vw - 208px);
   height: 50px;
   left: 208px;
+
   // transition: var(--menu_transition);
   :deep(.ant-tabs-nav) {
     margin-bottom: 0;
   }
 }
+
 .full_evaluation {
   width: calc(100vw);
   left: 0;
 }
+
 .multi_tab_w {
   left: 80px;
   width: calc(100vw - 80px);
   // transition: var(--menu_transition);
+
+}
+
+.multi_tab_r {
+  margin-right: 6px;
 }
 </style>

@@ -21,7 +21,6 @@ const store = {
   actions: {
     double(content: any) {
       content.commit('increment', 1000)
-
     },
   },
   // getters 对象的属性 可以做数据层面处理

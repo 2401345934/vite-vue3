@@ -1,24 +1,21 @@
 
 <template name="Login">
-  <a-form :model="formState" name="basic" ref="ruleFormRef" autocomplete="off">
-    <a-form-item
-      label="Username"
-      name="userName"
-      :rules="[{ required: true, message: 'Please input your username!' }]"
-    >
-      <a-input v-model:value="formState.userName" />
-    </a-form-item>
-    <a-form-item
-      label="Password"
-      name="passWord"
-      :rules="[{ required: true, message: 'Please input your password!' }]"
-    >
-      <a-input-password v-model:value="formState.passWord" />
-    </a-form-item>
-    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-      <a-button type="primary" html-type="submit" @click="onSubmit">Submit</a-button>
-    </a-form-item>
-  </a-form>
+  <div class="warp">
+    <div class="center_warp">
+      <a-form :model="formState" name="basic" ref="ruleFormRef" autocomplete="off">
+        <a-form-item label="账号" name="userName" :rules="[{ required: true, message: '请输入账号!' }]">
+          <a-input placeholder="账号: admin" v-model:value="formState.userName" />
+        </a-form-item>
+        <a-form-item label="密码" name="passWord" :rules="[{ required: true, message: '请输入密码!' }]">
+          <a-input-password placeholder="密码: 123456" v-model:value="formState.passWord" />
+        </a-form-item>
+        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+          <a-button type="primary" html-type="submit" @click="onSubmit">登陆</a-button>
+        </a-form-item>
+      </a-form>
+    </div>
+
+  </div>
 </template>
 <script lang="ts" setup>
 // @ts-nocheck
@@ -52,5 +49,22 @@ const onSubmit = () => {
   });
 };
 </script>
-<style scoped>
+<style scoped lang="less">
+.warp {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/loginBanner.jpeg") no-repeat center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .center_warp {
+    width: 600px;
+    height: 400px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+  }
+}
 </style>

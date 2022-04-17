@@ -11,6 +11,26 @@
       <div class="change_theme">
         <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
       </div>
+      <div class="user_info">
+        <a-dropdown>
+          <div @click.prevent>
+            <a-avatar :size="36">
+              <template #icon>
+                <UserOutlined />
+              </template>
+            </a-avatar>
+            {{ userInfo.userName }}
+          </div>
+
+          <template #overlay>
+            <a-menu>
+              <a-menu-item @click="outLogin">
+                <a href="javascript:;">退出登陆</a>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+      </div>
     </div>
   </div>
   <a-drawer v-model:visible="drawer">
@@ -18,57 +38,29 @@
       <a-col flex="none">
         <a-space direction="vertical" align="center">
           <!-- Primary Color -->
-          <input
-            type="color"
-            :value="colorState.primaryColor"
-            @input="e => onColorChange('primaryColor', e)"
-          />
+          <input type="color" :value="colorState.primaryColor" @input="e => onColorChange('primaryColor', e)" />
           <span style="color: var(--ant-primary-color)">主题色</span>
           <!-- Error Color -->
-          <input
-            type="color"
-            :value="colorState.errorColor"
-            @input="e => onColorChange('errorColor', e)"
-          />
+          <input type="color" :value="colorState.errorColor" @input="e => onColorChange('errorColor', e)" />
           <span style="color: var(--ant-error-color)">失败色</span>
 
           <!-- Warning Color -->
-          <input
-            type="color"
-            :value="colorState.warningColor"
-            @input="e => onColorChange('warningColor', e)"
-          />
+          <input type="color" :value="colorState.warningColor" @input="e => onColorChange('warningColor', e)" />
 
           <span style="color: var(--ant-warning-color)">警告色</span>
 
           <!-- Success Color -->
-          <input
-            type="color"
-            :value="colorState.successColor"
-            @input="e => onColorChange('successColor', e)"
-          />
+          <input type="color" :value="colorState.successColor" @input="e => onColorChange('successColor', e)" />
 
           <span style="color: var(--ant-success-color)">成功色</span>
 
           <!-- Info Color -->
-          <input
-            type="color"
-            :value="colorState.infoColor"
-            @input="e => onColorChange('infoColor', e)"
-          />
+          <input type="color" :value="colorState.infoColor" @input="e => onColorChange('infoColor', e)" />
           <span style="color: var(--ant-info-color)">提示色</span>
-          <input
-            type="color"
-            :value="colorState['--a-header-bg']"
-            @input="e => onColorChange('--a-header-bg', e)"
-          />
+          <input type="color" :value="colorState['--a-header-bg']" @input="e => onColorChange('--a-header-bg', e)" />
           <span style="color: var(--ant-info-color)">headers 背景色</span>
 
-          <input
-            type="color"
-            :value="colorState['--a-menu-bg']"
-            @input="e => onColorChange('--a-menu-bg', e)"
-          />
+          <input type="color" :value="colorState['--a-menu-bg']" @input="e => onColorChange('--a-menu-bg', e)" />
           <span style="color: var(--ant-info-color)">menu 背景色</span>
         </a-space>
       </a-col>
@@ -76,16 +68,21 @@
   </a-drawer>
 </template>
 <script setup lang="ts">
+import UserStore from "@/store"
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
 import logo from "./components/logo.vue"
 import content from "./components/content.vue"
-import { ConfigProvider } from "ant-design-vue";
+import { ConfigProvider, } from "ant-design-vue";
+import { UserOutlined } from '@ant-design/icons-vue';
+import { outHome } from "@/utils/utils"
+const userInfo = UserStore.getters['userInfo/get']
 const menuStore = menu()
 const store = theme()
 const colorState = reactive({
   ...store.$state
 });
+
 const drawer = ref(false)
 const onColorChange = (type: string, e: Event) => {
   Object.assign(colorState, { [type]: (e as Event as any).target.value });
@@ -95,6 +92,12 @@ const onColorChange = (type: string, e: Event) => {
   store.changeStateTheme(colorState)
   store.updateTheme()
 };
+
+// 退出登陆
+const outLogin = () => {
+  outHome()
+}
+
 </script>
 <style scoped lang="less">
 .header {
@@ -102,23 +105,30 @@ const onColorChange = (type: string, e: Event) => {
   width: 100%;
   align-items: center;
   height: 100%;
+
   .header_l {
     width: 208px;
     height: 100%;
     transition: var(--menu_transition);
   }
+
   .header_l_w {
     width: 80px;
     transition: var(--menu_transition);
     min-width: 80px;
   }
+
   .header_c {
     flex: 1;
     display: flex;
     align-items: center;
   }
+
   .header_r {
-    width: 300px;
+    display: flex;
+    margin-right: 20px;
+    color: #fff;
+    align-items: center;
   }
 
   .change_theme {

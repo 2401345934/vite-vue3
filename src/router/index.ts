@@ -49,14 +49,6 @@ const routes: RouterType[] = [
               title: '购物车',
             }
           },
-          {
-            path: '/yewu/aaaa',
-            name: 'AAAA',
-            component: () => import('@/views/Cart/index.vue'),
-            meta: {
-              title: '肖明辉',
-            }
-          },
         ]
       },
       {
