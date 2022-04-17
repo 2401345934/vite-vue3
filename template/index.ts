@@ -26,13 +26,6 @@ const create = () => {
       },
       {
         type: 'list',
-        name: 'langType',
-        message: '请选择语法',
-        choices: ['ts', 'js'],
-        default: 'ts',
-      },
-      {
-        type: 'list',
         name: 'type',
         message: '请选择vue语法模版',
         choices:
@@ -40,9 +33,20 @@ const create = () => {
             'setup',
             'vue2',
             new inquirer.Separator(),
-            'QueryTable'
+            'QueryTable',
+            'login',
           ],
         default: 'setup',
+      },
+      {
+        type: 'list',
+        name: 'langType',
+        message: '请选择语法',
+        choices: ['ts', 'js'],
+        default: 'ts',
+        when: (answers) => {
+          return answers.type !== 'QueryTable' && answers.type !== 'login'
+        }
       },
       {
         name: 'cssLoader',
@@ -50,13 +54,16 @@ const create = () => {
         type: 'list',
         choices: ['less', 'css', 'sass'],
         default: 'css',
+        when: (answers) => {
+          return answers.type !== 'login'
+        }
       },
       {
         type: 'confirm',
         name: 'axios',
         message: '是否需要初始化请求',
         when: (answers) => {
-          return answers.type !== 'QueryTable'
+          return answers.type !== 'QueryTable' && answers.type !== 'login'
         }
       }
     ]).then((options) => {
@@ -112,6 +119,9 @@ const writeFs = (options, writeFileType) => {
       break;
     case "QueryTable":
       FS[writeFileType](`src/views/${template_name}/index.vue`, VueTemplate.createQueryTable(addConfig), () => { })
+      break;
+    case "login":
+      FS[writeFileType](`src/views/${template_name}/index.vue`, VueTemplate.createLoginTemplate(addConfig), () => { })
       break;
     default:
       FS[writeFileType](`src/views/${template_name}/index.vue`, VueTemplate.createVueSetupTemplate(addConfig), () => { })
