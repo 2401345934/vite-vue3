@@ -14,6 +14,21 @@ import Antd from 'ant-design-vue';
 const pinia = createPinia()
 pinia.use(createPersistedState())
 
+/**
+ * @description window.onerror 全局捕获错误
+ * @param event 错误信息，如果是
+ * @param source 错误源文件URL
+ * @param lineno 行号
+ * @param colno 列号
+ * @param error Error对象
+ */
+window.onerror = function (event, source, lineno, colno, error) {
+  // 上报错误
+  // 如果不想在控制台抛出错误，只需返回 true 即可
+  console.log(`%c${event}`, 'color:red;font-size:30px;');
+  console.log(error);
+  // console.log(event, source, lineno, colno, error);
+};
 
 // 测试push 同时推送2个仓库
 const app = createApp(App);
