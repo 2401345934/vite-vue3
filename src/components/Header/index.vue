@@ -9,7 +9,8 @@
     </div>
     <div class="header_r">
       <div class="change_theme">
-        <a-button type="primary" style="margin-left: 16px" @click="drawer = true">切换主题</a-button>
+        <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('theme')">切换主题</a-button>
+        <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('error')">错误信息</a-button>
       </div>
       <div class="user_info">
         <a-dropdown>
@@ -33,7 +34,7 @@
       </div>
     </div>
   </div>
-  <a-drawer v-model:visible="drawer">
+  <a-drawer v-model:visible="themDrawer">
     <a-row :gutter="16">
       <a-col flex="none">
         <a-space direction="vertical" align="center">
@@ -66,6 +67,24 @@
       </a-col>
     </a-row>
   </a-drawer>
+  <a-drawer placement="left" width="40%" v-model:visible="errorDrawer">
+    <a-list item-layout="horizontal" :data-source="errorList">
+      <template #renderItem="{ item, index }">
+        <a-list-item>
+          <template #actions><a @click="removeError(index)">删除</a></template>
+
+          <a-list-item-meta :description="item.time">
+
+            <template #title>
+              <a-space>
+                <a :href="item.source">{{ item.event }}</a>
+              </a-space>
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
+      </template>
+    </a-list>
+  </a-drawer>
 </template>
 <script setup lang="ts">
 import UserStore from "@/store"
@@ -73,7 +92,7 @@ import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
 import logo from "./components/logo.vue"
 import content from "./components/content.vue"
-import { ConfigProvider, } from "ant-design-vue";
+import { ConfigProvider, notification, } from "ant-design-vue";
 import { UserOutlined } from '@ant-design/icons-vue';
 import { outHome } from "@/utils/utils"
 const userInfo = UserStore.getters['userInfo/get']
@@ -82,8 +101,27 @@ const store = theme()
 const colorState = reactive({
   ...store.$state
 });
+const themDrawer = ref(false)
+const errorDrawer = ref(false)
+const errorList = ref(JSON.parse(localStorage.getItem("errorList") || '[]'))
+onMounted(() => {
+  window.addEventListener("setItemEvent", function (e) {
+    const list = JSON.parse(localStorage.getItem("errorList") || '[]')
+    if (errorList.length !== list.length) {
+      errorList.value = list
+      notification.error({
+        message: list[0]?.event,
+        description:
+          list[0]?.source,
+        duration: 2,
+        onClick: () => {
+          errorDrawer.value = true
+        },
+      });
+    }
+  });
+})
 
-const drawer = ref(false)
 const onColorChange = (type: string, e: Event) => {
   Object.assign(colorState, { [type]: (e as Event as any).target.value });
   ConfigProvider.config({
@@ -97,6 +135,26 @@ const onColorChange = (type: string, e: Event) => {
 const outLogin = () => {
   outHome()
 }
+const changeDrawer = (type: string) => {
+  if (type == "theme") {
+    themDrawer.value = true
+  }
+  if (type == "error") {
+    errorDrawer.value = true
+  }
+}
+const removeError = (index: number) => {
+  errorList.value.splice(index, 1)
+
+}
+
+watch(() => errorList?.value?.length, () => {
+  console.log(errorList.value, 'errorList.value');
+  console.log(JSON.stringify(errorList.value), 'errorList.value');
+
+  localStorage.setItem("errorList", JSON.stringify(errorList.value))
+})
+
 
 </script>
 <style scoped lang="less">

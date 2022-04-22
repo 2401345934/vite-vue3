@@ -13,6 +13,12 @@ import Antd from 'ant-design-vue';
 
 const pinia = createPinia()
 pinia.use(createPersistedState())
+window.setErrorItem = function (key, newValue) {
+  localStorage.setItem(key, newValue)
+  const setItemEvent = new Event("setItemEvent");
+  setItemEvent.newValue = newValue;
+  window.dispatchEvent(setItemEvent);
+}
 
 /**
  * @description window.onerror 全局捕获错误
@@ -23,11 +29,31 @@ pinia.use(createPersistedState())
  * @param error Error对象
  */
 window.onerror = function (event, source, lineno, colno, error) {
+  const errorList = JSON.parse(localStorage.getItem("errorList") || '[]')
+
+  if (errorList.length === 500) {
+    errorList.pop();
+  }
+  errorList.unshift({
+    event,
+    source,
+    lineno,
+    colno,
+    error,
+    time: new Date()
+  })
+  setErrorItem("errorList", JSON.stringify(errorList))
+
   // 上报错误
   // 如果不想在控制台抛出错误，只需返回 true 即可
-  console.log(`%c${event}`, 'color:red;font-size:30px;');
   console.log(error);
+  return true
   // console.log(event, source, lineno, colno, error);
+  // 做一个页面内部报错 缓存到本地 做一个数据处理 展示到 header right  当数据达到 500 条 就开始 pop 最旧的数据 unshift 最新的数据  防止内存数据过大
+  // 先读取 errorlist  判断长度  不够 500 直接 shift 然后 直接在存到 里面
+  // error List 组件监听 localStorage 监听 errorlist 属性的变化 同步的 pinia
+  // error List 展示 提供清空 删除单条的功能
+  // 一旦 error List 监听到有新数据插入 直接全局提示 报错
 };
 
 // 测试push 同时推送2个仓库
