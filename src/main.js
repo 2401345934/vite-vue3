@@ -10,6 +10,10 @@ import QueryTable from "./components/BusinessComponent/QueryTable/index.vue"
 import { createPinia } from "pinia"
 import Antd from 'ant-design-vue';
 
+// TODO
+// 1 .  离开本页面 拦截 提示 类似掘金
+// 2.   多语言翻译
+
 
 const pinia = createPinia()
 pinia.use(createPersistedState())
