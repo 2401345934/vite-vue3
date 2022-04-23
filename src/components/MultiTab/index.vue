@@ -46,9 +46,25 @@ import { multiTab, RouterListType } from "@/piniaStore/module/multiTab"
 import { FullscreenOutlined, FormOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
 import { menu } from "@/piniaStore/module/menu"
 import { MenuInfo } from "ant-design-vue/es/menu/src/interface";
+import router, { RouterType } from "@/router";
 const menuStore = menu()
+const route: any = router.options.routes[0].children;
 const multiTabStore = multiTab()
 const { $state, updateActiveKey, addRouter, removeRouter, replaceRouterList, toggleFullscreenFlag } = multiTabStore
+const routerFlat = ref<RouterType[]>([])
+
+// 递归打平
+const deepRouter = (routers: RouterType[]) => {
+  if (routers && Array.isArray(routers)) {
+    routers.forEach((d: RouterType) => {
+      if (d.children) {
+        deepRouter(d.children)
+      } else {
+        routerFlat.value.push(d)
+      }
+    })
+  }
+}
 
 const routers = useRouter();
 const routerChange = (key: string) => {
@@ -57,6 +73,7 @@ const routerChange = (key: string) => {
 }
 
 onMounted(() => {
+  deepRouter(route)
   const path = routers.currentRoute.value.fullPath
   const to = routers.currentRoute.value
   if ($state.routerList.find(d => d.path === path)) {
@@ -113,20 +130,24 @@ const onEdit = (path: string | number) => {
   })
 }
 
+
+// TODO 打平留到后面统一打平优化
 watch(() => routers.currentRoute.value.fullPath, (v) => {
   const to = routers.currentRoute.value
   if (to.fullPath === '/404' || to.fullPath === '/login') {
     return
   }
-  if ($state.routerList.find(d => d.path === to.fullPath)) {
-    updateActiveKey(to.fullPath)
-  } else {
-    updateActiveKey(to.fullPath)
-    addRouter({
-      path: to.fullPath,
-      name: to.meta.title as string,
-      componentName: to.name as string,
-    })
+  if (routerFlat.value.find(d => d.path === to.fullPath)) {
+    if ($state.routerList.find(d => d.path === to.fullPath)) {
+      updateActiveKey(to.fullPath)
+    } else {
+      updateActiveKey(to.fullPath)
+      addRouter({
+        path: to.fullPath,
+        name: to.meta.title as string,
+        componentName: to.name as string,
+      })
+    }
   }
 })
 

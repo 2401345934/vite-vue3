@@ -125,7 +125,7 @@ watch(() => $state.fullscreenFlag, (v: boolean) => {
 
 
 
-watch(() => routers.currentRoute.value.fullPath, (v) => {
+watch(() => routers.currentRoute.value.fullPath, () => {
   const keysArr = routers.currentRoute.value.matched.map(d => d.path)
   keysArr.splice(0, 1)
   selectedKeys.value = keysArr

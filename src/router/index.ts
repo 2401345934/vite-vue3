@@ -80,6 +80,11 @@ const routes: RouterType[] = [
     name: 'login',
     component: () => import('@/views/Login/index.vue'),
   },
+  {
+    path: '/intercept',
+    name: 'intercept',
+    component: () => import('@/views/Intercept/index.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -91,8 +96,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // ...
   // 返回 false 以取消导航
-  // 404  
-
+  // 404
   // 卸载缓存
   const multiTabStore = multiTab()
   // 判断当前页面是否要缓存

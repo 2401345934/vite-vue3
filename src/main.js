@@ -23,7 +23,17 @@ window.setErrorItem = function (key, newValue) {
   setItemEvent.newValue = newValue;
   window.dispatchEvent(setItemEvent);
 }
+window.openUrl = function (key) {
+  if (!key) {
+    return
+  }
+  const openUrl = new Event("openUrl");
+  openUrl.goUrl = key;
+  const myUrlList = ['localhost:4000', 'localhost:3000', 'vite-vue3-xmh']
+  openUrl.goUrlFlag = myUrlList.some(d => key.indexOf(d) !== -1)
 
+  window.dispatchEvent(openUrl);
+}
 /**
  * @description window.onerror 全局捕获错误
  * @param event 错误信息，如果是
