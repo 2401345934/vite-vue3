@@ -10,19 +10,49 @@ import QueryTable from "./components/BusinessComponent/QueryTable/index.vue"
 import { createPinia } from "pinia"
 import Antd from 'ant-design-vue';
 
-// TODO
-// 1 .  离开本页面 拦截 提示 类似掘金
-// 2.   多语言翻译
-
-
 const pinia = createPinia()
 pinia.use(createPersistedState())
-window.setErrorItem = function (key, newValue) {
+// 测试push 同时推送2个仓库
+const app = createApp(App);
+app.component("QueryTable", QueryTable)
+app
+  .use(router)
+  .use(Antd)
+  .use(store)
+  .use(pinia)
+  .directive('auth', (el, bid) => {
+    // 封装 资源权限 指令
+    const arr = ['a', 'b', 'c']
+    // const parent = document.querySelector("#uuid").parentElement
+    // console.log(parent);
+    if (!arr.includes(bid.arg)) {
+      el.remove()
+      // el.style.display = 'none'
+    }
+
+  })
+  .mount('#app')
+
+/**
+ * @description: localStorage.setItem 重写 拓展功能实现 监听
+ * @param {*} key  string
+ * @param {*} newValue  string
+ * @return {*}
+ * @author: alan
+ */
+const setErrorItem = function (key, newValue) {
   localStorage.setItem(key, newValue)
   const setItemEvent = new Event("setItemEvent");
   setItemEvent.newValue = newValue;
   window.dispatchEvent(setItemEvent);
 }
+
+/**
+ * @description:
+ * @param {*} 代替 window.open
+ * @return {*} key: url
+ * @author: alan
+ */
 window.openUrl = function (key) {
   if (!key) {
     return
@@ -61,7 +91,6 @@ window.onerror = function (event, source, lineno, colno, error) {
   // 上报错误
   // 如果不想在控制台抛出错误，只需返回 true 即可
   console.log(error);
-  return true
   // console.log(event, source, lineno, colno, error);
   // 做一个页面内部报错 缓存到本地 做一个数据处理 展示到 header right  当数据达到 500 条 就开始 pop 最旧的数据 unshift 最新的数据  防止内存数据过大
   // 先读取 errorlist  判断长度  不够 500 直接 shift 然后 直接在存到 里面
@@ -69,25 +98,3 @@ window.onerror = function (event, source, lineno, colno, error) {
   // error List 展示 提供清空 删除单条的功能
   // 一旦 error List 监听到有新数据插入 直接全局提示 报错
 };
-
-// 测试push 同时推送2个仓库
-const app = createApp(App);
-app.component("QueryTable", QueryTable)
-app
-  .use(router)
-  .use(Antd)
-  .use(store)
-  .use(pinia)
-  .directive('auth', (el, bid) => {
-    // 封装 资源权限 指令
-    const arr = ['a', 'b', 'c']
-    // const parent = document.querySelector("#uuid").parentElement
-    // console.log(parent);
-    if (!arr.includes(bid.arg)) {
-      el.remove()
-      // el.style.display = 'none'
-    }
-
-  })
-  .mount('#app')
-

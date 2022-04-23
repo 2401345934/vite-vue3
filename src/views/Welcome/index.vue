@@ -5,15 +5,13 @@
   <a-button @click="routerLink">跳转到百度</a-button>
 </template>
 <script lang="ts" setup>
-
+import { getWindow } from '@/utils/utils';
 const btn = () => {
   console.log(a);
 }
 
 const routerLink = () => {
-  const isWindow: any = window
-  isWindow.openUrl('https://www.baidu.com/')
-
+  getWindow().openUrl('https://www.baidu.com/')
 }
 </script>
 
