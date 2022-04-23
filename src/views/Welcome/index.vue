@@ -1,7 +1,7 @@
 
 <template>
   <a-input></a-input>
-  <a-button @click="btn">aaaa</a-button>
+  <a-button @click="btn">报错拦截测试</a-button>
 </template>
 <script lang="ts" setup>
 

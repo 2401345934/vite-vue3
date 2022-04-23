@@ -44,40 +44,34 @@
           <!-- Error Color -->
           <input type="color" :value="colorState.errorColor" @input="e => onColorChange('errorColor', e)" />
           <span style="color: var(--ant-error-color)">失败色</span>
-
           <!-- Warning Color -->
           <input type="color" :value="colorState.warningColor" @input="e => onColorChange('warningColor', e)" />
-
           <span style="color: var(--ant-warning-color)">警告色</span>
-
           <!-- Success Color -->
           <input type="color" :value="colorState.successColor" @input="e => onColorChange('successColor', e)" />
-
           <span style="color: var(--ant-success-color)">成功色</span>
-
           <!-- Info Color -->
           <input type="color" :value="colorState.infoColor" @input="e => onColorChange('infoColor', e)" />
           <span style="color: var(--ant-info-color)">提示色</span>
           <input type="color" :value="colorState['--a-header-bg']" @input="e => onColorChange('--a-header-bg', e)" />
           <span style="color: var(--ant-info-color)">headers 背景色</span>
-
           <input type="color" :value="colorState['--a-menu-bg']" @input="e => onColorChange('--a-menu-bg', e)" />
           <span style="color: var(--ant-info-color)">menu 背景色</span>
         </a-space>
       </a-col>
     </a-row>
   </a-drawer>
-  <a-drawer placement="left" width="40%" v-model:visible="errorDrawer">
+  <a-drawer placement="left" width="60%" v-model:visible="errorDrawer">
     <a-list item-layout="horizontal" :data-source="errorList">
       <template #renderItem="{ item, index }">
         <a-list-item>
           <template #actions><a @click="removeError(index)">删除</a></template>
-
-          <a-list-item-meta :description="item.time">
-
+          <a-list-item-meta :description="item.source">
             <template #title>
               <a-space>
-                <a :href="item.source">{{ item.event }}</a>
+                <div>错误信息: <a>{{ item.event }}</a></div>
+                <div>错误时间: <a style="margin-left: 10px;">{{ item.time }}</a></div>
+
               </a-space>
             </template>
           </a-list-item-meta>
