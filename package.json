@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "create": "node template/index.ts"
+    "create": "node template/index.ts",
+    "commit": "git add .  & git commit -m '发布'"
   },
   "lint-staged": {
     "*.{js,ts}": [

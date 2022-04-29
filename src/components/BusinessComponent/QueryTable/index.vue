@@ -2,76 +2,38 @@
 <template name="queryTable">
   <!-- search -->
   <div class="search_warp">
-    <a-form
-      name="queryTableForm"
-      :label-col="{ span: 10 }"
-      :wrapper-col="{ span: 14 }"
-      :inline="true"
-      ref="formRef"
-      :model="formInline"
-      class="form"
-    >
+    <a-form name="queryTableForm" :label-col="{ span: 10 }" :wrapper-col="{ span: 14 }" :inline="true" ref="formRef"
+      :model="formInline" class="form">
       <div class="search_from_warp">
         <a-row class="search_from_left" :gutter="[24, 24]">
           <a-col v-for="(field, index) in state.fields" :key="index" :span="8">
             <a-form-item :name="field.name" :label="field.label" :rules="field.rules || []">
-              <a-input
-                v-if="field.field.type === 'input'"
-                v-model:value="formInline[field.name]"
-                @keydown.enter="onSubmit()"
-                v-bind="field.field.props"
-              />
-              <a-range-picker
-                v-if="field.field.type === 'rangepicker'"
-                v-model:value="formInline[field.name]"
-                type="daterange"
-                @keydown.enter="onSubmit()"
-                v-bind="field.field.props"
-              />
-              <a-select
-                v-if="field.field.type === 'select'"
-                v-model:value="formInline[field.name]"
-                @keydown.enter="onSubmit()"
-                v-bind="field.field.props"
-              >
+              <a-input v-if="field.field.type === 'input'" v-model:value="formInline[field.name]"
+                @keydown.enter="onSubmit()" v-bind="field.field.props" />
+              <a-range-picker v-if="field.field.type === 'rangepicker'" v-model:value="formInline[field.name]"
+                type="daterange" @keydown.enter="onSubmit()" v-bind="field.field.props" />
+              <a-select v-if="field.field.type === 'select'" v-model:value="formInline[field.name]"
+                @keydown.enter="onSubmit()" v-bind="field.field.props">
                 <template v-if="typeof field.source === 'function'">
-                  <a-select-option
-                    v-for="(select, i) in field.source()"
-                    :key="i"
-                    :value="select.value"
-                  >
+                  <a-select-option v-for="(select, i) in field.source()" :key="i" :value="select.value">
                     {{
-                      select.text
+                        select.text
                     }}
                   </a-select-option>
                 </template>
               </a-select>
-              <a-checkbox-group
-                v-if="field.field.type === 'checkbox'"
-                v-model:value="formInline[field.name]"
-                @keydown.enter="onSubmit()"
-                v-bind="field.field.props"
-              >
+              <a-checkbox-group v-if="field.field.type === 'checkbox'" v-model:value="formInline[field.name]"
+                @keydown.enter="onSubmit()" v-bind="field.field.props">
                 <template v-if="typeof field.source === 'function'">
-                  <a-checkbox
-                    v-for="(select, i) in field.source()"
-                    :key="i"
-                    :value="select.value"
-                  >{{ select.text }}</a-checkbox>
+                  <a-checkbox v-for="(select, i) in field.source()" :key="i" :value="select.value">{{ select.text }}
+                  </a-checkbox>
                 </template>
               </a-checkbox-group>
               <template v-if="typeof field.source === 'function'">
-                <a-radio-group
-                  v-if="field.field.type === 'radio'"
-                  @keydown.enter="onSubmit()"
-                  v-model:value="formInline[field.name]"
-                  v-bind="field.field.props"
-                >
-                  <a-radio
-                    v-for="(select, i) in field.source()"
-                    :key="i"
-                    :value="select.value"
-                  >{{ select.text }}</a-radio>
+                <a-radio-group v-if="field.field.type === 'radio'" @keydown.enter="onSubmit()"
+                  v-model:value="formInline[field.name]" v-bind="field.field.props">
+                  <a-radio v-for="(select, i) in field.source()" :key="i" :value="select.value">{{ select.text }}
+                  </a-radio>
                 </a-radio-group>
               </template>
             </a-form-item>
@@ -94,86 +56,51 @@
     <!-- 左边按钮 -->
     <div class="actions_warp_left">
       <a-space>
-        <a-button
-          v-for="(btn, index) in state.actions || []"
-          :key="index"
-          @click="btn.action(selectProps, onSubmit)"
-          :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
-          :type="btn.type"
-        >{{ btn.text }}</a-button>
+        <a-button v-for="(btn, index) in state.actions || []" :key="index" @click="btn.action(selectProps, onSubmit)"
+          :disabled="btn.isDisabled && selectProps && selectProps.length === 0" :type="btn.type">{{ btn.text }}
+        </a-button>
       </a-space>
     </div>
     <!-- 右边按钮 -->
 
     <div class="actions_warp_right">
       <a-space>
-        <a-button
-          v-for="(btn, index) in state.actionsRight || []"
-          :key="index"
+        <a-button v-for="(btn, index) in state.actionsRight || []" :key="index"
           @click="btn.action(selectProps, onSubmit)"
-          :disabled="btn.isDisabled && selectProps && selectProps.length === 0"
-          :type="btn.type"
-        >{{ btn.text }}</a-button>
+          :disabled="btn.isDisabled && selectProps && selectProps.length === 0" :type="btn.type">{{ btn.text }}
+        </a-button>
       </a-space>
     </div>
   </div>
   <!-- table -->
   <div class="table_warp">
-    <a-table
-      :loading="loading"
-      class="table_content"
-      bordered
-      :data-source="pages.data"
+    <a-table :loading="loading" class="table_content" bordered :data-source="pages.data"
       :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : '')"
-      :row-selection="state.type ? rowSelection : false"
-      :scroll="{ y: height }"
-      :row-key="record => record.id"
-      ref="queryTableRef"
-      :pagination="false"
-      :locale="{
+      :row-selection="state.type ? rowSelection : false" :scroll="{ y: height }" :row-key="record => record.id"
+      ref="queryTableRef" :pagination="false" :locale="{
         emptyText: '暂无数据'
-      }"
-      @resizeColumn="handleResizeColumn"
-      :highlightCurrentRow="true"
-      @selection-change="handleSelectionChange"
-    >
+      }" @resizeColumn="handleResizeColumn" :highlightCurrentRow="true" @selection-change="handleSelectionChange">
       <template v-for="(item, index) in state.columns" :key="index">
         <!-- 正常列 -->
-        <a-table-column
-          :dataIndex="item.dataIndex || item.key"
-          :title="item.title"
-          :fixed="item.fixed"
-        >
+        <a-table-column :dataIndex="item.dataIndex || item.key" :title="item.title" :fixed="item.fixed">
           <!-- render处理 -->
-          <template
-            v-if="item.render"
-            #default="{ text, record, index }"
-          >{{ item.render(text, record, index) }}</template>
+          <template v-if="item.render" #default="{ text, record, index }">{{ item.render(text, record, index)
+          }}</template>
           <!-- 操作列 -->
           <template v-if="item.isOperator" #default="{ text, record, index }">
             <template v-for="(btn, i) in item.render" :key="i">
-              <a-button
-                :type="'text'"
-                :size="'small'"
-                @click.prevent="btn.action(record, onSubmit, index)"
-              >{{ btn.children }}</a-button>
+              <a-button :type="'text'" :size="'small'" @click.prevent="btn.action(record, onSubmit, index)">{{
+                  btn.children
+              }}</a-button>
             </template>
           </template>
         </a-table-column>
       </template>
     </a-table>
-    <a-pagination
-      class="page"
-      size="small"
-      :total="pages.total"
-      show-size-changer
-      show-quick-jumper
-      :show-total="(total: number) => `共 ${total || 0} 条数据`"
-      v-model:current="pages.currentPage"
-      v-model:pageSize="pages.pageSize"
-      @change="currentChangeAndsizeChange"
-      :page-size-options="[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]"
-    >
+    <a-pagination class="page" size="small" :total="pages.total" show-size-changer show-quick-jumper
+      :show-total="(total: number) => `共 ${total || 0} 条数据`" v-model:current="pages.currentPage"
+      v-model:pageSize="pages.pageSize" @change="currentChangeAndsizeChange"
+      :page-size-options="[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]">
       <template #buildOptionText="props">
         <span>{{ props.value }}条/页</span>
       </template>
@@ -319,6 +246,7 @@ defineExpose({
   .table_one {
     background-color: aqua;
   }
+
   .table_content {
     overflow: auto;
     width: 100%;
@@ -358,6 +286,7 @@ defineExpose({
     flex: 1;
   }
 }
+
 .search_actions {
   margin-left: 10px;
 }

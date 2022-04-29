@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+  let html1 = "我已阅读并接受相关<text data-type='1'>条款和条件</text>和<text data-type='2'>隐私政策</text>。"
+  let html2 = "我已阅读并接受相关<view data-type='1'>条款和条件</view>和<view data-type='2'>隐私政策</view>。<view data-type='3'>我是肖明辉</view>"
+
+  class parssHtml {
+    constructor(reqParams = {}) {
+      const { htmlStr, htmlRule = 'text', getAtter = 'type' } = reqParams
+      // 不是字符串直接返回
+      if (typeof htmlStr !== 'string') {
+        throw new Error("请传递字符串")
+      }
+      const rulesSplitReg = new RegExp(`<${htmlRule}.*?(?:>|\/>)`, 'gi')
+      const rulesSplitContentReg = new RegExp(`<${htmlRule}.*?(?:>|\/>)*\/${htmlRule}>`, 'gi')
+      const getTypeReg = new RegExp(`${getAtter}=[\'\"]?([^\'\"]*)[\'\"]?`, 'i')
+      this.htmlStr = htmlStr
+      // 按照 text 标签分组
+      this.htmlArr = htmlStr.match(rulesSplitReg) || []
+      // 匹配type属性的值
+      this.typeRule = getTypeReg;
+      // 获取标签的内容
+      this.htmlCenter = htmlStr.split(rulesSplitContentReg)
+      // 存放标签 中属性数组
+      this.attrsIndexArr = []
+      this.getAttrsValue(this.htmlArr, this.attrsIndexArr, this.typeRule)
+      const resultTemp = this.filter(htmlStr)
+      // 计数
+      this.i = 0
+      resultTemp.forEach(d => {
+        if (!this.htmlCenter.includes(d.text) && this.attrsIndexArr[this.i]) {
+          d.type = this.attrsIndexArr[this.i]
+          this.i++
+        }
+      })
+      return resultTemp
+    }
+    // 拿到标签的属性
+    getAttrsValue (strArr, IndexArr, typeRule) {
+      strArr.forEach(d => {
+        let names = d.match(typeRule)
+        // 获取type
+        if (names && names[1]) {
+          IndexArr.push(+names[1])
+        }
+      })
+    }
+    // 过滤除了标签的内容
+    filter (str) {
+      const result = []
+      const reg = /<[^<>]+>/g;//1、全局匹配g肯定忘记写,2、<>标签中不能包含标签实现过滤HTML标签
+      const temp = str.split(reg);//替换HTML标签
+      temp.forEach(element => {
+        if (element) {
+          result.push({
+            text: element
+          })
+        }
+      });
+      return result;
+    }
+  }
+
+  const resultTemp1 = new parssHtml({ htmlStr: html1 })
+  const resultTemp2 = new parssHtml({ htmlStr: html2, htmlRule: 'view' },)
+  console.log(resultTemp1)
+  console.log(resultTemp2)
+</script>
+
+</html>
