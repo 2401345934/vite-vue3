@@ -13,7 +13,7 @@ import Antd from 'ant-design-vue';
 const pinia = createPinia()
 pinia.use(createPersistedState())
 // 测试push 同时推送2个仓库
-const app = createApp(App);
+const app = createApp({ ...App });
 app.component("QueryTable", QueryTable)
 app
   .use(router)

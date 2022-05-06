@@ -1,16 +1,26 @@
 
 <template>
+  <div ref="msgRef"> nexttice 原理 {{ msg }}</div>
   <a-input></a-input>
   <a-button @click="btn">报错拦截测试</a-button>
   <a-button @click="routerLink">跳转到百度</a-button>
   <a-button @click="go">责任链</a-button>
   <a-button @click="suo">测试锁</a-button>
+  <a-button @click="nextTick">NEXTTICK</a-button>
 </template>
 <script lang="ts" setup>
 import { useMiddleware, useLook } from '@/hooks/index';
 import { getWindow } from '@/utils/utils';
 const btn = () => {
   console.log(a);
+}
+const msg: any = ref(123)
+const msgRef = ref()
+
+const nextTick = () => {
+  msg.value = '小明辉'
+  console.log(msgRef.value);
+
 }
 
 const suo = () => {
