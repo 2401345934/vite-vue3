@@ -1,10 +1,8 @@
-import qs from "qs"
 import moment from "moment"
 import { ConfigProvider } from "ant-design-vue";
 import UserStore from "@/store"
 import { message } from 'ant-design-vue';
 import { multiTab } from "@/piniaStore/module/multiTab"
-import { type } from "os";
 
 export function queryParams(params: any,) {
   for (const key in params) {
@@ -111,9 +109,10 @@ export const outHome = () => {
 }
 
 
-type myWindowType = Window & {
-  openUrl: (url: string) => void
+export const piniaPlugnsGetStorage = (key: string) => {
+  return JSON.parse(localStorage.getItem(key) || '{}')
 }
-export const getWindow = (): myWindowType => {
-  return window as unknown as myWindowType
+
+export const piniaPlugnsSetStorage = (key: string, value: string | any) => {
+  localStorage.setItem(key, typeof value !== 'string' ? JSON.stringify(value) : value)
 }
