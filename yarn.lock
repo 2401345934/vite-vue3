@@ -3583,14 +3583,19 @@ pify@^4.0.1:
   resolved "https://registry.npmjs.org/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pinia-persistedstate-plugin@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/pinia-persistedstate-plugin/-/pinia-persistedstate-plugin-0.0.8.tgz#d1e04b353093063c79d7f5eadd125c23ded3c3ec"
-  integrity sha512-h1h+yudloNHwzV46Y2gt6AB2cm7hr0xx0Wd7jOiKAp/OQ1VH0yX5bRvhm3Msxa6wLSK9+sMaWGYF3JVnQNWwhA==
+pinia-plugin-persist@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/pinia-plugin-persist/-/pinia-plugin-persist-1.0.0.tgz#fc696f225527f30bd5955109fafadd43c725e888"
+  integrity sha512-M4hBBd8fz/GgNmUPaaUsC29y1M09lqbXrMAHcusVoU8xlQi1TqgkWnnhvMikZwr7Le/hVyMx8KUcumGGrR6GVw==
   dependencies:
-    pinia "^2.0.3"
+    vue-demi "^0.12.1"
 
-pinia@^2.0.12, pinia@^2.0.3:
+pinia-plugin-persistedstate@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmmirror.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-1.5.1.tgz#9ea81e5a245e87941c750fdb5eb303bab399427b"
+  integrity sha512-X0jKWvA3kbpYe8RuIyLaZDEAFvsv3+QmBkMzInBHl0O57+eVJjswXHnIWeFAeFjktrE0cJbGHw2sBMgkcleySQ==
+
+pinia@^2.0.12:
   version "2.0.13"
   resolved "https://registry.npmjs.org/pinia/-/pinia-2.0.13.tgz#6656fc290dae120a9f0cb2f5c520df400d41b8c5"
   integrity sha512-B7rSqm1xNpwcPMnqns8/gVBfbbi7lWTByzS6aPZ4JOXSJD4Y531rZHDCoYWBwLyHY/8hWnXljgiXp6rRyrofcw==
@@ -4713,7 +4718,7 @@ vite@^2.8.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vue-demi@*:
+vue-demi@*, vue-demi@^0.12.1:
   version "0.12.5"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
   integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==

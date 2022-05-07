@@ -80,11 +80,6 @@ const routes: RouterType[] = [
     name: 'login',
     component: () => import('@/views/Login/index.vue'),
   },
-  {
-    path: '/intercept',
-    name: 'intercept',
-    component: () => import('@/views/Intercept/index.vue'),
-  },
 ]
 
 const router = createRouter({

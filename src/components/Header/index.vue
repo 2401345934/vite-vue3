@@ -10,7 +10,6 @@
     <div class="header_r">
       <div class="change_theme">
         <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('theme')">切换主题</a-button>
-        <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('error')">错误信息</a-button>
       </div>
       <div class="user_info">
         <a-dropdown>
@@ -61,24 +60,7 @@
       </a-col>
     </a-row>
   </a-drawer>
-  <a-drawer placement="left" width="60%" v-model:visible="errorDrawer">
-    <a-list item-layout="horizontal" :data-source="errorList">
-      <template #renderItem="{ item, index }">
-        <a-list-item>
-          <template #actions><a @click="removeError(index)">删除</a></template>
-          <a-list-item-meta :description="item.source">
-            <template #title>
-              <a-space>
-                <div>错误信息: <a>{{ item.event }}</a></div>
-                <div>错误时间: <a style="margin-left: 10px;">{{ item.time }}</a></div>
 
-              </a-space>
-            </template>
-          </a-list-item-meta>
-        </a-list-item>
-      </template>
-    </a-list>
-  </a-drawer>
 </template>
 <script setup lang="ts">
 import UserStore from "@/store"
@@ -133,21 +115,7 @@ const changeDrawer = (type: string) => {
   if (type == "theme") {
     themDrawer.value = true
   }
-  if (type == "error") {
-    errorDrawer.value = true
-  }
 }
-const removeError = (index: number) => {
-  errorList.value.splice(index, 1)
-
-}
-
-watch(() => errorList?.value?.length, () => {
-  console.log(errorList.value, 'errorList.value');
-  console.log(JSON.stringify(errorList.value), 'errorList.value');
-
-  localStorage.setItem("errorList", JSON.stringify(errorList.value))
-})
 
 
 </script>

@@ -25,6 +25,7 @@ export const theme = defineStore('theme', {
     updateTheme() {
       changeTheme(this.$state)
     }
-  }
+  },
+
 })
 

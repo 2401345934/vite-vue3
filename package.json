@@ -35,7 +35,6 @@
     "loadsh": "^0.0.4",
     "moment": "^2.29.1",
     "pinia": "^2.0.12",
-    "pinia-persistedstate-plugin": "^0.0.8",
     "qs": "^6.10.3",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
