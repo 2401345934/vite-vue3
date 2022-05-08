@@ -7,6 +7,7 @@ export const menu: any = defineStore({
     }
   },
   getters: {},
+  persist: true, // Note that we are using a persisted state here
   actions: {
     changeStateMenu(collapsed: boolean) {
       this.$state.collapsed = collapsed

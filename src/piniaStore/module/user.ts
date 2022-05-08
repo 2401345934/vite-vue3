@@ -1,11 +1,12 @@
 import { defineStore } from "pinia"
-export const user: any = defineStore({
+export const useUserInfo: any = defineStore({
   id: "user",
   state: () => {
     return {
     }
   },
   getters: {},
+  persist: true, // Note that we are using a persisted state here
   actions: {
     updateUserInfo(params: any, cb: any) {
       this.$state = params
@@ -15,6 +16,6 @@ export const user: any = defineStore({
       this.$state = {}
       window.location.href = '/#/login'
     },
-  }
+  },
 })
 

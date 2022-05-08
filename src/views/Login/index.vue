@@ -20,9 +20,9 @@
 <script lang="ts" setup>
 // @ts-nocheck
 import request from "@/axios/index"
-import { user } from "@/piniaStore/module/user"
+import { useUserInfo } from "@/piniaStore/module/user"
 
-const { updateUserInfo } = user()
+const { updateUserInfo } = useUserInfo()
 const router = useRouter();
 const formState: any = reactive({
 });

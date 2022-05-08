@@ -2,12 +2,12 @@
  * @Description:
  * @Author: alan
  * @Date: 2021-03-24 21:08:26
- * @LastEditTime: 2022-05-08 21:11:48
+ * @LastEditTime: 2022-05-08 21:53:25
  * @LastEditors: Please set LastEditors
  */
 import { message } from 'ant-design-vue';
 import axios from 'axios'
-import { user } from "@/piniaStore/module/user"
+import { useUserInfo } from "@/piniaStore/module/user"
 
 // 应用
 // export let baseURL = "https://api.qa.lululemon.cn/estoreapi/lululemon-course-bo"
@@ -17,7 +17,7 @@ export let baseURL = "/lululemon-course-bo"
 axios.interceptors.response.use((response) => {
   return response
 }, (error) => {
-  const { outLogin } = user()
+  const { outLogin } = useUserInfo()
   if (error.response && error.response?.data?.code == '1000') {
     outLogin()
     message.error("当前用户登录信息已过期请重新登录")
@@ -25,7 +25,7 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(error)
 })
 axios.interceptors.request.use((config: any) => {
-  const { token } = user()
+  const { $state: { token } } = useUserInfo()
   // token 处理
   if (token) {
     config.headers['token'] = token || '';
@@ -94,7 +94,7 @@ export default function request({
           })
         }
       } else if (res && res.data && res.data.code === '1000') {
-        const { outLogin } = user()
+        const { outLogin } = useUserInfo()
         outLogin()
         message.error("当前用户登录信息已过期请重新登录")
 

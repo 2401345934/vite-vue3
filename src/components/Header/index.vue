@@ -65,23 +65,26 @@
 <script setup lang="ts">
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
-import { user } from "@/piniaStore/module/user"
+import { useUserInfo } from "@/piniaStore/module/user"
 import request from "@/axios/index"
 import logo from "./components/logo.vue"
 import content from "./components/content.vue"
 import { ConfigProvider, notification, } from "ant-design-vue";
 import { UserOutlined } from '@ant-design/icons-vue';
 import { getToken } from "@/utils/utils"
-const { user: userInfo = {}, outLogin: outLoings } = user()
+const { outLogin: outLoings } = useUserInfo()
 const menuStore = menu()
 const store = theme()
 const colorState = reactive({
   ...store.$state
 });
 const themDrawer = ref(false)
+const userInfo: any = ref({})
 const errorDrawer = ref(false)
 const errorList = ref(JSON.parse(localStorage.getItem("errorList") || '[]'))
 onMounted(() => {
+  userInfo.value = useUserInfo().$state.user
+
   window.addEventListener("setItemEvent", function (e) {
     const list = JSON.parse(localStorage.getItem("errorList") || '[]')
     if (errorList.length !== list.length) {

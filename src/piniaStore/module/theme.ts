@@ -16,6 +16,7 @@ export const theme = defineStore({
     }
   },
   getters: {},
+  persist: true, // Note that we are using a persisted state here
   actions: {
     changeStateTheme(params: any) {
       this.$state = {

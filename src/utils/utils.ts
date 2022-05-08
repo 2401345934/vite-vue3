@@ -2,7 +2,7 @@ import moment from "moment"
 import { ConfigProvider } from "ant-design-vue";
 import { message } from 'ant-design-vue';
 import { multiTab } from "@/piniaStore/module/multiTab"
-import { user } from "@/piniaStore/module/user"
+import { useUserInfo } from "@/piniaStore/module/user"
 
 export function queryParams(params: any,) {
   for (const key in params) {
@@ -94,7 +94,8 @@ export const changeTheme = (colorParams: ColorParams): void => {
 }
 
 export const getToken = () => {
-  return user().token
+  const { $state } = useUserInfo()
+  return $state.token || ''
 }
 
 
