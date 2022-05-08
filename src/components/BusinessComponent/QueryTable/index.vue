@@ -165,36 +165,35 @@ const rowSelection: TableProps['rowSelection'] = {
 // 查询事件
 const searchTable = (reset?: boolean) => {
   const value = cloneDeep(formInline);
-  const initParams = {
-    "qp-recordType-eq": 40,
-  };
+  const initParams = state.request.initParams || {};
   const reqParams = reset
     ? {
       currentPage: pages.currentPage,
-      pageSize: pages.pageSize,
+      rows: pages.pageSize,
       ...initParams,
     }
     : {
       currentPage: pages.currentPage,
-      pageSize: pages.pageSize,
+      rows: pages.pageSize,
       ...queryParams(value),
       ...initParams,
     };
-
+  const url = (state.request.method === 'get' || state.request.method === 'GET') ? state.request.url + `?${qs.stringify(reqParams)}` : state.request.url
   loading.value = true;
   request({
-    url: state.request.url + `?${qs.stringify(reqParams)}`,
+    url: url,
     isToast: false,
-    method: state.request.method || "get",
+    data: reqParams,
+    method: state.request.method || "post",
     converter: ({ data }: any) => {
       if (state.request.tableCallBack) {
         state.request.tableCallBack(data);
       }
-      if (data && Array.isArray(data.items)) {
-        pages.data = data.items;
+      if (data && Array.isArray(data.lists)) {
+        pages.data = data.lists;
         pages.total = Number(data.total);
-        pages.currentPage = Number(data.page);
-        pages.pageSize = Number(data.size);
+        pages.currentPage = Number(data.currentPage);
+        pages.pageSize = Number(data.rows);
       }
     },
     fin: () => {

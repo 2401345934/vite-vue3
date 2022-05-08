@@ -1,8 +1,11 @@
 import moment from "moment"
-import { ConfigProvider } from "ant-design-vue";
+import { ConfigProvider, Modal } from "ant-design-vue";
 import { message } from 'ant-design-vue';
 import { multiTab } from "@/piniaStore/module/multiTab"
 import { useUserInfo } from "@/piniaStore/module/user"
+import { createVNode } from "vue";
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { LegacyButtonType } from "ant-design-vue/lib/button/buttonTypes";
 
 export function queryParams(params: any,) {
   for (const key in params) {
@@ -105,4 +108,38 @@ export const piniaPlugnsGetStorage = (key: string) => {
 
 export const piniaPlugnsSetStorage = (key: string, value: string | any) => {
   localStorage.setItem(key, typeof value !== 'string' ? JSON.stringify(value) : value)
+}
+
+
+
+type ModalConfirmType = {
+  title?: string,
+  okType?: LegacyButtonType,
+  content?: string,
+  cancelText?: string,
+  okText?: string,
+  okButtonProps?: any,
+  icon?: any,
+  onOk?(): void,
+  onCancel?(): void,
+}
+export const ModalConfirm = (props: ModalConfirmType = {}): any => {
+  return new Promise((resolve, reject) => {
+    Modal.confirm({
+      title: props.title || '确认移除?',
+      icon: props.icon || createVNode(ExclamationCircleOutlined),
+      content: props.content || '',
+      okText: props.okText || '确认',
+      okType: props.okType || 'danger',
+      okButtonProps: props.okButtonProps || {},
+      cancelText: props.cancelText || '取消',
+      onOk() {
+        resolve('通过')
+      },
+      onCancel() {
+        reject('拒绝')
+      },
+    });
+  })
+
 }

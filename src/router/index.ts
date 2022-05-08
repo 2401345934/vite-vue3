@@ -6,7 +6,7 @@ import { message } from 'ant-design-vue';
 
 export type RouterType = {
   path: string,
-  component: any,
+  component?: any,
   redirect?: string,
   name?: string,
   meta?: {
@@ -32,7 +32,19 @@ const routes: RouterType[] = [
           keepAlive: true
         }
       },
-
+      {
+        path: '/class-manage',
+        meta: { title: '活动管理', keepAlive: true, },
+        component: () => import('@/components/ChilrenComponent/index.vue'),
+        children: [
+          {
+            path: '/class-manage/course-category',
+            name: 'course-category',
+            component: () => import('@/views/class-manage/course-category/index.vue'),
+            meta: { title: '活动类别管理', keepAlive: true }
+          },
+        ]
+      },
     ]
   },
   {

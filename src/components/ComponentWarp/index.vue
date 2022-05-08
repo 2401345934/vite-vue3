@@ -1,8 +1,8 @@
 
 <template name="contentWarp">
   <div class="contentWarp">
-
-    <a-page-header :title="detailTitle()">
+    <!-- <a-page-header :title="detailTitle()"> -->
+    <a-page-header>
       <div class="main">
         <slot name="main"></slot>
       </div>
@@ -25,9 +25,5 @@ const pathname = ref(routers.currentRoute.value.fullPath);
 <style scoped lang="less">
 .contentWarp {
   width: 100%;
-}
-
-.main {
-  margin-top: 30px;
 }
 </style>
