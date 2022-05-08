@@ -99,8 +99,7 @@
     </a-table>
     <a-pagination class="page" size="small" :total="pages.total" show-size-changer show-quick-jumper
       :show-total="(total: number) => `共 ${total || 0} 条数据`" v-model:current="pages.currentPage"
-      v-model:pageSize="pages.pageSize" @change="currentChangeAndsizeChange"
-      :page-size-options="[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]">
+      v-model:pageSize="pages.pageSize" @change="currentChangeAndsizeChange">
       <template #buildOptionText="props">
         <span>{{ props.value }}条/页</span>
       </template>
