@@ -19,13 +19,13 @@
                 <UserOutlined />
               </template>
             </a-avatar>
-            {{ userInfo.userName }}
+            {{ userInfo.username }}
           </div>
 
           <template #overlay>
             <a-menu>
               <a-menu-item @click="outLogin">
-                <a href="javascript:;">退出登陆</a>
+                <a href="javascript:;">退出登录</a>
               </a-menu-item>
             </a-menu>
           </template>
@@ -63,15 +63,16 @@
 
 </template>
 <script setup lang="ts">
-import UserStore from "@/store"
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
+import { user } from "@/piniaStore/module/user"
+import request from "@/axios/index"
 import logo from "./components/logo.vue"
 import content from "./components/content.vue"
 import { ConfigProvider, notification, } from "ant-design-vue";
 import { UserOutlined } from '@ant-design/icons-vue';
-import { outHome } from "@/utils/utils"
-const userInfo = UserStore.getters['userInfo/get']
+import { getToken } from "@/utils/utils"
+const { user: userInfo = {}, outLogin: outLoings } = user()
 const menuStore = menu()
 const store = theme()
 const colorState = reactive({
@@ -107,9 +108,15 @@ const onColorChange = (type: string, e: Event) => {
   store.updateTheme()
 };
 
-// 退出登陆
+// 退出登录
 const outLogin = () => {
-  outHome()
+  request({
+    url: `/frontend/authority/logout/${getToken()}`,
+    successMessage: "退出登录成功",
+    converter: () => {
+      outLoings()
+    }
+  })
 }
 const changeDrawer = (type: string) => {
   if (type == "theme") {

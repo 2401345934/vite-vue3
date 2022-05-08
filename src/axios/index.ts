@@ -1,33 +1,36 @@
 /*
  * @Description:
- * @Author: rodchen
+ * @Author: alan
  * @Date: 2021-03-24 21:08:26
- * @LastEditTime: 2021-10-27 13:54:58
- * @LastEditors: rodchen
+ * @LastEditTime: 2022-05-08 21:11:48
+ * @LastEditors: Please set LastEditors
  */
 import { message } from 'ant-design-vue';
 import axios from 'axios'
+import { user } from "@/piniaStore/module/user"
 
 // 应用
-// export let baseURL = "http://47.100.87.54:9109/"
-export let baseURL = ""
+// export let baseURL = "https://api.qa.lululemon.cn/estoreapi/lululemon-course-bo"
+export let baseURL = "/lululemon-course-bo"
 
 // 拦截器
 axios.interceptors.response.use((response) => {
   return response
 }, (error) => {
-  if (error.response && error.response?.data?.code == '401') {
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('sessionId');
-    // message.warning("当前未登录或者登录已失效请重新登录")
+  const { outLogin } = user()
+  if (error.response && error.response?.data?.code == '1000') {
+    outLogin()
+    message.error("当前用户登录信息已过期请重新登录")
   }
   return Promise.reject(error)
 })
 axios.interceptors.request.use((config: any) => {
-  const resposne = JSON.parse(localStorage.getItem('userInfo') || '{}');
-  // sessionId 处理
-  // config.headers['sso-sessionid'] = localStorage.getItem("sessionId") || '';
-  config.headers['sso-sessionid'] = resposne?.sessionId || '1471373608333791234_1_1_1';
+  const { token } = user()
+  // token 处理
+  if (token) {
+    config.headers['token'] = token || '';
+  }
+
   config.withCredentials = true;
   config.baseURL = baseURL
   return config;
@@ -79,7 +82,7 @@ export default function request({
         }
         return
       }
-      if (res && res.data && (res.data.status === '0' || res.data.code === '000000')) {
+      if (res && res.data && (res.data.status === '0' || res.data.code === '0000')) {
         resolve(res?.data?.data || {})
         if (isToast) {
           message.success(successMessage || '操作成功')
@@ -90,11 +93,17 @@ export default function request({
             data: res?.data?.data || {}
           })
         }
-      } else {
+      } else if (res && res.data && res.data.code === '1000') {
+        const { outLogin } = user()
+        outLogin()
+        message.error("当前用户登录信息已过期请重新登录")
+
+      }
+      else {
         if (errorConver) {
           errorConver()
         }
-        message.error(res.data.msg)
+        message.error(res.data.message)
       }
     }).catch(err => {
       reject(err)

@@ -18,5 +18,13 @@ export default {
       target: 'http://www.i-baby.net/', // 开发环境
       changeOrigin: true,
     },
+    '/lululemon-course-bo': {
+      target: 'https://api.qa.lululemon.cn/estoreapi/',
+      changeOrigin: true,
+      secure: true,
+      pathRewrite: {
+        '^/lululemon-course-bo': ''
+      }
+    }
   }
 }

@@ -77,7 +77,7 @@ module.exports = {
 
 
 
-// 登陆页面模版
+// 登录页面模版
 const createLoginTemplate = require("./loginTemplate.ts")
 // 正常查询列表模版
 const createQueryTable = require("./queryTableTemplate.ts")

@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, } from 'vue-router'
 // createWebHashHistory  hash 模式 带有# 号   无需后端
-import store from "@/store"
 import { multiTab, RouterListType } from "@/piniaStore/module/multiTab"
 
 import { message } from 'ant-design-vue';
@@ -33,40 +32,7 @@ const routes: RouterType[] = [
           keepAlive: true
         }
       },
-      {
-        path: '/yewu',
-        name: 'Yewu',
-        meta: {
-          title: '业务测试',
-        },
-        component: () => import('@/components/ChilrenComponent/index.vue'),
-        children: [
-          {
-            path: '/yewu/cart',
-            name: 'Cart',
-            component: () => import('@/views/Cart/index.vue'),
-            meta: {
-              title: '购物车',
-            }
-          },
-        ]
-      },
-      {
-        path: '/queryTable',
-        name: 'QueryTable',
-        component: () => import('@/views/QueryTable/index.vue'),
-        meta: {
-          title: '查询列表'
-        }
-      },
-      {
-        path: '/test',
-        name: 'Test',
-        component: () => import('@/views/Test/index.vue'),
-        meta: {
-          title: '测试'
-        }
-      },
+
     ]
   },
   {
@@ -104,11 +70,10 @@ router.beforeEach((to, from) => {
 
 router.afterEach((to, from) => {
   // ...
-  const userInfo = store.getters['userInfo/get']
-  if (to.path !== '/login' && (!userInfo.userName || !userInfo.passWord)) {
-    message.error('当前没有登录 请登录')
-    router.push('/login')
-  }
+  // if (to.path !== '/login' && (!userInfo.userName || !userInfo.passWord)) {
+  //   message.error('当前没有登录 请登录')
+  //   router.push('/login')
+  // }
 
 
 })

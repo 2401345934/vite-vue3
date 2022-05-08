@@ -13,7 +13,7 @@ module.exports = () => {
             <a-input-password placeholder="密码: 123456" v-model:value="formState.passWord" />
           </a-form-item>
           <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-            <a-button type="primary" html-type="submit" @click="onSubmit">登陆</a-button>
+            <a-button type="primary" html-type="submit" @click="onSubmit">登录</a-button>
           </a-form-item>
         </a-form>
       </div>

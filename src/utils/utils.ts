@@ -1,8 +1,8 @@
 import moment from "moment"
 import { ConfigProvider } from "ant-design-vue";
-import UserStore from "@/store"
 import { message } from 'ant-design-vue';
 import { multiTab } from "@/piniaStore/module/multiTab"
+import { user } from "@/piniaStore/module/user"
 
 export function queryParams(params: any,) {
   for (const key in params) {
@@ -93,19 +93,8 @@ export const changeTheme = (colorParams: ColorParams): void => {
   });
 }
 
-// 退出登陆 回到登陆页面
-export const outHome = () => {
-  UserStore.commit("userInfo/setState", {
-    userName: null,
-    passWord: null,
-    cb: () => {
-      message.success("退出登陆成功")
-      const multiTabStore = multiTab()
-      const { $state, } = multiTabStore
-      $state.routerList = []
-      window.location.href = '/#/login'
-    },
-  });
+export const getToken = () => {
+  return user().token
 }
 
 
