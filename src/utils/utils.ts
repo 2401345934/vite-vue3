@@ -143,3 +143,11 @@ export const ModalConfirm = (props: ModalConfirmType = {}): any => {
   })
 
 }
+
+type requiredTextType = {
+  trigger?: string,
+  message: string
+}
+
+export const requiredText = ({ trigger, message }: requiredTextType) =>
+  ({ required: true, whitespace: true, trigger: trigger || 'change', message: message || "类别名称不能为空" })

@@ -13,15 +13,15 @@
 </template>
 <script lang='ts' setup>
 import request from '@/axios';
-import { ModalConfirm } from '@/utils/utils';
+import { ModalConfirm, requiredText } from '@/utils/utils';
 import { FormInstance } from 'ant-design-vue';
 const layout = {
-  labelCol: { span: 4 },
+  labelCol: { span: 6 },
   wrapperCol: { span: 14 },
 };
 const rules: any = {
   name: [
-    { required: true, trigger: 'change', message: "类别名称不能为空" },
+    requiredText({ message: '类别名称不能为空' }),
     { trigger: 'change', max: 4, message: "文本长度不能大于4位数" },
     { trigger: 'change', min: 2, message: "文本长度不能少于2位数" },
   ],
