@@ -88,11 +88,11 @@
           }}</template>
           <!-- 操作列 -->
           <template v-if="item.isOperator" #default="{ text, record, index }">
-            <template v-for="(btn, i) in item.render" :key="i">
-              <a-button :type="'text'" :size="'small'" @click.prevent="btn.action(record, onSubmit, index)">{{
+            <a-space>
+              <a v-for="(btn, i) in item.render" :key="i" @click.prevent="btn.action(record, onSubmit, index)">{{
                   btn.children
-              }}</a-button>
-            </template>
+              }}</a>
+            </a-space>
           </template>
         </a-table-column>
       </template>
