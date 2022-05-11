@@ -76,8 +76,8 @@
   <div class="table_warp">
     <a-table :loading="loading" class="table_content" bordered :data-source="pages.data"
       :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : '')"
-      :row-selection="state.type ? rowSelection : false" :scroll="{ y: height }" :row-key="record => record.id"
-      ref="queryTableRef" :pagination="false" :locale="{
+      :row-selection="state.type ? rowSelection : false" :scroll="{ y: height, x: '100%' }"
+      :row-key="record => record.id" ref="queryTableRef" :pagination="false" :locale="{
         emptyText: '暂无数据'
       }" @resizeColumn="handleResizeColumn" :highlightCurrentRow="true" @selection-change="handleSelectionChange">
       <template v-for="(item, index) in state.columns" :key="index">

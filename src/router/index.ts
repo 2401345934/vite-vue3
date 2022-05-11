@@ -43,6 +43,12 @@ const routes: RouterType[] = [
             component: () => import('@/views/class-manage/course-category/index.vue'),
             meta: { title: '活动类别管理', keepAlive: true }
           },
+          {
+            path: '/class-manage/class-list',
+            name: 'class-list',
+            component: () => import('@/views/class-manage/class-list/index.vue'),
+            meta: { title: '活动列表', keepAlive: true }
+          },
         ]
       },
     ]
