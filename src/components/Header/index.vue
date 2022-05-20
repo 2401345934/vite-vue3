@@ -10,6 +10,7 @@
     <div class="header_r">
       <div class="change_theme">
         <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('theme')">切换主题</a-button>
+        <a-button type="primary" style="margin-left: 16px" @click="changeDrawer('error')">错误信息</a-button>
       </div>
       <div class="user_info">
         <a-dropdown>
@@ -19,13 +20,13 @@
                 <UserOutlined />
               </template>
             </a-avatar>
-            {{ userInfo.username }}
+            {{ userInfo.userName }}
           </div>
 
           <template #overlay>
             <a-menu>
               <a-menu-item @click="outLogin">
-                <a href="javascript:;">退出登录</a>
+                <a href="javascript:;">退出登陆</a>
               </a-menu-item>
             </a-menu>
           </template>
@@ -60,31 +61,43 @@
       </a-col>
     </a-row>
   </a-drawer>
+  <a-drawer placement="left" width="60%" v-model:visible="errorDrawer">
+    <a-list item-layout="horizontal" :data-source="errorList">
+      <template #renderItem="{ item, index }">
+        <a-list-item>
+          <template #actions><a @click="removeError(index)">删除</a></template>
+          <a-list-item-meta :description="item.source">
+            <template #title>
+              <a-space>
+                <div>错误信息: <a>{{ item.event }}</a></div>
+                <div>错误时间: <a style="margin-left: 10px;">{{ item.time }}</a></div>
 
+              </a-space>
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
+      </template>
+    </a-list>
+  </a-drawer>
 </template>
 <script setup lang="ts">
 import { theme } from "@/piniaStore/module/theme"
 import { menu } from "@/piniaStore/module/menu"
-import { useUserInfo } from "@/piniaStore/module/user"
-import request from "@/axios/index"
 import logo from "./components/logo.vue"
 import content from "./components/content.vue"
 import { ConfigProvider, notification, } from "ant-design-vue";
 import { UserOutlined } from '@ant-design/icons-vue';
-import { getToken } from "@/utils/utils"
-const { outLogin: outLoings } = useUserInfo()
+// const userInfo = UserStore.getters['userInfo/get']
+const userInfo = {}
 const menuStore = menu()
 const store = theme()
 const colorState = reactive({
   ...store.$state
 });
 const themDrawer = ref(false)
-const userInfo: any = ref({})
 const errorDrawer = ref(false)
 const errorList = ref(JSON.parse(localStorage.getItem("errorList") || '[]'))
 onMounted(() => {
-  userInfo.value = useUserInfo().$state.user
-
   window.addEventListener("setItemEvent", function (e) {
     const list = JSON.parse(localStorage.getItem("errorList") || '[]')
     if (errorList.length !== list.length) {
@@ -111,21 +124,28 @@ const onColorChange = (type: string, e: Event) => {
   store.updateTheme()
 };
 
-// 退出登录
+// 退出登陆
 const outLogin = () => {
-  request({
-    url: `/frontend/authority/logout/${getToken()}`,
-    successMessage: "退出登录成功",
-    converter: () => {
-      outLoings()
-    }
-  })
 }
 const changeDrawer = (type: string) => {
   if (type == "theme") {
     themDrawer.value = true
   }
+  if (type == "error") {
+    errorDrawer.value = true
+  }
 }
+const removeError = (index: number) => {
+  errorList.value.splice(index, 1)
+
+}
+
+watch(() => errorList?.value?.length, () => {
+  console.log(errorList.value, 'errorList.value');
+  console.log(JSON.stringify(errorList.value), 'errorList.value');
+
+  localStorage.setItem("errorList", JSON.stringify(errorList.value))
+})
 
 
 </script>

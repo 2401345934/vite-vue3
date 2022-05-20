@@ -149,8 +149,7 @@ const detailTitle: any = () => {
   return routerFlat.value.find((item: any) => item.path === pathname.value)?.meta?.title;
 };
 
-// @ts-ignore
-routers.afterEach((to, from) => {
+routers.afterEach((to: any) => {
   if (pathname.value === to.fullPath) return;
   pathname.value = to.fullPath;
 });
