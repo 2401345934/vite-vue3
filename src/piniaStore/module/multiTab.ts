@@ -1,23 +1,21 @@
-import { ca } from "element-plus/es/locale"
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
+
 export type RouterListType = {
-  path: string,
-  name: string,
-  componentName: string,
+  path: string
+  name: string
+  componentName: string
 }
 
 const routerList: RouterListType[] = []
-const activeKey: string = ''
-const fullscreenFlag: boolean = false
+const activeKey = ''
+const fullscreenFlag = false
 
 export const multiTab = defineStore('multiTab', {
-  state: () => {
-    return {
-      routerList,
-      activeKey,
-      fullscreenFlag
-    }
-  },
+  state: () => ({
+    routerList,
+    activeKey,
+    fullscreenFlag
+  }),
   getters: {},
   actions: {
     toggleFullscreenFlag() {
@@ -32,16 +30,19 @@ export const multiTab = defineStore('multiTab', {
       routerList.splice(index, 1)
       if (routerList.length === 0) {
         routerList.push({
-          path: "/welcome",
-          name: "首页",
-          componentName: "Welcome",
+          path: '/welcome',
+          name: '首页',
+          componentName: 'Welcome'
         })
       }
       if (callback) {
         callback(index)
       }
     },
-    replaceRouterList(arr: RouterListType[], callback?: Function | null | undefined) {
+    replaceRouterList(
+      arr: RouterListType[],
+      callback?: Function | null | undefined
+    ) {
       this.$state.routerList = arr
       if (callback) {
         callback(this.$state.routerList)
@@ -52,4 +53,3 @@ export const multiTab = defineStore('multiTab', {
     }
   }
 })
-

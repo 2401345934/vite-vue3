@@ -9,14 +9,12 @@ const lock = (fn, manual = false) => {
   return (...args) => {
     if (locking) return
     locking = true
-    let done = () => {
+    const done = () => {
       locking = false
     }
     if (manual) return fn.call(this, ...args, done)
-    let promise = fn.call(this, ...args)
-    Promise.resolve(promise)
-      .then(done)
-      .catch(done)
+    const promise = fn.call(this, ...args)
+    Promise.resolve(promise).then(done).catch(done)
 
     return promise
   }

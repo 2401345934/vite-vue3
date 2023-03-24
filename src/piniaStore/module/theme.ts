@@ -1,7 +1,7 @@
-import { changeTheme } from '@/utils/utils';
-import { defineStore } from "pinia"
+import { changeTheme } from '@/utils/utils'
+import { defineStore } from 'pinia'
 export const theme = defineStore({
-  id: "theme",
+  id: 'theme',
   state: () => {
     return {
       // header 主题色
@@ -12,7 +12,7 @@ export const theme = defineStore({
       errorColor: '#ff4d4f',
       warningColor: '#faad14',
       successColor: '#52c41a',
-      infoColor: '#1890ff',
+      infoColor: '#1890ff'
     }
   },
   getters: {},
@@ -27,7 +27,5 @@ export const theme = defineStore({
     updateTheme() {
       changeTheme(this.$state)
     }
-  },
-
+  }
 })
-

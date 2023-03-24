@@ -9,48 +9,52 @@
         <span style="color: #fff">/</span>
       </template>
       <template #itemRender="{ route, paths }">
-        <span v-if="routes.indexOf(route) === routes.length - 1">{{ route.meta.title }}</span>
+        <span v-if="routes.indexOf(route) === routes.length - 1">{{
+          route.meta.title
+        }}</span>
         <a v-else @click="toRouter(route, paths)">{{ route.meta.title }}</a>
       </template>
     </a-breadcrumb>
   </div>
 </template>
 
-<script setup lang='ts'>
-import { menu } from "@/piniaStore/module/menu"
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from '@ant-design/icons-vue';
-import router, { RouterType } from "@/router/index";
-const routes: any = router.options.routes[0].children;
-const routers = useRouter();
-const routersList = ref(routers.currentRoute.value.matched.filter(d => d.path !== '/'))
+<script setup lang="ts">
+import { menu } from '@/piniaStore/module/menu'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+import router, { RouterType } from '@/router/index'
+const routes: any = router.options.routes[0].children
+const routers = useRouter()
+const routersList = ref(
+  routers.currentRoute.value.matched.filter(d => d.path !== '/')
+)
 
-watch(() => routers.currentRoute.value.fullPath, (v) => {
-  routersList.value = routers.currentRoute.value.matched.filter(d => d.path !== '/')
-})
+watch(
+  () => routers.currentRoute.value.fullPath,
+  v => {
+    routersList.value = routers.currentRoute.value.matched.filter(
+      d => d.path !== '/'
+    )
+  }
+)
 const toRouter = (route: any, paths: string[]) => {
   if (route.children) {
     return
   }
   routers.push('/' + paths[paths.length - 1])
-
-
 }
 
 const menuStore = menu()
 
 const state = reactive({
-  collapsed: menuStore.$state.collapsed,
-});
+  collapsed: menuStore.$state.collapsed
+})
 
 const toggleCollapsed = () => {
-  state.collapsed = !state.collapsed;
+  state.collapsed = !state.collapsed
   menuStore.changeStateMenu(!menuStore.$state.collapsed)
-};
+}
 </script>
-<style scoped lang='less'>
+<style scoped lang="less">
 .menuChange {
   color: #fff;
   margin-left: 10px;

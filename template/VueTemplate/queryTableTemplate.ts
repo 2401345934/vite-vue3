@@ -1,9 +1,5 @@
-module.exports = ({
-  cssLoader = 'less',
-  langType = 'ts',
-}) => {
-  return (
-    `<template name="queryTable">
+module.exports = ({ cssLoader = 'less', langType = 'ts' }) => {
+  return `<template name="queryTable">
   <QueryTable ref="tableRef" :state="{ ...state }"></QueryTable>
 </template>
 <script lang='${langType}' setup>
@@ -224,5 +220,4 @@ const state: any = reactive({
 <style scoped lang='${cssLoader}'>
 </style>
 `
-  )
 }

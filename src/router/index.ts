@@ -1,18 +1,16 @@
-import { createRouter, createWebHashHistory, } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 // createWebHashHistory  hash 模式 带有# 号   无需后端
-import { multiTab, RouterListType } from "@/piniaStore/module/multiTab"
-
-import { message } from 'ant-design-vue';
+import { multiTab, RouterListType } from '@/piniaStore/module/multiTab'
 
 export type RouterType = {
-  path: string,
-  component?: any,
-  redirect?: string,
-  name?: string,
+  path: string
+  component?: any
+  redirect?: string
+  name?: string
   meta?: {
-    title: string,
+    title: string
     keepAlive?: boolean
-  },
+  }
   children?: RouterType[]
 }
 
@@ -20,8 +18,8 @@ export type RouterType = {
 const routes: RouterType[] = [
   {
     path: '/',
-    component: () => import("@/components/BaseLayout/index.vue"),
-    redirect: "/welcome",
+    component: () => import('@/components/BaseLayout/index.vue'),
+    redirect: '/welcome',
     children: [
       {
         path: '/welcome',
@@ -34,43 +32,43 @@ const routes: RouterType[] = [
       },
       {
         path: '/class-manage',
-        meta: { title: '活动管理', keepAlive: true, },
+        meta: { title: '活动管理', keepAlive: true },
         component: () => import('@/components/ChilrenComponent/index.vue'),
         children: [
           {
             path: '/class-manage/course-category',
             name: 'course-category',
-            component: () => import('@/views/class-manage/course-category/index.vue'),
+            component: () =>
+              import('@/views/class-manage/course-category/index.vue'),
             meta: { title: '活动类别管理', keepAlive: true }
           },
           {
             path: '/class-manage/class-list',
             name: 'class-list',
-            component: () => import('@/views/class-manage/class-list/index.vue'),
+            component: () =>
+              import('@/views/class-manage/class-list/index.vue'),
             meta: { title: '活动列表', keepAlive: true }
-          },
+          }
         ]
-      },
+      }
     ]
   },
   {
     path: '/404',
     name: '404',
-    component: () => import('@/views/404/index.vue'),
-
+    component: () => import('@/views/404/index.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/Login/index.vue'),
-  },
+    component: () => import('@/views/Login/index.vue')
+  }
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
 
 router.beforeEach((to, from) => {
   // ...
@@ -79,11 +77,12 @@ router.beforeEach((to, from) => {
   // 卸载缓存
   const multiTabStore = multiTab()
   // 判断当前页面是否要缓存
-  to.meta.keepAlive = multiTabStore.$state.routerList.find((d: RouterListType) => d.path === to.path)
+  to.meta.keepAlive = multiTabStore.$state.routerList.find(
+    (d: RouterListType) => d.path === to.path
+  )
   if (to.matched.length === 0) {
     router.push('/404')
   }
-
 })
 
 router.afterEach((to, from) => {
@@ -92,7 +91,5 @@ router.afterEach((to, from) => {
   //   message.error('当前没有登录 请登录')
   //   router.push('/login')
   // }
-
-
 })
 export default router

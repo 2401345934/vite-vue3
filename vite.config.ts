@@ -1,12 +1,10 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-// 增加 gzip 打包配置
-import viteCompression from 'vite-plugin-compression'
-const { resolve } = require('path') //必须要引入resolve 
-import server from "./config/propx"
+import server from './config/propx'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+
+const { resolve } = require('path')
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -14,8 +12,8 @@ export default defineConfig({
     AutoImport({
       resolvers: [AntDesignVueResolver()],
       imports: ['vue', 'vue-router'],
-      dts: "types/auto-import.d.ts"
-    }),
+      dts: 'types/auto-import.d.ts'
+    })
     // Components({
     //   resolvers:
     //     [
@@ -75,12 +73,11 @@ export default defineConfig({
     //         },
     //     ],
     // }),
-
   ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     alias: {
-      '@': resolve(__dirname, 'src') //把src改为@
+      '@': resolve(__dirname, 'src') // 把src改为@
     }
   },
   // 打包配置
@@ -103,12 +100,12 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true,
-      },
-    },   //去除 console debugger
+        drop_debugger: true
+      }
+    } // 去除 console debugger
   },
   // 请求代理
-  server,
+  server
   // css: {
   //   preprocessorOptions: {
   //     less: {

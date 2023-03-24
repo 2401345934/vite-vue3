@@ -10,5 +10,4 @@ export default {
   name: 'Yewu'
 }
 </script>
-<style scoped lang='less'>
-</style>
+<style scoped lang="less"></style>

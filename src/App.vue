@@ -1,10 +1,9 @@
-
-<script lang="ts"  setup>
-import zhCN from 'ant-design-vue/es/locale/zh_CN';
-const routers = useRouter();
+<script lang="ts" setup>
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+const routers = useRouter()
 
 onMounted(() => {
-  window.addEventListener("openUrl", function (e: any) {
+  window.addEventListener('openUrl', function (e: any) {
     const { goUrl, goUrlFlag } = e
     // 是自己的网站
     if (goUrlFlag) {
@@ -12,8 +11,7 @@ onMounted(() => {
     } else {
       routers.push(`/intercept?redirceUrl=${goUrl}`)
     }
-  });
-
+  })
 })
 
 // This starter template is using Vue 3 <script setup> SFCs
@@ -25,5 +23,4 @@ onMounted(() => {
   </a-config-provider>
 </template>
 
-<style>
-</style>
+<style></style>

@@ -1,6 +1,6 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 export const menu: any = defineStore({
-  id: "menu",
+  id: 'menu',
   state: () => {
     return {
       collapsed: false
@@ -11,7 +11,6 @@ export const menu: any = defineStore({
   actions: {
     changeStateMenu(collapsed: boolean) {
       this.$state.collapsed = collapsed
-    },
+    }
   }
 })
-

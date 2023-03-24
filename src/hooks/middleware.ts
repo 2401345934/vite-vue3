@@ -1,6 +1,9 @@
-
 class Middleware {
-  constructor(private $cache: any = [], private $middlewares: any = [], public $events: any = []) {
+  constructor(
+    private $cache: any = [],
+    private $middlewares: any = [],
+    public $events: any = []
+  ) {
     this.$cache = []
     this.$middlewares = []
   }
@@ -16,10 +19,10 @@ class Middleware {
   }
 
   /**
-* 注册事件
-* @param {String} name 事件名称 
-* @param {Function (params)} callback 回调函数 
-*/
+   * 注册事件
+   * @param {String} name 事件名称
+   * @param {Function (params)} callback 回调函数
+   */
   on(name, callback) {
     if (typeof callback === 'function') {
       this.$events[name] = callback
@@ -29,13 +32,13 @@ class Middleware {
   }
 
   /**
-  * 发射(触发)事件
-  * @param {String} name 事件名称 
-  * @param {Any} params 回调参数 
-  */
+   * 发射(触发)事件
+   * @param {String} name 事件名称
+   * @param {Any} params 回调参数
+   */
   emit(name, params) {
     if (this.$events[name]) {
-      let callback = this.$events[name]
+      const callback = this.$events[name]
       callback.call(this, params)
     } else {
       throw '没有注册这个事件'
@@ -54,9 +57,10 @@ class Middleware {
   }
 
   execute(params) {
-    this.$middlewares = this.$cache.map(fn => {  // 复制一份
-      return fn;
-    });
+    this.$middlewares = this.$cache.map(fn => {
+      // 复制一份
+      return fn
+    })
     this.next(params)
   }
 
@@ -66,6 +70,5 @@ class Middleware {
       this.execute(params)
     })
   }
-
 }
 export default Middleware

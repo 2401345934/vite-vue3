@@ -1,9 +1,8 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 export const useUserInfo: any = defineStore({
-  id: "user",
+  id: 'user',
   state: () => {
-    return {
-    }
+    return {}
   },
   getters: {},
   persist: true, // Note that we are using a persisted state here
@@ -15,7 +14,6 @@ export const useUserInfo: any = defineStore({
     outLogin() {
       this.$state = {}
       window.location.href = '/#/login'
-    },
-  },
+    }
+  }
 })
-

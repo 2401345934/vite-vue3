@@ -1,8 +1,5 @@
-
-
 module.exports = () => {
-  return (
-    `<template name="Login">
+  return `<template name="Login">
     <div class="warp">
       <div class="center_warp">
         <a-form :model="formState" name="basic" ref="ruleFormRef" autocomplete="off">
@@ -70,5 +67,4 @@ const onSubmit = () => {
 </style>
 
 `
-  )
 }

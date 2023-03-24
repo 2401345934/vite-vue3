@@ -10,21 +10,13 @@ export default {
       target: 'http://www.i-baby.net/', // 开发环境
       // target: 'http://www.i-baby.net/', // 生产
       // target:'http://192.168.202.160:9102',
-      changeOrigin: true,
+      changeOrigin: true
       // pathRewrite: { '^/wms-ops/': '/wms-ops/' }, // 开发环境
     },
     '/bop/api/': {
       // target: 'http://47.100.87.54:9106/', // 开发环境
       target: 'http://www.i-baby.net/', // 开发环境
-      changeOrigin: true,
-    },
-    '/lululemon-course-bo': {
-      target: 'https://api.qa.lululemon.cn/estoreapi/',
-      changeOrigin: true,
-      secure: true,
-      pathRewrite: {
-        '^/lululemon-course-bo': ''
-      }
+      changeOrigin: true
     }
   }
 }
