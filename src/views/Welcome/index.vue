@@ -1,5 +1,5 @@
 <template>
-  <h1>欢迎来到 课程后台</h1>
+  <h1>欢迎来到</h1>
 </template>
 <script lang="ts" setup></script>
 

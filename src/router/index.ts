@@ -29,27 +29,6 @@ const routes: RouterType[] = [
           title: '首页',
           keepAlive: true
         }
-      },
-      {
-        path: '/class-manage',
-        meta: { title: '活动管理', keepAlive: true },
-        component: () => import('@/components/ChilrenComponent/index.vue'),
-        children: [
-          {
-            path: '/class-manage/course-category',
-            name: 'course-category',
-            component: () =>
-              import('@/views/class-manage/course-category/index.vue'),
-            meta: { title: '活动类别管理', keepAlive: true }
-          },
-          {
-            path: '/class-manage/class-list',
-            name: 'class-list',
-            component: () =>
-              import('@/views/class-manage/class-list/index.vue'),
-            meta: { title: '活动列表', keepAlive: true }
-          }
-        ]
       }
     ]
   },
